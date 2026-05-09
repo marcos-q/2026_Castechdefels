@@ -76,6 +76,14 @@ En aquesta secció aprendrem a dominar les  instruccions fonamentals per gestion
     - [2. Aturar l'animació](#2-aturar-lanimació)
     - [3. La Regla d'Or del Scroll](#3-la-regla-dor-del-scroll)
     - [🏋️ Repte Pràctic en Aula: "El Rètol Tremolós"](#️-repte-pràctic-en-aula-el-rètol-tremolós)
+  - [🎞️ Animacions i Scroll (Desplaçament Automàtic)](#️-animacions-i-scroll-desplaçament-automàtic)
+    - [1. Conceptes clau: Les Pàgines](#1-conceptes-clau-les-pàgines)
+    - [2. Comandes de Scroll Horitzontal](#2-comandes-de-scroll-horitzontal)
+    - [3. Desplaçament Diagonal](#3-desplaçament-diagonal)
+    - [4. Aturar l'animació](#4-aturar-lanimació)
+    - [⚠️ Regles d'or per a l'ús del Scroll](#️-regles-dor-per-a-lús-del-scroll)
+    - [🏋️ Exercici proposat: "L'alerta dinàmica"](#️-exercici-proposat-lalerta-dinàmica)
+    - [💡 Consell per al teu repositori](#-consell-per-al-teu-repositori)
 
 
 
