@@ -4,14 +4,8 @@ En aquesta secció aprendrem a dominar les  instruccions fonamentals per gestion
 
 **INDEX**
 - [Tutorial de Programació OLED: Guia de Funcions Principals](#tutorial-de-programació-oled-guia-de-funcions-principals)
-  - [Configuració de la pantalla i missatges de text bàsics](#configuració-de-la-pantalla-i-missatges-de-text-bàsics)
-  - [`display.setTextColor();` — Triant el color i el fons](#displaysettextcolor--triant-el-color-i-el-fons)
-  - [📍 `display.setCursor(x, y);` — Posicionament de Precisió](#-displaysetcursorx-y--posicionament-de-precisió)
-  - [🖨️ `display.println();` vs `display.print();` — El Salt de Línia](#️-displayprintln-vs-displayprint--el-salt-de-línia)
-  - [`display.setTextWrap();` — El Salt de Línia Automàtic](#displaysettextwrap--el-salt-de-línia-automàtic)
-  - [*Nota per al professor: Aquest repte és ideal per introduir el concepte de disseny d'interfícies (UI), on el programador (i no la màquina) ha de decidir on va cada element perquè sigui llegible per a l'usuari.*](#nota-per-al-professor-aquest-repte-és-ideal-per-introduir-el-concepte-de-disseny-dinterfícies-ui-on-el-programador-i-no-la-màquina-ha-de-decidir-on-va-cada-element-perquè-sigui-llegible-per-a-lusuari)
-  - [`display.display();` — El Gallet d'Impressió](#displaydisplay--el-gallet-dimpressió)
-  - [`display.drawRect();` i `display.fillRect();` — Creant Interfícies](#displaydrawrect-i-displayfillrect--creant-interfícies)
+  - [1. Configuració de la pantalla i missatges de text bàsics](#1-configuració-de-la-pantalla-i-missatges-de-text-bàsics)
+  - [2. Dibuixos](#2-dibuixos)
   - [`display.drawBitmap();` — Imatges i Icones](#displaydrawbitmap--imatges-i-icones)
   - [`display.invertDisplay();` — L'Alarma Visual Ràpida](#displayinvertdisplay--lalarma-visual-ràpida)
   - [🌍 Lletres amb accent i caràcters especials (ç, ñ, º)](#-lletres-amb-accent-i-caràcters-especials-ç-ñ-º)
@@ -26,7 +20,7 @@ En aquesta secció aprendrem a dominar les  instruccions fonamentals per gestion
 
 ---
 
-## Configuració de la pantalla i missatges de text bàsics
+## 1. Configuració de la pantalla i missatges de text bàsics
 
 ### Exemple
 
@@ -78,14 +72,14 @@ Aquesta línia de codi és la més important per poder utilitzar la pantalla OLE
 
 A continuació tens què significa cada part d'aquesta instrucció:
 
-| Paràmetre | Significat | Explicació |
-| :--- | :--- | :--- |
-| **`Adafruit_SSD1306`** | Classe | És el nom de la "plantilla" que hem tret de la llibreria d'Adafruit per crear el nostre objecte. |
-| **`display`** | Nom de l'objecte | És el nom que li donem a la nostra pantalla. Podries posar-li `oled` o `pantalla`, però `display` és l'estàndard. |
-| **`SCREEN_WIDTH`** | Ample | El nombre de píxels horitzontals (normalment 128). |
-| **`SCREEN_HEIGHT`** | Alt | El nombre de píxels verticals (normalment 64). |
-| **`&Wire`** | Protocol I2C | L'ampersand (`&`) indica que fem servir la llibreria `Wire` per comunicar-nos mitjançant el bus I2C (pins SDA i SCL). |
-| **`-1`** | Pin de Reset | El valor `-1` indica que la pantalla no té un pin de "Reset" físic connectat a un pin digital de l'ESP32. |
+| Paràmetre              | Significat       | Explicació                                                                                                            |
+| :--------------------- | :--------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| **`Adafruit_SSD1306`** | Classe           | És el nom de la "plantilla" que hem tret de la llibreria d'Adafruit per crear el nostre objecte.                      |
+| **`display`**          | Nom de l'objecte | És el nom que li donem a la nostra pantalla. Podries posar-li `oled` o `pantalla`, però `display` és l'estàndard.     |
+| **`SCREEN_WIDTH`**     | Ample            | El nombre de píxels horitzontals (normalment 128).                                                                    |
+| **`SCREEN_HEIGHT`**    | Alt              | El nombre de píxels verticals (normalment 64).                                                                        |
+| **`&Wire`**            | Protocol I2C     | L'ampersand (`&`) indica que fem servir la llibreria `Wire` per comunicar-nos mitjançant el bus I2C (pins SDA i SCL). |
+| **`-1`**               | Pin de Reset     | El valor `-1` indica que la pantalla no té un pin de "Reset" físic connectat a un pin digital de l'ESP32.             |
 
 #####  Per què és important?
 Aquesta línia no dibuixa res, però **crea un espai a la memòria** (anomenat *buffer*) que és una representació exacta del que veurem a la pantalla. Quan fas un `display.print()`, primer s'escriu en aquest "mapa virtual" i només quan crides a `display.display()` s'envia la informació a la pantalla física mitjançant el protocol indicat (`&Wire`).
@@ -112,7 +106,7 @@ En posar `0x3C`, l'ESP32 crida pel passadís: *"Ei, dispositiu de la porta 0x3C,
 * **El problema habitual a classe:** El 90% de les pantalles OLED de 0.96" vénen amb l'adreça `0x3C`. Tot i això, algunes pantalles més grans (com les d'1.3") o d'altres fabricants vénen configurades de fàbrica amb l'adreça `0x3D`. Si la pantalla no s'encén, aquest és el primer sospitós.
 
 ---
-#### 💡 Consell Didàctic (El "Hardware Hack")
+##### 💡 Consell Didàctic (El "Hardware Hack")
 
 Si li doneu la volta a la pantalla OLED, veureu que sol tenir unes petites resistències de superfície (SMD) prop d'un text que diu `0x78` i `0x7A` (que són les adreces `0x3C` i `0x3D` desplaçades un bit). 
 
@@ -181,7 +175,7 @@ Imagina que la pantalla OLED és una **pissarra de guix**. Cada vegada que dibui
 
 `display.clearDisplay()` és l'ordre que neteja per complet la pissarra.
 
-### 1. Com funciona tècnicament?
+##### Com funciona tècnicament?
 L'ESP32 té un **Buffer** (un llenç invisible a la seva memòria RAM). Aquest buffer és una matriu de bits on cada `1` representa un píxel encès i cada `0` un píxel apagat.
 
 Quan crides a `display.clearDisplay()`:
@@ -189,19 +183,19 @@ Quan crides a `display.clearDisplay()`:
 2. Posa **tots els bits a 0**.
 3. El llenç es queda totalment "negre" (buit).
 
-### 2. La importància de l'Ordre (El flux de dibuix)
+##### La importància de l'Ordre (El flux de dibuix)
 És vital recalcar el **cicle de vida d'un fotograma**. L'ordre correcte al `loop()` sempre ha de ser:
 1.  **`display.clearDisplay();`** (Esborrar l'anterior).
 2.  **`display.draw...`** (Dibuixar les noves formes o textos).
 3.  **`display.display();`** (Enviar el resultat a la pantalla física).
 
-### 3. Per què no es veu el parpelleig?
+##### Per què no es veu el parpelleig?
 Molts alumnes pregunten: *"Si esborro la pantalla a cada cicle, no hauria de parpellejar?"*. La resposta és **NO**:
 * `clearDisplay()` només neteja la memòria de l'ESP32, no toca la pantalla física.
 * La pantalla física només canvia quan arriba la instrucció `display.display()`.
 * Com que l'ESP32 és extremadament ràpid, l'ull humà no percep el moment de l'actualització; només veu una imatge fluida.
 
-### 🏋️ Repte Pràctic en Aula: "L'Efecte Taca"
+###### Repte Pràctic en Aula: "L'Efecte Taca"
 
 **Objectiu:** Entendre visualment què passa si oblidem esborrar la pantalla abans de dibuixar noves dades d'un sensor.
 
@@ -211,7 +205,6 @@ Molts alumnes pregunten: *"Si esborro la pantalla a cada cicle, no hauria de par
 3. **El resultat:** Els números s'aniran escrivint uns sobre els altres. En pocs segons, a la pantalla només es veurà un bloc blanc il·legible. Aquesta és la millor manera de gravar a foc la necessitat d'aquesta instrucció.
 
 ---
-
 #### `display.setTextSize(mida);` — Controlant l'escala del text
 
 Si la pantalla OLED fos un document de text, `setTextSize()` seria el menú on triem si volem la lletra a 12 punts per a un paràgraf o a 24 punts per a un títol. Aquesta funció defineix com de gran es dibuixarà el text a partir d'aquest moment.
@@ -232,12 +225,12 @@ display.print("HOLA");
 ```
 **Important:** El canvi de mida es manté fins que tornis a cridar la funció amb un altre valor. Si fas un títol gran i oblides tornar a posar `setTextSize(1)`, la resta de les dades i menús s'imprimiran en lletres gegants i sortiran de la pantalla.
 
-#### 3. L'Impacte en les Coordenades (`setCursor`)
+##### L'Impacte en les Coordenades (`setCursor`)
 Aquest és el concepte de disseny més important per als alumnes: **en canviar la mida del text, canvien les matemàtiques de l'espai**.
 Si escrius una línia a la posició `y = 0` amb `setTextSize(1)`, la següent línia pot anar perfectament a `y = 10` (8 px que ocupa la lletra + 2 de marge). 
 Però si fas servir `setTextSize(2)`, la teva lletra ara ocupa 16 píxels d'alçada! La següent línia haurà d'anar com a mínim a `y = 18` o els textos se solaparan.
 
-#### 💡 Exemples Didàctics
+##### 💡 Exemples Didàctics
 ```cpp
 // Crear una jerarquia visual (Títol i dada)
 display.setTextSize(1);
@@ -249,7 +242,7 @@ display.setCursor(0, 15); // Baixem 15 píxels (els 8 del títol + marge)
 display.print("OK");      // Valor destacat en gran
 ```
 
-#### 🏋️ Repte Pràctic en Aula: "El Títol i la Dada"
+##### 🏋️ Repte Pràctic en Aula: "El Títol i la Dada"
 
 **Objectiu:** Crear una interfície que mostri la paraula "TEMPERATURA" a la part superior en mida normal (1), i just a sota, perfectament centrat, el valor "25 C" en mida gran (3).
 
@@ -273,8 +266,7 @@ display.setCursor(28, 20); // X centrada matemàticament per a text gran
 display.print("25 C");
 ```
 ---
-
-## `display.setTextColor();` — Triant el color i el fons
+#### `display.setTextColor();` — Triant el color i el fons
 
 Defineix amb quina "tinta" escrivim. 
 * `WHITE`: Text blanc sobre fons negre (transparent).
@@ -282,13 +274,13 @@ Defineix amb quina "tinta" escrivim.
 
 En una pantalla OLED monocromàtica, no tenim colors, però tenim una cosa molt més útil: la capacitat de definir el **color del text** i el **color del fons**.
 
-### 1. Sintaxi Bàsica (Fons Transparent)
+##### Sintaxi Bàsica (Fons Transparent)
 ```cpp
 display.setTextColor(WHITE);
 ```
 És la forma més comuna. El fons de la lletra és **transparent**. El que hi hagi dibuixat a sota es veurà entre els forats de les lletres.
 
-### 2. Sintaxi Avançada (Fons Opac / Mode Invertit)
+##### Sintaxi Avançada (Fons Opac / Mode Invertit)
 Aquest és el "secret" per fer menús professionals i evitar errors visuals amb dades dinàmiques:
 ```cpp
 display.setTextColor(BLACK, WHITE); // Lletra negra, fons blanc (ressaltat)
@@ -297,7 +289,7 @@ display.setTextColor(WHITE, BLACK); // Lletra blanca, fons negre (esborrat local
 * **Primer paràmetre:** Color de la lletra.
 * **Segon paràmetre:** Color del fons de la lletra (una "caixa" opaca darrere el text).
 
-### 🛠️ Exemple Comparatiu de Dissenys
+##### Exemple Comparatiu de Dissenys
 ```cpp
 // Cas A: Text estàndard
 display.setTextColor(WHITE);
@@ -313,7 +305,7 @@ display.println(" SELECCIONAT ");
 * **Estalvi de codi:** Usar `setTextColor(BLACK, WHITE)` estalvia haver de dibuixar rectangles amb `fillRect()` per crear botons.
 
 
-### 🏋️ Repte Pràctic en Aula: "El Sensor Fantasma"
+##### 🏋️ Repte Pràctic en Aula: "El Sensor Fantasma"
 
 **Objectiu:** Solucionar l'error clàssic de les xifres que es queden gravades quan un valor disminueix de longitud.
 
@@ -323,12 +315,11 @@ display.println(" SELECCIONAT ");
 3. **La solució:** Canviar la instrucció a `display.setTextColor(WHITE, BLACK)`. La "caixa negra" del fons de les lletres noves esborrarà automàticament les lletres velles, fins i tot si la xifra és més curta.
 
 ---
-
-## 📍 `display.setCursor(x, y);` — Posicionament de Precisió
+#### `display.setCursor(x, y);` — Posicionament de Precisió
 
 La pantalla OLED és un mapa de coordenades i podem indicar on decidim "posar el llapis".
 
-### 1. El Sistema de Coordenades (Eixos X i Y)
+##### El Sistema de Coordenades (Eixos X i Y)
 Alerta! En programació visual, l'Eix Y no funciona com a les classes de matemàtiques. L'origen no és al centre ni l'Eix Y creix cap amunt.
 
 ```text
@@ -341,18 +332,18 @@ Alerta! En programació visual, l'Eix Y no funciona com a les classes de matemà
 * **Eix X:** Augmenta cap a la dreta.
 * **Eix Y:** Augmenta cap avall.
 
-### 2. Sintaxi i Funcionament
+##### Sintaxi i Funcionament
 ```cpp
 display.setCursor(columna, fila);
 ```
 **Important:** El cursor defineix el "sostre" i el "marge esquerre" de la lletra. El text es dibuixarà des d'aquella coordenada cap a la dreta i **cap avall**. No intenteu alinear la base del text amb l'Eix Y o el text sortirà per sota de la pantalla.
 
-### 3. El factor "Mida del Text"
+##### El factor "Mida del Text"
 La mida (`setTextSize`) determina l'espai que ocuparà cada caràcter:
 * **Mida 1:** Ocupa un bloc de **6x8 píxels** (6 d'amplada per 8 d'alçada, incloent l'espai entre lletres).
 * Aquesta constant (6x8) és la clau per poder calcular posicions exactes abans de dibuixar.
 
-### 💡 Exemples Didàctics
+##### 💡 Exemples Didàctics
 ```cpp
 // A. Escriure a les cantonades (Tenint en compte l'alçada del text!)
 display.setCursor(0, 0);   display.print("Dalt");
@@ -365,7 +356,7 @@ display.setCursor(60, 10); // Desplacem el cursor a la dreta per posar el valor
 display.print(25.4);
 ```
 
-### 🏋️ Repte Pràctic en Aula: "El Centre Exacte"
+##### 🏋️ Repte Pràctic en Aula: "El Centre Exacte"
 
 **Objectiu:** Fer que la paraula "HOLA" aparegui el més centrada possible a la pantalla OLED, tant verticalment com horitzontalment.
 
@@ -386,21 +377,20 @@ display.print("HOLA");
 ---
 
 ---
-## 🖨️ `display.println();` vs `display.print();` — El Salt de Línia
-
+#### `display.println();` vs `display.print();` — El Salt de Línia
 Si pensem en la pantalla OLED com si fos un document de text, usar `display.print()` és com escriure lletres seguides sense parar. En canvi, `display.println()` és l'equivalent a **prémer la tecla "Enter"** al teclat: escriu el text i automàticament prepara el cursor per a la següent línia.
 
-### 1. La diferència fonamental
+##### La diferència fonamental
 És crucial que els alumnes entenguin la diferència entre aquestes dues instruccions aparentment idèntiques:
 * **`display.print("A");`** → Dibuixa la "A" i deixa el cursor invisible just a la dreta de la lletra. Si fem un altre `print("B")`, sortirà "AB".
 * **`display.println("A");`** → Dibuixa la "A" i mou el cursor a la **següent línia**. Un posterior `print("B")` farà que la "B" quedi a sota de la "A".
 
-### 2. Què passa exactament amb les coordenades? (Mecànica interna)
+##### Què passa exactament amb les coordenades? (Mecànica interna)
 Quan l'ESP32 executa un `println()`, fa dues operacions matemàtiques automàtiques amb el cursor:
 1. **L'Eix X torna a 0:** El cursor s'enganxa totalment al marge esquerre de la pantalla.
 2. **L'Eix Y augmenta:** El cursor baixa automàticament l'equivalent a l'alçada del text actual (per exemple, baixa 8 píxels si estem a `setTextSize(1)`).
 
-### 💡 Exemples Didàctics
+##### 💡 Exemples Didàctics
 Aquesta instrucció és molt útil per crear llistes ràpides sense haver d'escriure un `setCursor` per a cada línia:
 
 ```cpp
@@ -412,7 +402,7 @@ display.println("- Temperatura");      // S'escriu a sota
 display.println("- Humitat");          // S'escriu a sota
 ```
 
-### Repte Pràctic en Aula: "El Menú Desalineat"
+##### Repte Pràctic en Aula: "El Menú Desalineat"
 
 **Objectiu:** Crear un menú de tres opcions. Perquè quedi bonic, tot el menú ha de tenir un marge esquerre, és a dir, ha de començar a la posició X = 15.
 
@@ -443,84 +433,26 @@ display.setCursor(15, 20);
 display.print("3. Sortir");
 ```
 ---
-## `display.setTextWrap();` — El Salt de Línia Automàtic
-
-Imagina que estàs escrivint un missatge llarg a WhatsApp. Quan arribes al marge dret de la pantalla, el text salta automàticament a la línia de sota perquè puguis continuar llegint. Això és el que coneixem com a "Text Wrap" (Ajustament de text).
-
-A la llibreria Adafruit, aquesta funció **ve activada per defecte**, però tenim el poder de desactivar-la si ens interessa.
-
-### 1. Com funciona?
-Aquesta instrucció només accepta dos valors: `true` (cert/activat) o `false` (fals/desactivat).
-
-* **`display.setTextWrap(true);` (Comportament per defecte):** Quan el text topa amb el píxel 127 (el límit dret), el cursor baixa automàticament a la següent línia (`Y` augmenta, `X` torna a 0) i continua dibuixant les lletres.
-* **`display.setTextWrap(false);`:** L'ajustament automàtic es desactiva. Si escrius un text més llarg que la pantalla, les lletres sobrants simplement es dibuixaran "fora" de la pantalla, quedant invisibles i tallades de soca-rel.
-
-### 2. El problema estètic (Per què voldríem desactivar-ho?)
-La pantalla OLED no entén de gramàtica ni de síl·labes, només de píxels. Si el límit de la pantalla talla la paraula "TEMPERATURA" per la meitat, farà el salt de línia just allà on toqui. A la pantalla es veurà "TEMPERA" a dalt i "TURA" a baix. Això, en una interfície professional, queda molt lleig.
-
-A vegades, preferim fer `setTextWrap(false)` per assegurar-nos que, si una dada es descontrola i és massa llarga, simplement quedi amagada en lloc de destrossar tota l'estructura visual de la pantalla (sobreposant-se a altres textos de sota).
-
-### 💡 Exemples Didàctics
-```cpp
-// Cas A: Deixem que la pantalla decideixi (pot quedar lleig)
-display.setTextWrap(true);
-display.setCursor(0, 0);
-display.print("Aquest es un text massa llarg per cabre a dalt."); 
-
-// Cas B: Tallem l'excés per protegir el disseny
-display.setTextWrap(false);
-display.setCursor(0, 0);
-display.print("Dada del sensor: 12345678901234567890"); // Els últims números no es veuran
-```
-
-### 🏋️ Repte Pràctic en Aula: "La Paraula Trencada"
-
-**Objectiu:** Entendre com gestiona l'OLED l'espai quan les paraules són massa grans i aprendre a solucionar-ho manualment.
-
-**Instruccions prèvies:**
-Demana als alumnes que posin el text en **mida 2** (cada lletra ocupa 12 píxels d'ample). 
-Si la pantalla té 128 píxels d'amplada, a la pantalla només hi caben **10 lletres** senceres (10 * 12 = 120 px).
-
-**El parany didàctic:**
-Fes que imprimeixin la paraula `"TEMPERATURA"` (que té 11 lletres) començant des de `X = 0`.
-Com que el `setTextWrap` està en `true` per defecte, l'última lletra (la 'A') no hi cabrà. La pantalla farà un salt automàtic i imprimirà una 'A' solitària i trista a la línia de sota.
-
-**Guia de resolució:**
-Planteja'ls el següent: *"Això queda fatal al nostre menú. Com ho solucionem si volem que la paraula 'TEMP' quedi a dalt i 'ERATURA' a baix, de forma controlada?"*.
-La solució implica no refiar-se de l'ajustament automàtic i agafar el control manual de les coordenades i els salts.
-
-**Solució esperada (Control manual):**
-```cpp
-display.setTextSize(2);
-
-// Primer tros controlat manualment
-display.setCursor(0, 0);
-display.print("TEMP");
-
-// Segon tros on nosaltres decidim que vagi
-display.setCursor(0, 20); 
-display.print("ERATURA");
-```
-*Nota per al professor: Aquest repte és ideal per introduir el concepte de disseny d'interfícies (UI), on el programador (i no la màquina) ha de decidir on va cada element perquè sigui llegible per a l'usuari.*
----
-
-
----
-
-## `display.display();` — El Gallet d'Impressió
+#### `display.display();` — El Gallet d'Impressió
 
 Ho vam mencionar a la secció de l'esborrador màgic, però mereix el seu propi espai. El gran secret de la llibreria Adafruit és que cap instrucció de dibuix (ni textos, ni línies) va directament a la pantalla física. Totes van al buffer invisible.
 
 `display.display()` agafa aquest llenç invisible i l'envia de cop a la pantalla OLED.
 
-### 🏋️ Repte Pràctic en Aula: "El Codi Perfecte i Invisible"
+##### 🏋️ Repte Pràctic en Aula: "El Codi Perfecte i Invisible"
 **Objectiu:** Gravar a foc l'ordre lògic d'actualització de la pantalla.
 **El parany didàctic:** Fes que els alumnes escriguin un text llarg, el posicionin bé, posin la mida correcta, però demana'ls que esborrin la línia `display.display();` del final del seu `loop()`.
 **Guia de resolució:** Passaran minuts revisant les coordenades i els punts i comes. Quan entenguin que l'ESP32 ha dibuixat el text a la seva memòria RAM però ningú li ha donat l'ordre d'"enviar-ho al món real", no ho oblidaran mai més.
 
 ---
+## 2. Dibuixos
 
-## `display.drawRect();` i `display.fillRect();` — Creant Interfícies
+
+
+
+
+
+### `display.drawRect();` i `display.fillRect();` — Creant Interfícies
 
 Escriure números està bé, però la programació visual consisteix en crear gràfics. Dibuixar rectangles permet crear marcs per agrupar informació o botons visuals per als menús.
 
@@ -544,8 +476,7 @@ display.drawRect(0, 0, 128, 64, WHITE);
 // B. Crear un "botó" seleccionat amb text a sobre
 display.fillRect(10, 10, 60, 20, WHITE); 
 display.setTextColor(BLACK); // Text negre per llegir-se sobre el fons blanc
-display.setCursor(15, 15);
-display.print(" BOTON 1 ");
+display.setCursor(15, 15);display.print(" BOTON 1 ");
 ```
 
 ### Repte Pràctic en Aula: "La Barra de Progrés" (Nivell Avançat)
@@ -587,6 +518,8 @@ display.drawBitmap(x, y, icona_cor, amplada_imatge, alçada_imatge, WHITE);
 8. `delay(500)`
 
 ---
+
+### 3. Funcions de text avançades
 
 ## `display.invertDisplay();` — L'Alarma Visual Ràpida
 
@@ -930,7 +863,7 @@ Intenta programar un codi on el text estigui quiet durant 2 segons, després fac
 Si vols que els alumnes visualitzin millor què és una "pàgina" de l'OLED, pots afegir aquesta petita taula de referència ràpida al costat de l'explicació:
 
 | Pàgina (Hex) | Píxels verticals | Zona de la pantalla |
-| :--- | :--- | :--- |
-| `0x00` | 0 - 7 | Superior (Top) |
-| `0x03` | 24 - 31 | Centre |
-| `0x07` | 56 - 63 | Inferior (Bottom) |
+| :----------- | :--------------- | :------------------ |
+| `0x00`       | 0 - 7            | Superior (Top)      |
+| `0x03`       | 24 - 31          | Centre              |
+| `0x07`       | 56 - 63          | Inferior (Bottom)   |
