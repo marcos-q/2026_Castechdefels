@@ -1,106 +1,108 @@
-# 🛠️ Tutorial de Programació OLED: Guia de Funcions Principals
-
-
+# Tutorial de Programació OLED: Guia de Funcions Principals
 
 En aquesta secció aprendrem a dominar les  instruccions fonamentals per gestionar el text i l'espai visual de la nostra pantalla SSD1306.
 
 **INDEX**
-- [🛠️ Tutorial de Programació OLED: Guia de Funcions Principals](#️-tutorial-de-programació-oled-guia-de-funcions-principals)
-    - [`display.begin(SSD1306_SWITCHCAPVCC, 0x3C)`](#displaybeginssd1306_switchcapvcc-0x3c)
-    - [💡 Consell Didàctic (El "Hardware Hack")](#-consell-didàctic-el-hardware-hack)
-  - [`display.clearDisplay();` — L'Esborrador Màgic](#displaycleardisplay--lesborrador-màgic)
-    - [1. Com funciona tècnicament?](#1-com-funciona-tècnicament)
-    - [2. La importància de l'Ordre (El flux de dibuix)](#2-la-importància-de-lordre-el-flux-de-dibuix)
-    - [3. Per què no es veu el parpelleig?](#3-per-què-no-es-veu-el-parpelleig)
-    - [🏋️ Repte Pràctic en Aula: "L'Efecte Taca"](#️-repte-pràctic-en-aula-lefecte-taca)
+- [Tutorial de Programació OLED: Guia de Funcions Principals](#tutorial-de-programació-oled-guia-de-funcions-principals)
+  - [Configuració de la pantalla i missatges de text bàsics](#configuració-de-la-pantalla-i-missatges-de-text-bàsics)
   - [`display.setTextColor();` — Triant el color i el fons](#displaysettextcolor--triant-el-color-i-el-fons)
-    - [1. Sintaxi Bàsica (Fons Transparent)](#1-sintaxi-bàsica-fons-transparent)
-    - [2. Sintaxi Avançada (Fons Opac / Mode Invertit)](#2-sintaxi-avançada-fons-opac--mode-invertit)
-    - [🛠️ Exemple Comparatiu de Dissenys](#️-exemple-comparatiu-de-dissenys)
-    - [🏋️ Repte Pràctic en Aula: "El Sensor Fantasma"](#️-repte-pràctic-en-aula-el-sensor-fantasma)
   - [📍 `display.setCursor(x, y);` — Posicionament de Precisió](#-displaysetcursorx-y--posicionament-de-precisió)
-    - [1. El Sistema de Coordenades (Eixos X i Y)](#1-el-sistema-de-coordenades-eixos-x-i-y)
-    - [2. Sintaxi i Funcionament](#2-sintaxi-i-funcionament)
-    - [3. El factor "Mida del Text"](#3-el-factor-mida-del-text)
-    - [💡 Exemples Didàctics](#-exemples-didàctics)
-    - [🏋️ Repte Pràctic en Aula: "El Centre Exacte"](#️-repte-pràctic-en-aula-el-centre-exacte)
-  - [`display.setTextSize(mida);` — Controlant l'escala del text](#displaysettextsizemida--controlant-lescala-del-text)
-    - [1. Com funciona l'escala?](#1-com-funciona-lescala)
-    - [2. Sintaxi i Funcionament](#2-sintaxi-i-funcionament-1)
-    - [3. L'Impacte en les Coordenades (`setCursor`)](#3-limpacte-en-les-coordenades-setcursor)
-    - [💡 Exemples Didàctics](#-exemples-didàctics-1)
-    - [🏋️ Repte Pràctic en Aula: "El Títol i la Dada"](#️-repte-pràctic-en-aula-el-títol-i-la-dada)
   - [🖨️ `display.println();` vs `display.print();` — El Salt de Línia](#️-displayprintln-vs-displayprint--el-salt-de-línia)
-    - [1. La diferència fonamental](#1-la-diferència-fonamental)
-    - [2. Què passa exactament amb les coordenades? (Mecànica interna)](#2-què-passa-exactament-amb-les-coordenades-mecànica-interna)
-    - [💡 Exemples Didàctics](#-exemples-didàctics-2)
-    - [Repte Pràctic en Aula: "El Menú Desalineat"](#repte-pràctic-en-aula-el-menú-desalineat)
   - [`display.setTextWrap();` — El Salt de Línia Automàtic](#displaysettextwrap--el-salt-de-línia-automàtic)
-    - [1. Com funciona?](#1-com-funciona)
-    - [2. El problema estètic (Per què voldríem desactivar-ho?)](#2-el-problema-estètic-per-què-voldríem-desactivar-ho)
-    - [💡 Exemples Didàctics](#-exemples-didàctics-3)
-    - [🏋️ Repte Pràctic en Aula: "La Paraula Trencada"](#️-repte-pràctic-en-aula-la-paraula-trencada)
   - [*Nota per al professor: Aquest repte és ideal per introduir el concepte de disseny d'interfícies (UI), on el programador (i no la màquina) ha de decidir on va cada element perquè sigui llegible per a l'usuari.*](#nota-per-al-professor-aquest-repte-és-ideal-per-introduir-el-concepte-de-disseny-dinterfícies-ui-on-el-programador-i-no-la-màquina-ha-de-decidir-on-va-cada-element-perquè-sigui-llegible-per-a-lusuari)
   - [`display.display();` — El Gallet d'Impressió](#displaydisplay--el-gallet-dimpressió)
-    - [🏋️ Repte Pràctic en Aula: "El Codi Perfecte i Invisible"](#️-repte-pràctic-en-aula-el-codi-perfecte-i-invisible)
   - [`display.drawRect();` i `display.fillRect();` — Creant Interfícies](#displaydrawrect-i-displayfillrect--creant-interfícies)
-    - [1. Sintaxi de Geometria](#1-sintaxi-de-geometria)
-    - [Exemples Didàctics](#exemples-didàctics)
-    - [Repte Pràctic en Aula: "La Barra de Progrés" (Nivell Avançat)](#repte-pràctic-en-aula-la-barra-de-progrés-nivell-avançat)
   - [`display.drawBitmap();` — Imatges i Icones](#displaydrawbitmap--imatges-i-icones)
-    - [1. Com funciona?](#1-com-funciona-1)
-    - [2. Sintaxi](#2-sintaxi)
-    - [🏋️ Repte Pràctic en Aula: "El Cor Bategant"](#️-repte-pràctic-en-aula-el-cor-bategant)
   - [`display.invertDisplay();` — L'Alarma Visual Ràpida](#displayinvertdisplay--lalarma-visual-ràpida)
-    - [1. Funcionament](#1-funcionament)
-    - [🏋️ Repte Pràctic en Aula: "Mode Pànic"](#️-repte-pràctic-en-aula-mode-pànic)
   - [🌍 Lletres amb accent i caràcters especials (ç, ñ, º)](#-lletres-amb-accent-i-caràcters-especials-ç-ñ-º)
-    - [1. La solució: `display.write();` i el codi secret](#1-la-solució-displaywrite-i-el-codi-secret)
-    - [2. Taula ràpida de caràcters (Català / Castellà)](#2-taula-ràpida-de-caràcters-català--castellà)
-    - [3. Com s'escriu al codi?](#3-com-sescriu-al-codi)
-    - [💡 Exemples Didàctics](#-exemples-didàctics-4)
-    - [🏋️ Repte Pràctic en Aula: "El Menú Correcte"](#️-repte-pràctic-en-aula-el-menú-correcte)
   - [🪄 El Truc Màgic: Automatitzar els accents (Nivell Pro)](#-el-truc-màgic-automatitzar-els-accents-nivell-pro)
-    - [1. La "Capsa Negra" (La Funció)](#1-la-capsa-negra-la-funció)
-    - [2. Com s'utilitza?](#2-com-sutilitza)
-    - [🏋️ Repte Pràctic en Aula: "Ampliant el Diccionari"](#️-repte-pràctic-en-aula-ampliant-el-diccionari)
   - [*(Nota per al professor: Si per algun projecte de final de curs un alumne ha de fer interfícies molt complexes o amb altres idiomes, la millor opció és canviar la llibreria `Adafruit_GFX` per una altra anomenada **`U8g2`**. Aquesta llibreria és més complexa d'aprendre al principi, però suporta la codificació moderna UTF-8 de manera nativa).*](#nota-per-al-professor-si-per-algun-projecte-de-final-de-curs-un-alumne-ha-de-fer-interfícies-molt-complexes-o-amb-altres-idiomes-la-millor-opció-és-canviar-la-llibreria-adafruit_gfx-per-una-altra-anomenada-u8g2-aquesta-llibreria-és-més-complexa-daprendre-al-principi-però-suporta-la-codificació-moderna-utf-8-de-manera-nativa)
-  - [🤸‍♂️ `display.setRotation();` — Girant la pantalla](#️-displaysetrotation--girant-la-pantalla)
-    - [1. Com funciona?](#1-com-funciona-2)
-    - [2. On es posa?](#2-on-es-posa)
-    - [3. La regla d'or de les coordenades](#3-la-regla-dor-de-les-coordenades)
-    - [🏋️ Repte Pràctic en Aula: "El Mode Smartphone"](#️-repte-pràctic-en-aula-el-mode-smartphone)
-    - [EXEMPLE marquesina](#exemple-marquesina)
+  - [`display.setRotation();` — Girant la pantalla](#displaysetrotation--girant-la-pantalla-1)
   - [🎞️ Rètols Lluminosos (Scroll) — Animacions sense esforç](#️-rètols-lluminosos-scroll--animacions-sense-esforç)
-    - [1. Com funciona?](#1-com-funciona-3)
-    - [2. Aturar l'animació](#2-aturar-lanimació)
-    - [3. La Regla d'Or del Scroll](#3-la-regla-dor-del-scroll)
-    - [🏋️ Repte Pràctic en Aula: "El Rètol Tremolós"](#️-repte-pràctic-en-aula-el-rètol-tremolós)
   - [🎞️ Animacions i Scroll (Desplaçament Automàtic)](#️-animacions-i-scroll-desplaçament-automàtic)
-    - [1. Conceptes clau: Les Pàgines](#1-conceptes-clau-les-pàgines)
-    - [2. Comandes de Scroll Horitzontal](#2-comandes-de-scroll-horitzontal)
-    - [3. Desplaçament Diagonal](#3-desplaçament-diagonal)
-    - [4. Aturar l'animació](#4-aturar-lanimació)
-    - [⚠️ Regles d'or per a l'ús del Scroll](#️-regles-dor-per-a-lús-del-scroll)
-    - [🏋️ Exercici proposat: "L'alerta dinàmica"](#️-exercici-proposat-lalerta-dinàmica)
-    - [💡 Consell per al teu repositori](#-consell-per-al-teu-repositori)
 
 
 
 
 ---
 
-### `display.begin(SSD1306_SWITCHCAPVCC, 0x3C)`
+## Configuració de la pantalla i missatges de text bàsics
+
+### Exemple
+
+```cpp
+// ESPP32_C3_oled_basic.ino
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+// --- CONFIGURACIÓ HARDWARE ---
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define PIN_SDA 8 // Pins I2C per a l' ESP32-C3 SuperMini
+#define PIN_SCL 9
+
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(PIN_SDA, PIN_SCL); 
+
+  // Iniciar pantalla
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("Fallo al iniciar OLED"));
+    for(;;);
+  }
+
+  display.setRotation(2);      // Rotació de 180 graus. Necessari segons com muntem la pantalla
+  display.clearDisplay();      // Esborrem el que hi hagi a la memòria
+  display.setTextSize(2);      // Triem mida de lletra (1 a 8)
+  display.setTextColor(WHITE); // Color del text
+   
+  display.setCursor(10, 25);   // On comença a escriure (X, Y)
+  display.print("HOLA MON!");  // El text que volem mostrar
+
+  display.display();
+}
+
+void loop() {
+} 
+```
+
+### Explicació de les funcions utilitzades
+
+#### `Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);`
+
+Aquesta línia de codi és la més important per poder utilitzar la pantalla OLED. S'anomena **constructor** i serveix per crear l'objecte que controlarem durant tot el programa.
+
+A continuació tens què significa cada part d'aquesta instrucció:
+
+| Paràmetre | Significat | Explicació |
+| :--- | :--- | :--- |
+| **`Adafruit_SSD1306`** | Classe | És el nom de la "plantilla" que hem tret de la llibreria d'Adafruit per crear el nostre objecte. |
+| **`display`** | Nom de l'objecte | És el nom que li donem a la nostra pantalla. Podries posar-li `oled` o `pantalla`, però `display` és l'estàndard. |
+| **`SCREEN_WIDTH`** | Ample | El nombre de píxels horitzontals (normalment 128). |
+| **`SCREEN_HEIGHT`** | Alt | El nombre de píxels verticals (normalment 64). |
+| **`&Wire`** | Protocol I2C | L'ampersand (`&`) indica que fem servir la llibreria `Wire` per comunicar-nos mitjançant el bus I2C (pins SDA i SCL). |
+| **`-1`** | Pin de Reset | El valor `-1` indica que la pantalla no té un pin de "Reset" físic connectat a un pin digital de l'ESP32. |
+
+#####  Per què és important?
+Aquesta línia no dibuixa res, però **crea un espai a la memòria** (anomenat *buffer*) que és una representació exacta del que veurem a la pantalla. Quan fas un `display.print()`, primer s'escriu en aquest "mapa virtual" i només quan crides a `display.display()` s'envia la informació a la pantalla física mitjançant el protocol indicat (`&Wire`).
+
+---
+
+#### `display.begin(SSD1306_SWITCHCAPVCC, 0x3C)`
 Aquesta funció és la "clau de contacte". Reserva la memòria RAM (el Buffer) i desperta la pantalla.
 
-#### Paràmetre 1: `SSD1306_SWITCHCAPVCC`
+##### Paràmetre 1: `SSD1306_SWITCHCAPVCC`
 Això sol confondre molt, però és una oportunitat excel·lent per ensenyar una mica d'electrònica real als alumnes.
 
 * **Què significa?** Li estem dient a la pantalla: "Utilitza la teva bomba de càrrega interna per generar voltatge".
 * **Per què és necessari?** Els píxels OLED necessiten un voltatge relativament alt per brillar (normalment entre 7V i 9V). No obstant això, nosaltres alimentem la pantalla amb només 3.3V des de l'ESP32. El xip SSD1306 té un circuit intern (un *Charge Pump* o bomba de càrrega amb condensadors) que agafa aquests 3.3V i els eleva màgicament fins als 7-9V necessaris. En passar-li aquest paràmetre, encenem aquest elevador de voltatge.
 * **L'alternativa:** Existeix un altre paràmetre anomenat `SSD1306_EXTERNALVCC`, però gairebé mai s'utilitza en aquestes pantalles comercials, ja que implicaria que tu li estàs subministrant aquests 9V externament per un pin, i podries cremar la placa si no està dissenyada per a això.
 
-#### Paràmetre 2: `0x3C` 
+##### Paràmetre 2: `0x3C` 
 Aquesta és l'**adreça I2C** de la pantalla. **0x3C:** és l'adreça I2C per defecte de la majoria de pantalles de 0.96". 
 
 Imagina el bus I2C de l'ESP32 com un passadís llarg amb moltes portes. Cada dispositiu connectat (la pantalla, el sensor de temperatura SHT31, etc.) té un "número de porta" únic escrit en hexadecimal. 
@@ -110,15 +112,67 @@ En posar `0x3C`, l'ESP32 crida pel passadís: *"Ei, dispositiu de la porta 0x3C,
 * **El problema habitual a classe:** El 90% de les pantalles OLED de 0.96" vénen amb l'adreça `0x3C`. Tot i això, algunes pantalles més grans (com les d'1.3") o d'altres fabricants vénen configurades de fàbrica amb l'adreça `0x3D`. Si la pantalla no s'encén, aquest és el primer sospitós.
 
 ---
-### 💡 Consell Didàctic (El "Hardware Hack")
+#### 💡 Consell Didàctic (El "Hardware Hack")
 
 Si li doneu la volta a la pantalla OLED, veureu que sol tenir unes petites resistències de superfície (SMD) prop d'un text que diu `0x78` i `0x7A` (que són les adreces `0x3C` i `0x3D` desplaçades un bit). 
 
 Podeu ensenyar als alumnes que, movent aquesta resistència amb un soldador d'un punt a l'altre, poden canviar l'adreça física de la pantalla. Això els permet connectar **dues pantalles OLED idèntiques** al mateix ESP32 alhora!
 
----
+--- 
+#### `display.setRotation();` — Girant la pantalla
 
-##  `display.clearDisplay();` — L'Esborrador Màgic
+A l'hora de muntar el nostre projecte dins d'una capsa de cartró o una carcassa impresa en 3D, moltes vegades ens adonem que els cables de la pantalla xoquen amb algun altre component i ens veiem obligats a muntar la pantalla de cap per avall. 
+
+Cap problema! No cal que els alumnes llegeixin del revés. L'ESP32 pot girar tota la interfície matemàticament abans d'enviar-la.
+
+##### Com funciona?
+Aquesta instrucció accepta un únic número del **0 al 3**, que representa girs de 90 graus en el sentit de les agulles del rellotge.
+
+* **`display.setRotation(0);`** → Posició original (Horitzontal).
+* **`display.setRotation(1);`** → Gir de 90º (Vertical, tipus telèfon mòbil).
+* **`display.setRotation(2);`** → **Gir de 180º (De cap per avall)**. Aquesta és la que necessites!
+* **`display.setRotation(3);`** → Gir de 270º (Vertical cap a l'altre costat).
+
+##### On es posa?
+Com que normalment volem que la pantalla estigui girada des del primer segon i per sempre, aquesta instrucció no es posa al `loop()`, sinó al **`setup()`**, just després del `display.begin()`.
+
+```cpp
+void setup() {
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println("Error OLED");
+    for(;;);
+  }
+  
+  // Girem la pantalla 180 graus perquè hem muntat els pins cap a baix
+  display.setRotation(2); 
+  
+  display.clearDisplay();
+  display.display();
+}
+```
+
+##### La regla d'or de les coordenades
+És vital explicar això als alumnes: **quan girem la pantalla, l'Eix X i l'Eix Y giren amb ella**.
+L'origen `(0, 0)` sempre serà la cantonada superior esquerra del text tal com el llegeixes, independentment de cap a on mirin els pins físics de la placa. No cal recalcular res del disseny si fem servir el gir de 180º (`setRotation(2)`).
+
+##### Repte Pràctic en Aula: "El Mode Smartphone"
+
+**Objectiu:** Entendre com canvien les dimensions físiques quan rotem la pantalla 90 graus (Mode Vertical).
+
+**El parany didàctic:**
+Demana'ls que girin la pantalla 90 graus amb `display.setRotation(1);` i que intentin dibuixar una línia horitzontal que creui tota la pantalla, de punta a punta, usant `display.drawLine(0, 10, 127, 10, WHITE);`.
+El que veuran és que la línia es talla a la meitat i no arriba al final!
+
+**Guia de resolució:**
+Aquest repte visual els farà entendre que les matemàtiques de l'espai han canviat. Al girar-la 90 graus, l'amplada màxima ja no és 128, ara és **64**. I l'alçada ja no és 64, ara és **128**! 
+
+Perquè la línia creui la nova pantalla vertical d'esquerra a dreta, hauran de modificar el codi a:
+```cpp
+display.setRotation(1); // Mode vertical (64x128)
+display.drawLine(0, 10, 63, 10, WHITE); // La X només arriba fins a 63!
+```
+---
+####  `display.clearDisplay();` — L'Esborrador Màgic
 
 Neteja el "llenç invisible" de la memòria del microcontrolador. És obligatori cridar-la al principi de cada cicle de dibuix per evitar que les imatges noves se superposin a les antigues.
 
@@ -156,6 +210,68 @@ Molts alumnes pregunten: *"Si esborro la pantalla a cada cicle, no hauria de par
 2. Fes que tapin i destapin el sensor ràpidament.
 3. **El resultat:** Els números s'aniran escrivint uns sobre els altres. En pocs segons, a la pantalla només es veurà un bloc blanc il·legible. Aquesta és la millor manera de gravar a foc la necessitat d'aquesta instrucció.
 
+---
+
+#### `display.setTextSize(mida);` — Controlant l'escala del text
+
+Si la pantalla OLED fos un document de text, `setTextSize()` seria el menú on triem si volem la lletra a 12 punts per a un paràgraf o a 24 punts per a un títol. Aquesta funció defineix com de gran es dibuixarà el text a partir d'aquest moment.
+
+##### Com funciona l'escala?
+A la llibreria Adafruit, no triem la mida lliurement en "píxels" d'alçada, sinó que fem servir **multiplicadors** d'una mida base.
+La "Mida 1" (la que ve per defecte) és un bloc de **6x8 píxels** (6 d'amplada x 8 d'alçada).
+
+* **`setTextSize(1);`** → 6 x 8 píxels (Lletra normal, caben unes 21 columnes per 8 files a la pantalla).
+* **`setTextSize(2);`** → 12 x 16 píxels (El doble de gran).
+* **`setTextSize(3);`** → 18 x 24 píxels (El triple de gran).
+I així successivament.
+
+##### Sintaxi i Funcionament
+```cpp
+display.setTextSize(2); // A partir d'ara, tot el text serà el doble de gran
+display.print("HOLA");
+```
+**Important:** El canvi de mida es manté fins que tornis a cridar la funció amb un altre valor. Si fas un títol gran i oblides tornar a posar `setTextSize(1)`, la resta de les dades i menús s'imprimiran en lletres gegants i sortiran de la pantalla.
+
+#### 3. L'Impacte en les Coordenades (`setCursor`)
+Aquest és el concepte de disseny més important per als alumnes: **en canviar la mida del text, canvien les matemàtiques de l'espai**.
+Si escrius una línia a la posició `y = 0` amb `setTextSize(1)`, la següent línia pot anar perfectament a `y = 10` (8 px que ocupa la lletra + 2 de marge). 
+Però si fas servir `setTextSize(2)`, la teva lletra ara ocupa 16 píxels d'alçada! La següent línia haurà d'anar com a mínim a `y = 18` o els textos se solaparan.
+
+#### 💡 Exemples Didàctics
+```cpp
+// Crear una jerarquia visual (Títol i dada)
+display.setTextSize(1);
+display.setCursor(0, 0);
+display.print("Estat del sistema:"); // Text explicatiu petit
+
+display.setTextSize(2);
+display.setCursor(0, 15); // Baixem 15 píxels (els 8 del títol + marge)
+display.print("OK");      // Valor destacat en gran
+```
+
+#### 🏋️ Repte Pràctic en Aula: "El Títol i la Dada"
+
+**Objectiu:** Crear una interfície que mostri la paraula "TEMPERATURA" a la part superior en mida normal (1), i just a sota, perfectament centrat, el valor "25 C" en mida gran (3).
+
+**El parany didàctic:**
+Els alumnes solen oblidar com de gran es torna el text en mida 3 (passa a ocupar 18x24 px per lletra). Si posen el cursor del valor a `y = 10` (com feien fins ara), el text gegant "es menjarà" el títol de dalt. A més, per centrar el "25 C" hauran de refer els càlculs d'amplada: cada lletra ja no mesura 6 píxels!
+
+**Guia de resolució:**
+1.  **Títol a dalt de tot:** `setTextSize(1)` i `setCursor(30, 0)` (centrat ràpid).
+2.  **Nova coordenada Y per a la dada:** El títol de dalt ocupa 8 px d'alçada. Deixem un marge i situem el cursor a **`y = 20`**.
+3.  **Càlcul d'amplada per centrar "25 C":** Aquesta dada té 4 caràcters. Com estem en mida 3, cada caràcter mesura 18 px d'ample. -> 4 * 18 px = **72 px d'amplada total**.
+4.  **Càlcul X per centrar la dada:** (128 - 72) / 2 = **28**.
+
+**Solució esperada:**
+```cpp
+display.setTextSize(1);
+display.setCursor(30, 0);
+display.print("TEMPERATURA");
+
+display.setTextSize(3);
+display.setCursor(28, 20); // X centrada matemàticament per a text gran
+display.print("25 C");
+```
 ---
 
 ## `display.setTextColor();` — Triant el color i el fons
@@ -268,66 +384,7 @@ display.setCursor(52, 28);
 display.print("HOLA");
 ```
 ---
-## `display.setTextSize(mida);` — Controlant l'escala del text
 
-Si la pantalla OLED fos un document de text, `setTextSize()` seria el menú on triem si volem la lletra a 12 punts per a un paràgraf o a 24 punts per a un títol. Aquesta funció defineix com de gran es dibuixarà el text a partir d'aquest moment.
-
-### 1. Com funciona l'escala?
-A la llibreria Adafruit, no triem la mida lliurement en "píxels" d'alçada, sinó que fem servir **multiplicadors** d'una mida base.
-La "Mida 1" (la que ve per defecte) és un bloc de **6x8 píxels** (6 d'amplada x 8 d'alçada).
-
-* **`setTextSize(1);`** → 6 x 8 píxels (Lletra normal, caben unes 21 columnes per 8 files a la pantalla).
-* **`setTextSize(2);`** → 12 x 16 píxels (El doble de gran).
-* **`setTextSize(3);`** → 18 x 24 píxels (El triple de gran).
-I així successivament.
-
-### 2. Sintaxi i Funcionament
-```cpp
-display.setTextSize(2); // A partir d'ara, tot el text serà el doble de gran
-display.print("HOLA");
-```
-**Important:** El canvi de mida es manté fins que tornis a cridar la funció amb un altre valor. Si fas un títol gran i oblides tornar a posar `setTextSize(1)`, la resta de les dades i menús s'imprimiran en lletres gegants i sortiran de la pantalla.
-
-### 3. L'Impacte en les Coordenades (`setCursor`)
-Aquest és el concepte de disseny més important per als alumnes: **en canviar la mida del text, canvien les matemàtiques de l'espai**.
-Si escrius una línia a la posició `y = 0` amb `setTextSize(1)`, la següent línia pot anar perfectament a `y = 10` (8 px que ocupa la lletra + 2 de marge). 
-Però si fas servir `setTextSize(2)`, la teva lletra ara ocupa 16 píxels d'alçada! La següent línia haurà d'anar com a mínim a `y = 18` o els textos se solaparan.
-
-### 💡 Exemples Didàctics
-```cpp
-// Crear una jerarquia visual (Títol i dada)
-display.setTextSize(1);
-display.setCursor(0, 0);
-display.print("Estat del sistema:"); // Text explicatiu petit
-
-display.setTextSize(2);
-display.setCursor(0, 15); // Baixem 15 píxels (els 8 del títol + marge)
-display.print("OK");      // Valor destacat en gran
-```
-
-### 🏋️ Repte Pràctic en Aula: "El Títol i la Dada"
-
-**Objectiu:** Crear una interfície que mostri la paraula "TEMPERATURA" a la part superior en mida normal (1), i just a sota, perfectament centrat, el valor "25 C" en mida gran (3).
-
-**El parany didàctic:**
-Els alumnes solen oblidar com de gran es torna el text en mida 3 (passa a ocupar 18x24 px per lletra). Si posen el cursor del valor a `y = 10` (com feien fins ara), el text gegant "es menjarà" el títol de dalt. A més, per centrar el "25 C" hauran de refer els càlculs d'amplada: cada lletra ja no mesura 6 píxels!
-
-**Guia de resolució:**
-1.  **Títol a dalt de tot:** `setTextSize(1)` i `setCursor(30, 0)` (centrat ràpid).
-2.  **Nova coordenada Y per a la dada:** El títol de dalt ocupa 8 px d'alçada. Deixem un marge i situem el cursor a **`y = 20`**.
-3.  **Càlcul d'amplada per centrar "25 C":** Aquesta dada té 4 caràcters. Com estem en mida 3, cada caràcter mesura 18 px d'ample. -> 4 * 18 px = **72 px d'amplada total**.
-4.  **Càlcul X per centrar la dada:** (128 - 72) / 2 = **28**.
-
-**Solució esperada:**
-```cpp
-display.setTextSize(1);
-display.setCursor(30, 0);
-display.print("TEMPERATURA");
-
-display.setTextSize(3);
-display.setCursor(28, 20); // X centrada matemàticament per a text gran
-display.print("25 C");
-```
 ---
 ## 🖨️ `display.println();` vs `display.print();` — El Salt de Línia
 
@@ -678,7 +735,7 @@ printCat("Temperatura: 25 ºC");
 ---
 *(Nota per al professor: Si per algun projecte de final de curs un alumne ha de fer interfícies molt complexes o amb altres idiomes, la millor opció és canviar la llibreria `Adafruit_GFX` per una altra anomenada **`U8g2`**. Aquesta llibreria és més complexa d'aprendre al principi, però suporta la codificació moderna UTF-8 de manera nativa).*
 ---
-## 🤸‍♂️ `display.setRotation();` — Girant la pantalla
+## `display.setRotation();` — Girant la pantalla
 
 A l'hora de muntar el nostre projecte dins d'una capsa de cartró o una carcassa impresa en 3D, moltes vegades ens adonem que els cables de la pantalla xoquen amb algun altre component i ens veiem obligats a muntar la pantalla de cap per avall. 
 
