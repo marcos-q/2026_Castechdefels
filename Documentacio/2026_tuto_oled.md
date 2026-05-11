@@ -5,15 +5,13 @@ En aquesta secció aprendrem a dominar les  instruccions fonamentals per gestion
 **INDEX**
 - [Tutorial de Programació OLED: Guia de Funcions Principals](#tutorial-de-programació-oled-guia-de-funcions-principals)
   - [1. Configuració de la pantalla i missatges de text bàsics](#1-configuració-de-la-pantalla-i-missatges-de-text-bàsics)
-  - [2. Dibuixos](#2-dibuixos)
-  - [`display.drawBitmap();` — Imatges i Icones](#displaydrawbitmap--imatges-i-icones)
+  - [2. Dibuixos i gràfics](#2-dibuixos-i-gràfics)
+  - [3. Altres recursos de text](#3-altres-recursos-de-text)
   - [`display.invertDisplay();` — L'Alarma Visual Ràpida](#displayinvertdisplay--lalarma-visual-ràpida)
   - [🌍 Lletres amb accent i caràcters especials (ç, ñ, º)](#-lletres-amb-accent-i-caràcters-especials-ç-ñ-º)
   - [🪄 El Truc Màgic: Automatitzar els accents (Nivell Pro)](#-el-truc-màgic-automatitzar-els-accents-nivell-pro)
   - [*(Nota per al professor: Si per algun projecte de final de curs un alumne ha de fer interfícies molt complexes o amb altres idiomes, la millor opció és canviar la llibreria `Adafruit_GFX` per una altra anomenada **`U8g2`**. Aquesta llibreria és més complexa d'aprendre al principi, però suporta la codificació moderna UTF-8 de manera nativa).*](#nota-per-al-professor-si-per-algun-projecte-de-final-de-curs-un-alumne-ha-de-fer-interfícies-molt-complexes-o-amb-altres-idiomes-la-millor-opció-és-canviar-la-llibreria-adafruit_gfx-per-una-altra-anomenada-u8g2-aquesta-llibreria-és-més-complexa-daprendre-al-principi-però-suporta-la-codificació-moderna-utf-8-de-manera-nativa)
   - [`display.setRotation();` — Girant la pantalla](#displaysetrotation--girant-la-pantalla-1)
-  - [🎞️ Rètols Lluminosos (Scroll) — Animacions sense esforç](#️-rètols-lluminosos-scroll--animacions-sense-esforç)
-  - [🎞️ Animacions i Scroll (Desplaçament Automàtic)](#️-animacions-i-scroll-desplaçament-automàtic)
 
 
 
@@ -445,18 +443,14 @@ Ho vam mencionar a la secció de l'esborrador màgic, però mereix el seu propi 
 **Guia de resolució:** Passaran minuts revisant les coordenades i els punts i comes. Quan entenguin que l'ESP32 ha dibuixat el text a la seva memòria RAM però ningú li ha donat l'ordre d'"enviar-ho al món real", no ho oblidaran mai més.
 
 ---
-## 2. Dibuixos
-
-
-
-
-
-
-### `display.drawRect();` i `display.fillRect();` — Creant Interfícies
+## 2. Dibuixos i gràfics
+### Exemple
+### Explicació de les funcions utilitzades
+#### `display.drawRect();` i `display.fillRect();` — Creant Interfícies
 
 Escriure números està bé, però la programació visual consisteix en crear gràfics. Dibuixar rectangles permet crear marcs per agrupar informació o botons visuals per als menús.
 
-### 1. Sintaxi de Geometria
+##### Sintaxi de Geometria
 Les coordenades d'un rectangle necessiten 4 números clau:
 ```cpp
 // drawRect dibuixa només el contorn (una caixa buida)
@@ -468,7 +462,7 @@ display.fillRect(x, y, amplada, alçada, WHITE);
 * **`x, y`**: Són la cantonada superior esquerra del rectangle.
 * **`amplada, alçada`**: En píxels.
 
-###  Exemples Didàctics
+##### Exemples Didàctics
 ```cpp
 // A. Crear un marc al voltant de tota la pantalla
 display.drawRect(0, 0, 128, 64, WHITE);
@@ -479,7 +473,7 @@ display.setTextColor(BLACK); // Text negre per llegir-se sobre el fons blanc
 display.setCursor(15, 15);display.print(" BOTON 1 ");
 ```
 
-### Repte Pràctic en Aula: "La Barra de Progrés" (Nivell Avançat)
+##### Repte Pràctic en Aula: "La Barra de Progrés" (Nivell Avançat)
 **Objectiu:** Convertir un valor numèric d'un sensor (ex: un potenciòmetre) en una barra visual que s'omple.
 **Guia de resolució (Pas a pas):**
 1. Dibuixem el contenidor de la barra: `display.drawRect(10, 30, 100, 10, WHITE);` (Una caixa de 100 píxels d'amplada).
@@ -490,22 +484,21 @@ display.setCursor(15, 15);display.print(" BOTON 1 ");
    `display.fillRect(10, 30, amplada_barra, 10, WHITE);`
 
 ---
-
-## `display.drawBitmap();` — Imatges i Icones
+#### `display.drawBitmap();` — Imatges i Icones
 
 Quan els alumnes descobreixen aquesta funció, la seva motivació es dispara. Permet mostrar logos, cares de robots o icones de bateries.
 
-### 1. Com funciona?
+##### 1. Com funciona?
 L'OLED no pot obrir fitxers `.jpg` o `.png`. L'ESP32 només entén dades pures (matrius de bits).
 Per usar aquesta funció, l'alumne ha d'anar a una web gratuïta (com *image2cpp*), pujar la seva imatge, i la web generarà un codi estrany (un *Array* de caràcters HEX com `0xFF, 0x00...`) que cal enganxar al principi del codi.
 
-### 2. Sintaxi
+##### 2. Sintaxi
 ```cpp
 // Suposem que tenim un array anomenat 'icona_cor' de 16x16 píxels
 display.drawBitmap(x, y, icona_cor, amplada_imatge, alçada_imatge, WHITE);
 ```
 
-### 🏋️ Repte Pràctic en Aula: "El Cor Bategant"
+##### 🏋️ Repte Pràctic en Aula: "El Cor Bategant"
 **Objectiu:** Alternar entre dues icones per crear una animació.
 **Guia de resolució:** Proporciona als alumnes dos codis array: un d'un cor gran (`cor_gran`) i un d'un cor petit (`cor_petit`). A dins del `loop()`:
 1. `clearDisplay()`
@@ -519,7 +512,92 @@ display.drawBitmap(x, y, icona_cor, amplada_imatge, alçada_imatge, WHITE);
 
 ---
 
-### 3. Funcions de text avançades
+
+## 3. Altres recursos de text
+### Desplaçament Automàtic de textos.  ("Scroll")
+
+A vegades volem mostrar un text molt llarg o, simplement, volem donar un efecte espectacular tipus "notícies d'última hora" (el clàssic efecte *Marquee* o rètol lluminós). 
+
+Una de les funcions més potents de la pantalla OLED SSD1306 és la seva capacitat de fer **scroll** (desplaçament) per hardware. No cal fer bucles complicats per anar canviant les coordenades `X` a poc a poc. La pantalla SSD1306 té una funció de hardware integrada que mou la imatge completament sola. Això significa que és la mateixa pantalla la que mou els píxels, deixant el processador de la nostra placa lliure per a altres tasques.
+
+### 1. Conceptes clau: Les Pàgines
+La pantalla no es mou per píxels individuals, sinó per **pàgines**. La pantalla de 64 píxels d'alçada es divideix en **8 pàgines** (de la 0 a la 7). Cada pàgina té 8 píxels d'alçada.
+
+#### Com funciona?
+Tenim instruccions per moure la pantalla cap a la dreta, cap a l'esquerra i, fins i tot, en diagonal.
+L'únic que cal saber és que la pantalla es divideix en **8 "pàgines" horitzontals** (de la 0 a la 7). Cada pàgina té 8 píxels d'alçada. (La paraula pàgina fa referència a pàgines de memòria, no a "pantalles". Cada pàgina de memòria conté la informació de 8 línies de pantalla).
+
+Per moure tota la pantalla (de dalt a baix), li direm que mogui des de la pàgina 0 (`0x00`) fins a la 7 (`0x07`).
+
+```cpp
+// Desplaçament cap a la dreta
+display.startscrollright(0x00, 0x07);
+
+// Desplaçament cap a l'esquerra
+display.startscrollleft(0x00, 0x07);
+
+// Desplaçament en diagonal
+display.startscrolldiagright(0x00, 0x07);
+```
+
+#### Aturar l'animació
+Com que l'OLED fa això de forma autònoma, seguirà movent el text fins a l'infinit. Per aturar-ho, necessitem una instrucció de fre:
+```cpp
+display.stopscroll();
+```
+
+#### IMPORTANT:  La Regla d'Or del Scroll per actualitzar el text
+Aquesta és la instrucció més estranya de tota la llibreria: **no es pot dibuixar res de nou a la pantalla mentre el scroll està actiu**. Si vols actualitzar una dada del sensor, l'ordre correcte ha de ser:
+1. `display.stopscroll();` (Aturem l'animació)
+2. Esborrem i redibuixem els nous valors
+3. `display.display();` (Enviem a la pantalla)
+4. `display.startscrollleft(0x00, 0x07);` (Tornem a engegar el motor)
+
+#### 🏋️ Repte Pràctic en Aula: "El Rètol Tremolós"
+
+**Objectiu:** Crear un text que digui "ATENCIO: PERILL!" i fer que llisqui contínuament cap a l'esquerra.
+
+**El parany didàctic:**
+Els alumnes, acostumats a que tot allò que es mou vagi dins del `loop()`, escriuran el codi de la següent manera:
+```cpp
+// ERROR TÍPIC DE L'ALUMNE
+void loop() {
+  display.clearDisplay();
+  display.setCursor(0, 30);
+  display.print("ATENCIO: PERILL!");
+  display.display();
+  
+  display.startscrollleft(0x00, 0x07); // Ordenen fer scroll constantment!
+}
+```
+**Què passarà?** En lloc de lliscar suaument, la pantalla es quedarà quieta, tremolant molt de pressa o parpellejant. Això passa perquè a cada mil·lisegon li estan dient a la pantalla "comença a moure't", reiniciant l'animació contínuament abans que hagi pogut avançar ni un sol píxel.
+
+**Guia de resolució:**
+Explica'ls que `startscroll` és com prémer el botó de "Play" d'una cadena de música. Només cal prémer-lo **una vegada**.
+
+**Solució esperada:**
+El disseny i l'ordre d'animació han d'anar al `setup()` (si és un text estàtic), o protegit amb condicionals perquè només s'executi una vegada.
+
+```cpp
+void setup() {
+  // ... (iniciem display) ...
+  display.clearDisplay();
+  
+  display.setTextSize(2);
+  display.setCursor(0, 20);
+  display.print("PERILL!");
+  display.display();
+  
+  // Premem el botó "Play" només UN COP al setup
+  display.startscrollleft(0x00, 0x07); 
+}
+
+void loop() {
+  // El loop es queda buit. El xip de la pantalla 
+  // fa l'animació per nosaltres i l'ESP32 pot descansar.
+}
+```
+
 
 ## `display.invertDisplay();` — L'Alarma Visual Ràpida
 
@@ -721,93 +799,7 @@ display.setRotation(1); // Mode vertical (64x128)
 display.drawLine(0, 10, 63, 10, WHITE); // La X només arriba fins a 63!
 ```
 ---
-### EXEMPLE marquesina
-## 🎞️ Rètols Lluminosos (Scroll) — Animacions sense esforç
 
-A vegades volem mostrar un text molt llarg o, simplement, volem donar un efecte espectacular tipus "notícies d'última hora" (el clàssic efecte *Marquee* o rètol lluminós). 
-
-En lloc de fer bucles complicats per anar canviant les coordenades `X` a poc a poc, la pantalla SSD1306 té una funció de hardware integrada que mou la imatge completament sola.
-
-### 1. Com funciona?
-Tenim instruccions per moure la pantalla cap a la dreta, cap a l'esquerra i, fins i tot, en diagonal.
-L'únic que cal saber és que la pantalla es divideix en **8 "pàgines" horitzontals** (de la 0 a la 7). Cada pàgina té 8 píxels d'alçada.
-
-Per moure tota la pantalla (de dalt a baix), li direm que mogui des de la pàgina 0 (`0x00`) fins a la 7 (`0x07`).
-
-```cpp
-// Desplaçament cap a la dreta
-display.startscrollright(0x00, 0x07);
-
-// Desplaçament cap a l'esquerra
-display.startscrollleft(0x00, 0x07);
-
-// Desplaçament en diagonal
-display.startscrolldiagright(0x00, 0x07);
-```
-
-### 2. Aturar l'animació
-Com que l'OLED fa això de forma autònoma, seguirà movent el text fins a l'infinit. Per aturar-ho, necessitem una instrucció de fre:
-```cpp
-display.stopscroll();
-```
-
-### 3. La Regla d'Or del Scroll
-Aquesta és la instrucció més estranya de tota la llibreria: **no es pot dibuixar res de nou a la pantalla mentre el scroll està actiu**. Si vols actualitzar una dada del sensor, l'ordre correcte ha de ser:
-1. `display.stopscroll();` (Aturem l'animació)
-2. Esborrem i redibuixem els nous valors
-3. `display.display();` (Enviem a la pantalla)
-4. `display.startscrollleft(0x00, 0x07);` (Tornem a engegar el motor)
-
-### 🏋️ Repte Pràctic en Aula: "El Rètol Tremolós"
-
-**Objectiu:** Crear un text que digui "ATENCIO: PERILL!" i fer que llisqui contínuament cap a l'esquerra.
-
-**El parany didàctic:**
-Els alumnes, acostumats a que tot allò que es mou vagi dins del `loop()`, escriuran el codi de la següent manera:
-```cpp
-// ERROR TÍPIC DE L'ALUMNE
-void loop() {
-  display.clearDisplay();
-  display.setCursor(0, 30);
-  display.print("ATENCIO: PERILL!");
-  display.display();
-  
-  display.startscrollleft(0x00, 0x07); // Ordenen fer scroll constantment!
-}
-```
-**Què passarà?** En lloc de lliscar suaument, la pantalla es quedarà quieta, tremolant molt de pressa o parpellejant. Això passa perquè a cada mil·lisegon li estan dient a la pantalla "comença a moure't", reiniciant l'animació contínuament abans que hagi pogut avançar ni un sol píxel.
-
-**Guia de resolució:**
-Explica'ls que `startscroll` és com prémer el botó de "Play" d'una cadena de música. Només cal prémer-lo **una vegada**.
-
-**Solució esperada:**
-El disseny i l'ordre d'animació han d'anar al `setup()` (si és un text estàtic), o protegit amb condicionals perquè només s'executi una vegada.
-
-```cpp
-void setup() {
-  // ... (iniciem display) ...
-  display.clearDisplay();
-  
-  display.setTextSize(2);
-  display.setCursor(0, 20);
-  display.print("PERILL!");
-  display.display();
-  
-  // Premem el botó "Play" només UN COP al setup
-  display.startscrollleft(0x00, 0x07); 
-}
-
-void loop() {
-  // El loop es queda buit. El xip de la pantalla 
-  // fa l'animació per nosaltres i l'ESP32 pot descansar.
-}
-```
-## 🎞️ Animacions i Scroll (Desplaçament Automàtic)
-
-Una de les funcions més potents de la pantalla OLED SSD1306 és la seva capacitat de fer **scroll** (desplaçament) per hardware. Això significa que és la mateixa pantalla la que mou els píxels, deixant el processador de la nostra placa lliure per a altres tasques.
-
-### 1. Conceptes clau: Les Pàgines
-La pantalla no es mou per píxels individuals, sinó per **pàgines**. La pantalla de 64 píxels d'alçada es divideix en **8 pàgines** (de la 0 a la 7). Cada pàgina té 8 píxels d'alçada.
 
 * **Pàgina 0:** Píxels del 0 al 7 (part superior).
 * **Pàgina 7:** Píxels del 56 al 63 (part inferior).
