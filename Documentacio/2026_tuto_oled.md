@@ -85,12 +85,11 @@ Aquesta línia no dibuixa res, però **crea un espai a la memòria** (anomenat *
 ---
 
 #### `display.begin(SSD1306_SWITCHCAPVCC, 0x3C)`
-Aquesta funció és la "clau de contacte". Reserva la memòria RAM (el Buffer) i desperta la pantalla.
+Aquesta funció és com el "botó d'inici de la pantalla". Reserva la memòria RAM (el Buffer) i desperta la pantalla.
 
 ##### Paràmetre 1: `SSD1306_SWITCHCAPVCC`
-Això sol confondre molt, però és una oportunitat excel·lent per ensenyar una mica d'electrònica real als alumnes.
 
-* **Què significa?** Li estem dient a la pantalla: "Utilitza la teva bomba de càrrega interna per generar voltatge".
+* **Què significa?** Li estem dient a la pantalla: "Utilitza la teva font de càrrega interna per generar voltatge".
 * **Per què és necessari?** Els píxels OLED necessiten un voltatge relativament alt per brillar (normalment entre 7V i 9V). No obstant això, nosaltres alimentem la pantalla amb només 3.3V des de l'ESP32. El xip SSD1306 té un circuit intern (un *Charge Pump* o bomba de càrrega amb condensadors) que agafa aquests 3.3V i els eleva màgicament fins als 7-9V necessaris. En passar-li aquest paràmetre, encenem aquest elevador de voltatge.
 * **L'alternativa:** Existeix un altre paràmetre anomenat `SSD1306_EXTERNALVCC`, però gairebé mai s'utilitza en aquestes pantalles comercials, ja que implicaria que tu li estàs subministrant aquests 9V externament per un pin, i podries cremar la placa si no està dissenyada per a això.
 
@@ -101,14 +100,14 @@ Imagina el bus I2C de l'ESP32 com un passadís llarg amb moltes portes. Cada dis
 
 En posar `0x3C`, l'ESP32 crida pel passadís: *"Ei, dispositiu de la porta 0x3C, prepara't que t'enviaré dibuixos!"*.
 
-* **El problema habitual a classe:** El 90% de les pantalles OLED de 0.96" vénen amb l'adreça `0x3C`. Tot i això, algunes pantalles més grans (com les d'1.3") o d'altres fabricants vénen configurades de fàbrica amb l'adreça `0x3D`. Si la pantalla no s'encén, aquest és el primer sospitós.
+* **Atenció!, un possible problema a l'aula:** El 90% de les pantalles OLED de 0.96" vénen amb l'adreça `0x3C`. Tot i això, algunes pantalles més grans (com les d'1.3") o d'altres fabricants vénen configurades de fàbrica amb l'adreça `0x3D`. Si la pantalla no s'encén, aquest és el primer sospitós.
 
 ---
-##### 💡 Consell Didàctic (El "Hardware Hack")
+* ##### "Hardware Hack"
 
 Si li doneu la volta a la pantalla OLED, veureu que sol tenir unes petites resistències de superfície (SMD) prop d'un text que diu `0x78` i `0x7A` (que són les adreces `0x3C` i `0x3D` desplaçades un bit). 
 
-Podeu ensenyar als alumnes que, movent aquesta resistència amb un soldador d'un punt a l'altre, poden canviar l'adreça física de la pantalla. Això els permet connectar **dues pantalles OLED idèntiques** al mateix ESP32 alhora!
+Movent aquesta resistència amb un soldador d'un punt a l'altre, poden canviar l'adreça física de la pantalla. Això els permet connectar **dues pantalles OLED idèntiques** al mateix ESP32 alhora!
 
 --- 
 #### `display.setRotation();` — Girant la pantalla
