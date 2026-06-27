@@ -24,7 +24,7 @@ theme:
     - navigation.tabs # Menú superior per a les grans seccions
     - navigation.sections # Menú lateral organitzat per blocs
     - content.code.copy # Botó per copiar el codi
-
+    - toc.integrate # Mou l'índex de la dreta al menú de l'esquerra
 
 plugins:
   - search # Activa el buscador automático dentro de la web

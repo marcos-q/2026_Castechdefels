@@ -1,18 +1,17 @@
-# 1. LED i Sortida Digital
+# LED, sortida digital
+En aquesta secció aprendrem a controlar un LED de manera digital (encès o apagat) per donar vida a la nostra mascota robòtica creant un efecte de batec de cor.
+
+## Exemples 
+Per seguir aquests exemples donem per fet que coneixem les instruccions associades a `digitalWrite()` i a `delay()`.
 
 
+- ### El batec bàsic (Pum-pum)
 
-En aquesta primera secció aprendrem a controlar un LED de manera digital (encès o apagat) per donar vida a la nostra mascota robòtica creant un efecte de batec de cor.
-
-
-
-## El batec bàsic (Pum-pum)
-
-El primer objectiu és simular el batec d'un cor utilitzant la instrucció fonamental d'espera: el `delay()`. Aquesta funció atura l'execució del microcontrolador durant els mil·lisegons que li indiquem.
+    El primer objectiu és simular el batec d'un cor utilitzant la instrucció fonamental d'espera: el `delay()`. Aquesta funció atura l'execució del microcontrolador durant els mil·lisegons que li indiquem.
+    
+    [Codi de l'exemple](..\Exemples\ESP_C3_LED_cor\ESP_C3_LED_cor.ino)
 
 
-
-[📥 Descarrega la solució: ESP\_C3\_LED\_cor.ino](../Exemples/ESP\_C3\_LED\_cor/ESP\_C3\_LED\_cor.ino)
 
 
 
