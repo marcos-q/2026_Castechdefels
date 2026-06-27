@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Benvinguts a "La Mascota Robòtica - 1"
+=======
+# Benvinguts a "La Mascota Robòtica"
+>>>>>>> 22fea08ed878218f785be1ab67c3cb4511565c16
 
 Aquesta és la guia de seguiment del curs on aprendrem a programar microcontroladors de manera pràctica, donant vida pas a pas a la nostra pròpia mascota robòtica.
 

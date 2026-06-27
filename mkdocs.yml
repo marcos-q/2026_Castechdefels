@@ -20,7 +20,7 @@ theme:
       toggle:
         icon: material/weather-night
         name: Canvia a mode clar
-features:
+  features:
     - navigation.tabs # Menú superior per a les grans seccions
     - navigation.sections # Menú lateral organitzat per blocs
     - content.code.copy # Botó per copiar el codi
