@@ -9,7 +9,7 @@ Per seguir aquests exemples donem per fet que coneixem les instruccions associad
 
     El primer objectiu és simular el batec d'un cor utilitzant la instrucció fonamental d'espera: el `delay()`. Aquesta funció atura l'execució del microcontrolador durant els mil·lisegons que li indiquem.
 
-    [Codi de l'exemple](Exemples/ESP_C3_LED_cor/ESP_C3_LED_cor.ino)
+    [Codi de l'exemple](./Exemples/ESP_C3_LED_cor/ESP_C3_LED_cor.ino)
 
 
 
