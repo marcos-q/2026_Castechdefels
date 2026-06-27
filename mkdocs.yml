@@ -1,6 +1,6 @@
-site_name: Curs d'Arduino. La meva Mascota Robòtica
+site_name: CasTECHdefels 2026. Projectes connectats... amb el soldador a la mà.
 site_description: Guia de pràctiques i exemples de programació amb dificultat creixent.
-site_author: El teu Nom
+site_author: Marcos Quílez
 
 theme:
   name: material
@@ -20,10 +20,11 @@ theme:
       toggle:
         icon: material/weather-night
         name: Canvia a mode clar
-  features:
-    - navigation.tabs # Menú superior para las grandes secciones
-    - navigation.sections # Menú lateral organizado por bloques
-    - content.code.copy # Botón para que los alumnos puedan copiar el código fácilmente
+features:
+    - navigation.tabs # Menú superior per a les grans seccions
+    - navigation.sections # Menú lateral organitzat per blocs
+    - content.code.copy # Botó per copiar el codi
+    - toc.integrate # Mou l'índex de la dreta al menú de l'esquerra
 
 plugins:
   - search # Activa el buscador automático dentro de la web
@@ -35,7 +36,7 @@ nav:
   - Actuadors i Sortides:
     - LED Digital (El Batec): led_digital.md
     - LED Analògic (PWM): led_analogic_PWM.md
-    - Efecte Respiració: led_respiracio.md
+    - Efecte Respiració: respiracio_delay.md
     # En el futuro, si añades un zumbador, solo creas "brunzidor.md" y lo pones aquí:
     # - Brunzidors i Sons: brunzidor.md
 
