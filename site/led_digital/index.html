@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1-led-i-sortida-digital" class="md-skip">
+        <a href="#led-sortida-digital" class="md-skip">
           Salta el contingut
         </a>
       
@@ -492,6 +492,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#exemples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exemples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#el-batec-basic-pum-pum" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -499,6 +511,11 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1003,11 +1020,17 @@
 
 
 
-<h1 id="1-led-i-sortida-digital">1. LED i Sortida Digital</h1>
-<p>En aquesta primera secció aprendrem a controlar un LED de manera digital (encès o apagat) per donar vida a la nostra mascota robòtica creant un efecte de batec de cor.</p>
-<h2 id="el-batec-basic-pum-pum">El batec bàsic (Pum-pum)</h2>
+<h1 id="led-sortida-digital">LED, sortida digital</h1>
+<p>En aquesta secció aprendrem a controlar un LED de manera digital (encès o apagat) per donar vida a la nostra mascota robòtica creant un efecte de batec de cor.</p>
+<h2 id="exemples">Exemples</h2>
+<p>Per seguir aquests exemples donem per fet que coneixem les instruccions associades a <code>digitalWrite()</code> i a <code>delay()</code>.</p>
+<ul>
+<li>
+<h3 id="el-batec-basic-pum-pum">El batec bàsic (Pum-pum)</h3>
 <p>El primer objectiu és simular el batec d'un cor utilitzant la instrucció fonamental d'espera: el <code>delay()</code>. Aquesta funció atura l'execució del microcontrolador durant els mil·lisegons que li indiquem.</p>
-<p><a href="../Exemples/ESP_C3_LED_cor/ESP_C3_LED_cor.ino">📥 Descarrega la solució: ESP_C3_LED_cor.ino</a></p>
+<p><a href="..\Exemples\ESP_C3_LED_cor\ESP_C3_LED_cor.ino">Codi de l'exemple</a></p>
+</li>
+</ul>
 <h2 id="frequencia-cardiaca-variable">Freqüència cardíaca variable</h2>
 <p>Per fer la mascota més interactiva, hem afegit dos botons. Un botó alenteix el pols i l'altre l'accelera. Això ens permet veure com el codi pot reaccionar a factors externs.</p>
 <p><a href="../Exemples/ESP_C3_LED_cor_variable/ESP_C3_LED_cor_variable.ino">📥 Descarrega la solució: ESP_C3_LED_cor_variable.ino</a></p>
