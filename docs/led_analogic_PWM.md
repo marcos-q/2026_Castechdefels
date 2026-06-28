@@ -1,6 +1,6 @@
 # LED, sortida analògica (PWM)
 
-Fins ara hem vist com encendre (1) i apagar (0) un LED. Però, què passa si volem que el LED brilli a la meitat de la seva capacitat? Els microcontroladors són dispositius digitals i només permeten sortides ON/OFF,  0 volts o el màxim voltatge (3,3V/5V). No poden activar una sortida digital a "mig gas", "la meitat" del voltatge màxim.
+Fins ara hem vist com encendre (1) i apagar (0) un LED. Però, què passa si volem que el LED brilli a la meitat de la seva capacitat? Els microcontroladors són dispositius digitals i només permeten sortides ON/OFF,  0 volts o el màxim voltatge (3,3V/5V). No poden activar una sortida digital a "mig gas", a "la meitat" del voltatge màxim.
 
 Per resoldre aquesta qûestió, utilitzem el **PWM** (*Pulse Width Modulation* o Modulació per Amplada de Pols). La instrucció per fer-ho és `analogWrite(pin, valor)` on el valor pot anar de `0` (0% encès) a `255` (100% encès).
 
