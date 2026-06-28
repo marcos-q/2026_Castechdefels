@@ -514,12 +514,7 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#frequencia-cardiaca-variable" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -546,15 +541,37 @@
     </nav>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#repte-la-mascota-nerviosa" class="md-nav__link">
+  <a href="#reptes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Repte: La mascota nerviosa
+        Reptes
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Reptes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#la-mascota-nerviosa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La mascota nerviosa
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1028,8 +1045,6 @@
 <li>
 <h3 id="el-batec-basic-pum-pum">El batec bàsic (Pum-pum)</h3>
 <p>El primer objectiu és simular el batec d'un cor utilitzant la instrucció fonamental d'espera: el <code>delay()</code>. Aquesta funció atura l'execució del microcontrolador durant els mil·lisegons que li indiquem.</p>
-</li>
-</ul>
 <details class="example">
 <summary>EXEMPLE: Fes clic aquí per desplegar i llegir el codi sencer</summary>
 <p>Aquest és el codi. Pots copiar-lo in engangar-lo al teu editor fent clic a la icona de copiar, adalt a la dreta d'aquesta caixa.</p>
@@ -1082,17 +1097,173 @@
 <span class="p">}</span>
 </code></pre></div>
 </details>
-<h2 id="frequencia-cardiaca-variable">Freqüència cardíaca variable</h2>
+</li>
+<li>
+<h3 id="frequencia-cardiaca-variable">Freqüència cardíaca variable</h3>
 <p>Per fer la mascota més interactiva, hem afegit dos botons. Un botó alenteix el pols i l'altre l'accelera. Això ens permet veure com el codi pot reaccionar a factors externs.</p>
-<p><a href="../Exemples/ESP_C3_LED_cor_variable/ESP_C3_LED_cor_variable.ino">📥 Descarrega la solució: ESP_C3_LED_cor_variable.ino</a></p>
-<h3 id="linconvenient-del-delay">L'inconvenient del <code>delay()</code></h3>
-<p>Si proveu aquest codi detingudament, us adonareu d'un problema: a vegades premeu el botó i la mascota no fa cas. Per què passa això? Mentre la placa està executant un <code>delay()</code>, està completament "sorda" a la resta del món. Si premeu el botó just quan està esperant, no ho detectarà.</p>
-<h2 id="repte-la-mascota-nerviosa">Repte: La mascota nerviosa</h2>
-<p>Anem a portar aquest inconvenient a l'extrem per entendre bé per què necessitarem tècniques de programació més avançades. </p>
-<p><strong>El repte:</strong> Feu que, a mesura que passi el temps, la vostra mascota es vagi posant nerviosa tota sola (reduint el temps entre batecs). Només es calmarà i tornarà a la normalitat quan li feu atenció prement el botó dret.</p>
-<p><a href="../Exemples/ESP_C3_LED_cor_nervios/ESP_C3_LED_cor_nervios.ino">📥 Descarrega la solució: ESP_C3_LED_cor_nervios.ino</a></p>
+<details class="example">
+<summary>EXEMPLE: Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<p>Aquest és el codi. Pots copiar-lo in engangar-lo al teu editor fent clic a la icona de copiar, adalt a la dreta d'aquesta caixa.</p>
+<div class="highlight"><span class="filename">ESP_C3_LED_cor_variable.ino</span><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinBotoEsquerre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">  </span><span class="c1">// L&#39;utilitzem per alentIR el pols</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinBotoDret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w">      </span><span class="c1">// l&#39;utilitzem per accelerar el pols</span>
+
+<span class="c1">// --- VARIABLES DE TEMPS (MIL·LISEGONS) ---</span>
+<span class="kr">int</span><span class="w"> </span><span class="n">tempsBatec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">150</span><span class="p">;</span><span class="w">  </span><span class="c1">// Durada fixa del moviment mecànic</span>
+<span class="kr">int</span><span class="w"> </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">  </span><span class="c1">// Temps de relaxació variable entre batecs doblegats</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configuració de les sortides dels LEDs</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configuració dels botons amb resistència pull-up interna</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinBotoEsquerre</span><span class="p">,</span><span class="w"> </span><span class="kr">INPUT_PULLUP</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinBotoDret</span><span class="p">,</span><span class="w"> </span><span class="kr">INPUT_PULLUP</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Apaguem tots els LEDs a l&#39;inici</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// --- 1. LECTURA DELS BOTONS ---</span>
+
+<span class="w">  </span><span class="c1">// Botó dret -&gt; Accelera el cor (redueix la pausa)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">digitalRead</span><span class="p">(</span><span class="n">pinBotoDret</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kr">LOW</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tempsBatec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Límit mínim per simular taquicàrdia</span>
+<span class="w">      </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Accelera! Temps de pausa: &quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Botó esquerre -&gt; Alenteix el cor (augmenta la pausa)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">digitalRead</span><span class="p">(</span><span class="n">pinBotoEsquerre</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kr">LOW</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1500</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Límit màxim per simular relaxació profunda</span>
+<span class="w">      </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Alenteix... Temps de pausa: &quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// --- 2. EXECUCIÓ DEL BATEC (SÍSTOLE FIXA, DIÀSTOLE VARIABLE) ---</span>
+
+<span class="w">  </span><span class="c1">// El primer &quot;bum&quot; del batec</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">HIGH</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// El segon &quot;bum&quot; del batec</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">HIGH</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// El temps de repòs és el que varia amb els botons</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<h4 id="linconvenient-del-delay">L'inconvenient del <code>delay()</code></h4>
+<p>Si proveu aquest codi detingudament, us adonareu d'un problema: a vegades premeu el botó i la mascota no en fa cas. Per què passa això? Mentre la placa està executant un <code>delay()</code>, està completament "sorda" a la resta del món. Si premeu el botó just quan està esperant, no ho detectarà. Més endavant aprendrem una forma d'evitar aquest efecte.</p>
+</li>
+</ul>
+<h2 id="reptes">Reptes</h2>
+<ul>
+<li>
+<h3 id="la-mascota-nerviosa">La mascota nerviosa</h3>
+<p><strong>El repte:</strong> Feu que, a mesura que passi el temps, la vostra mascota es vagi posant nerviosa tota sola (reduint el temps entre batecs). Només es calmarà i tornarà a la normalitat quan esteu per ella i li feu carícies prement el botó dret.</p>
+<details class="example">
+<summary>SOLUCIÓ: Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<p>Aquest és el codi. Pots copiar-lo in engangar-lo al teu editor fent clic a la icona de copiar (a la dreta de la zona del codi).</p>
+<div class="highlight"><span class="filename">ESP_C3_LED_cor_nervios.ino</span><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinBotoEsquerre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">  </span><span class="c1">// Aquest botó queda lliure per a futurs exercicis</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinBotoDret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w">      </span><span class="c1">// L&#39;utilitzem per donar atenció i calmar la mascota</span>
+
+<span class="c1">// --- VARIABLES DE TEMPS (MIL·LISEGONS) ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">tempsBatec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">150</span><span class="p">;</span><span class="w">     </span><span class="c1">// Durada fixa del moviment mecànic</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">tempsPausaInicial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">700</span><span class="p">;</span><span class="w"> </span><span class="c1">// Estat de relaxació base inicial</span>
+<span class="kr">int</span><span class="w"> </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tempsPausaInicial</span><span class="p">;</span><span class="w">           </span><span class="c1">// Temps que anirà disminuint sol</span>
+<span class="kr">int</span><span class="w"> </span><span class="n">ritmeAnsietat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w">         </span><span class="c1">// Quants mil·lisegons perdem a cada batec</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configuració de les sortides dels LEDs</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configuració dels botons amb resistència pull-up interna</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinBotoEsquerre</span><span class="p">,</span><span class="w"> </span><span class="kr">INPUT_PULLUP</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinBotoDret</span><span class="p">,</span><span class="w"> </span><span class="kr">INPUT_PULLUP</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Apaguem tots els LEDs a l&#39;inici</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Mascota encesa. Estat: Tranquil·la.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// --- 1. LECTURA DE L&#39;ATENCIÓ (BOTÓ) ---</span>
+
+<span class="w">  </span><span class="c1">// Si fem cas a la mascota (Botó dret), es relaxa de cop</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">digitalRead</span><span class="p">(</span><span class="n">pinBotoDret</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kr">LOW</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tempsPausaInicial</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Atenció rebuda! La mascota es calma.&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// --- 2. EVOLUCIÓ DE L&#39;ESTAT (ANSIETAT AUTÒNOMA) ---</span>
+
+<span class="w">  </span><span class="c1">// Si no hem polsat el botó, la mascota es va posant nerviosa</span>
+<span class="w">  </span><span class="c1">// Reduïm la pausa, però posem un límit perquè el cor no &quot;exploti&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tempsBatec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">ritmeAnsietat</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// --- 3. EXECUCIÓ DEL BATEC ---</span>
+
+<span class="w">  </span><span class="c1">// El primer &quot;bum&quot; del batec</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">HIGH</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// El segon &quot;bum&quot; del batec</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">HIGH</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// El temps de repòs actual (cada cop més curt si no l&#39;atenem)</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c1">// Debug per veure l&#39;estat d&#39;ansietat al Monitor Sèrie</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Nivell de pausa actual: &quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</li>
+</ul>
 <blockquote>
-<p><strong>Observació important</strong>  A mesura que la mascota es posa nerviosa i el temps de pausa disminueix, la finestra d'oportunitat perquè el microcontrolador llegeixi el botó es redueix dràsticament. Quan la mascota està al seu punt màxim de taquicàrdia, sembla que el botó no funcioni a no ser que el mantinguem premut fins que reacciona.&gt; </p>
+<p><strong>Observació important</strong>  A mesura que la mascota es posa nerviosa i el temps de pausa disminueix, la finestra d'oportunitat perquè el microcontrolador llegeixi el botó es redueix dràsticament. Quan la mascota està al seu punt màxim de taquicàrdia, sembla que el botó no funcioni a no ser que el mantinguem premut fins que reacciona. </p>
 <p>Podríem dir narrativament que la mascota està tan alterada i concentrada en el seu propi pànic, que no nota que la toquem si ho fem breument. Hem de deixar el botó premut perquè "se n'adoni". Aquest és el límit del <code>delay()</code>: haurem de buscar alternatives per no bloquejar el microcontrolador.</p>
 </blockquote>
 
