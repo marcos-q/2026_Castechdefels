@@ -25,7 +25,7 @@
     
     
       
-        <title>LED, sordita analògica (PWM) - CasTECHdefels 2026. Projectes connectats... amb el soldador a la mà.</title>
+        <title>LED, sortida analògica (PWM) - CasTECHdefels 2026. Projectes connectats... amb el soldador a la mà.</title>
       
     
     
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              LED, sordita analògica (PWM)
+              LED, sortida analògica (PWM)
             
           </span>
         </div>
@@ -236,7 +236,7 @@
           
   
   
-  Actuadors i Sortides
+  Bloc 1
 
         </a>
       </li>
@@ -256,7 +256,7 @@
           
   
   
-  Visualització
+  Bloc 2
 
         </a>
       </li>
@@ -401,7 +401,7 @@
   <span class="md-ellipsis">
     
   
-    Actuadors i Sortides
+    Bloc 1
   
 
     
@@ -417,7 +417,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Actuadors i Sortides
+    Bloc 1
   
 
           </label>
@@ -474,7 +474,7 @@
   <span class="md-ellipsis">
     
   
-    LED, sordita analògica (PWM)
+    LED, sortida analògica (PWM)
   
 
     
@@ -492,7 +492,7 @@
   <span class="md-ellipsis">
     
   
-    LED, sordita analògica (PWM)
+    LED, sortida analògica (PWM)
   
 
     
@@ -556,6 +556,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#reptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reptes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reptes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paleta-cromatica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paleta cromàtica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lespectre-emocional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L'espectre emocional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ampliacio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ampliació
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -602,7 +652,7 @@
   <span class="md-ellipsis">
     
   
-    Visualització
+    Bloc 2
   
 
     
@@ -618,7 +668,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Visualització
+    Bloc 2
   
 
           </label>
@@ -963,7 +1013,7 @@
 
 
 <h1 id="led-sortida-analogica-pwm">LED, sortida analògica (PWM)</h1>
-<p>Fins ara hem vist com encendre (1) i apagar (0) un LED. Però, què passa si volem que el LED brilli a la meitat de la seva capacitat? Els microcontroladors són dispositius digitals i només permeten sortides ON/OFF,  0 volts o el màxim voltatge (3,3V/5V). No poden activar una sortida digital a "mig gas", "la meitat" del voltatge màxim.</p>
+<p>Fins ara hem vist com encendre (1) i apagar (0) un LED. Però, què passa si volem que el LED brilli a la meitat de la seva capacitat? Els microcontroladors són dispositius digitals i només permeten sortides ON/OFF,  0 volts o el màxim voltatge (3,3V/5V). No poden activar una sortida digital a "mig gas", a "la meitat" del voltatge màxim.</p>
 <p>Per resoldre aquesta qûestió, utilitzem el <strong>PWM</strong> (<em>Pulse Width Modulation</em> o Modulació per Amplada de Pols). La instrucció per fer-ho és <code>analogWrite(pin, valor)</code> on el valor pot anar de <code>0</code> (0% encès) a <code>255</code> (100% encès).</p>
 <h2 id="exemples">Exemples</h2>
 <ul>
@@ -1072,6 +1122,145 @@
 <blockquote>
 <p><strong>Observació important:</strong>  En aquest exemple continuem fent servir la instrucció <code>delay()</code> per marcar la temporització. Són notables els seus inconvenients. Ens queda pendent mostrar una tècnica per resoldre'ls.</p>
 </blockquote>
+<h2 id="reptes">Reptes</h2>
+<p>Ara que la nostra mascota ja sap respirar amb tranquil·litat, és el moment de donar-li una personalitat visual complexa a través del color!
+Els següents reptes ens permetran explorar algunes possibilitats del led RGB.</p>
+<ul>
+<li>
+<h3 id="paleta-cromatica">Paleta cromàtica</h3>
+</li>
+</ul>
+<p>Imagina la teva mascota virtual com el llenç d'un pintor: combinant els tres colors primaris de la llum (Vermell, Verd i Blau, o RGB) en diferents quantitats, podem crear qualsevol color de l'univers!</p>
+<p>El teu objectiu és programar un algorisme capaç de recórrer de forma automàtica totes les combinacions de colors possibles (RGB) del led. Per aconseguir-ho, hauràs de crear tres bucles <code>for</code> imbricats (un dins de l'altre), on cada bucle s'encarregui de controlar el nivell d'intensitat (de 0 a 255) d'un dels tres canals RGB. </p>
+<details class="tip">
+<summary>PISTA: El parany del temps (Llegeix abans de programar!)</summary>
+<p>Si fessis augmentar els colors d'1 en 1 (i++), la teva mascota hauria de processar <span class="arithmatex">\(256 \times 256 \times 256 = 16,7\)</span> milions de colors. Si posessis un sol mil·lisegon de repòs per poder veure el canvi, la placa trigaria gairebé 5 hores a fer una sola volta al codi i mostrar la paleta completa!
+<strong>Consell:</strong> Perquè el canvi sigui visible i fluid, farem que els bucles avancin fent salts més grans (per exemple, de 10 en 10) fent servir l'operador += 10.?</p>
+</details>
+<details class="example">
+<summary>SOLUCIÓ: Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<div class="highlight"><span class="filename">paleta_cromatica.ino</span><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Mascota encesa. Generant totes les combinacions RGB...&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Bucle 1: Controla el Vermell</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">//Pots provar a començar en 90</span>
+
+<span class="w">    </span><span class="c1">// Bucle 2: Controla el Verd</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">//Pots provar a començar en 90</span>
+
+<span class="w">      </span><span class="c1">// Bucle 3: Controla el Blau</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">//Pots provar a començar en 90</span>
+
+<span class="w">        </span><span class="c1">// Apliquem la combinació actual de colors</span>
+<span class="w">        </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">);</span>
+<span class="w">        </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">);</span>
+<span class="w">        </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+
+<span class="w">        </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">r</span><span class="p">);</span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;, &quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">g</span><span class="p">);</span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;, &quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+
+<span class="w">        </span><span class="nf">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<ul>
+<li>
+<h3 id="lespectre-emocional">L'espectre emocional</h3>
+</li>
+</ul>
+<p>En el repte anterior de la <em>Paleta cromàtica</em>, hem après a recórrer de manera matemàtica i seqüencial milers de colors fent salts d'intensitat. Però en el món de la robòtica i el disseny d'interaccions, els canvis bruscos poden semblar artificials o "robots de pel·lícula antiga".</p>
+<p>Volem crear <strong>l'espectre emocional</strong> de la mascota, creant una transició suau i contínua de color que reflecteixi els seus canvis d'humor. </p>
+<p>El repte consisteix a escriure un programa que vagi canviant el color del led de forma suau, passant pels tons principals (de vermell a verd, de verd a blau i de blau a vermell),creant una transició contínua i infinita de color, tal com si fos una roda emocional orgànica.</p>
+<details class="tip">
+<summary>PISTA 1: La lògica de la transició de colors (Cross-fading)</summary>
+<p>Perquè el canvi de color no tingui cap salt, no podem apagar un LED de cop i encendre'n un altre. Han de treballar en equip! Mentre un color s'apaga progressivament, el següent s'ha d'anar encenent al mateix ritme.</p>
+<p><strong>Fase 1:</strong> El Vermell disminueix (<span class="arithmatex">\(255 \to 0\)</span>) mentre el Verd augmenta (<span class="arithmatex">\(0 \to 255\)</span>).</p>
+<p><strong>Fase 2:</strong> El Verd disminueix (<span class="arithmatex">\(255 \to 0\)</span>) mentre el Blau augmenta (<span class="arithmatex">\(0 \to 255\)</span>).</p>
+<p><strong>Fase 3:</strong> El Blau disminueix (<span class="arithmatex">\(255 \to 0\)</span>) mentre el Vermell torna a augmentar (<span class="arithmatex">\(0 \to 255\)</span>).</p>
+<p>D'aquesta manera, el cicle es tanca en un cercle perfecte i infinit!. </p>
+<p><strong>El teu primer objectiu:</strong> Aconsegueix passar de manera completament suau del vermell pur al verd pur. Quan dominis aquest camí, la resta serà bufar i fer ampolles.</p>
+</details>
+<details class="tip">
+<summary>PISTA 2: Una pista per al codi</summary>
+<p>Pots resoldre cada fase amb un único bucle for que vagi de 0 a 255. Dins del bucle, utilitza una variable comptadora (per exemple, i).
+Si fas que un LED rebi el valor de i (anirà pujant) i l'altre rebi el valor de 255 - i (anirà baixant), faràs la barreja perfecta en temps real!  </p>
+</details>
+<details class="example">
+<summary>SOLUCIÓ: Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<p>Aquí tens el codi complet per programar aquest comportament emocional i fluid en el LED RGB:</p>
+<div class="highlight"><span class="filename">espectre_emocional.ino</span><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="c1">// --- CONFIGURACIÓ DE TEMPS (MIL·LISEGONS) ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pausaTransicio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span><span class="w"> </span><span class="c1">// Controla la velocitat del canvi de color (més baix = més ràpid)</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="nf">Serial</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+
+<span class="c1">// Comencem amb el Vermell encès al 100% com a pt de inici</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">);</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Mascota encesa. Estat: Espectre emocional actiu.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="c1">// --- 1. TRANSICIÓ: DE VERMELL A VERD ---</span>
+<span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;[Humor] Passant de Vermell a Verd...&quot;</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">delay</span><span class="p">(</span><span class="n">pausaTransicio</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// --- 2. TRANSICIÓ: DE VERD A BLAU ---</span>
+<span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;[Humor] Passant de Verd a Blau...&quot;</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">delay</span><span class="p">(</span><span class="n">pausaTransicio</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// --- 3. TRANSICIÓ: DE BLAU A VERMELL ---</span>
+<span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;[Humor] Passant de Blau a Vermell...&quot;</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">delay</span><span class="p">(</span><span class="n">pausaTransicio</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<ul>
+<li>
+<h3 id="ampliacio">Ampliació</h3>
+</li>
+</ul>
+<p>Sabies que barrejant les intensitats de només tres llums (vermell, verd i blau) pots arribar a crear més de 16 milions de tons diferents? Aquesta és la mateixa tècnica que fan servir les pantalles dels mòbils o de TV per mostrar imatges reals.</p>
 
 
 
@@ -1125,6 +1314,8 @@
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
       
     
   </body>
