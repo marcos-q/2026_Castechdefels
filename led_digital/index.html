@@ -504,17 +504,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#visualitzacio-del-projecte" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Visualització del Projecte
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#el-batec-basic-pum-pum" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1034,22 +1023,65 @@
 <h1 id="led-sortida-digital">LED, sortida digital</h1>
 <p>En aquesta secció aprendrem a controlar un LED de manera digital (encès o apagat) per donar vida a la nostra mascota robòtica creant un efecte de batec de cor.</p>
 <h2 id="exemples">Exemples</h2>
-<p>Per seguir aquests exemples donem per fet que coneixem les instruccions associades a <code>digitalWrite()</code> i a <code>delay()</code>.</p>
-<h3 id="visualitzacio-del-projecte">Visualització del Projecte</h3>
-<p>Com que el codi és força llarg, l'he amagat aquí sota per no ocupar tota la pantalla:</p>
-<details class="example">
-<summary>Fes clic aquí per desplegar i llegir el codi sencer</summary>
-<p>Aquest és el codi principal de la nostra mascota robòtica:</p>
-<div class="highlight"><span class="filename">Projecte_Complex.ino</span><pre><span></span><code><span class="o">-</span><span class="mi">-8</span><span class="o">&lt;--</span><span class="w"> </span><span class="s">&quot;Exemples\ESP_C3_LED_cor\ESP_C3_LED_cor.ino&quot;</span>
-</code></pre></div>
-</details>
+<p>Per seguir aquests exemples donem per fet que coneixem les instruccions associades a <code>digitalWrite()</code>, <code>delay()</code>, i a <code>Serial.prinln()</code>.</p>
 <ul>
 <li>
 <h3 id="el-batec-basic-pum-pum">El batec bàsic (Pum-pum)</h3>
 <p>El primer objectiu és simular el batec d'un cor utilitzant la instrucció fonamental d'espera: el <code>delay()</code>. Aquesta funció atura l'execució del microcontrolador durant els mil·lisegons que li indiquem.</p>
-<p><a href="../Exemples/ESP_C3_LED_cor/ESP_C3_LED_cor.ino">Codi de l'exemple</a></p>
 </li>
 </ul>
+<details class="example">
+<summary>EXEMPLE: Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<p>Aquest és el codi. Pots copiar-lo in engangar-lo al teu editor fent clic a la icona de copiar, adalt a la dreta d'aquesta caixa.</p>
+<div class="highlight"><span class="filename">ESP_C3_LED_cor.ino</span><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="c1">// --- VARIABLES DE TEMPS (MIL·LISEGONS) ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">tempsBatec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">150</span><span class="p">;</span><span class="w">     </span><span class="c1">// Durada fixa de la contracció (&quot;bum&quot;)</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">700</span><span class="p">;</span><span class="w">     </span><span class="c1">// Temps de repòs fix entre batecs (ara és constant)</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configuració de les sortides dels LEDs</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configuració dels botons amb resistència pull-up interna</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinBotoEsquerre</span><span class="p">,</span><span class="w"> </span><span class="kr">INPUT_PULLUP</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinBotoDret</span><span class="p">,</span><span class="w"> </span><span class="kr">INPUT_PULLUP</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Apaguem tots els LEDs a l&#39;inici</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Mascota en marxa. Estat: Batec constant i tranquil.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// --- EXECUCIÓ DEL BATEC ---</span>
+
+<span class="w">  </span><span class="c1">// El primer &quot;bum&quot; del batec</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">HIGH</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// El segon &quot;bum&quot; del batec</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">HIGH</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// El temps de repòs constant</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
 <h2 id="frequencia-cardiaca-variable">Freqüència cardíaca variable</h2>
 <p>Per fer la mascota més interactiva, hem afegit dos botons. Un botó alenteix el pols i l'altre l'accelera. Això ens permet veure com el codi pot reaccionar a factors externs.</p>
 <p><a href="../Exemples/ESP_C3_LED_cor_variable/ESP_C3_LED_cor_variable.ino">📥 Descarrega la solució: ESP_C3_LED_cor_variable.ino</a></p>
