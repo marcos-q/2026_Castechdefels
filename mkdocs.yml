@@ -52,3 +52,10 @@ nav:
     - Configuració Wi-Fi: connexio_wifi.md
     - Creació d'un Bot de Telegram: bot_telegram.md
     - Alertes de la mascota: telegram_alertes.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      base_path: docs

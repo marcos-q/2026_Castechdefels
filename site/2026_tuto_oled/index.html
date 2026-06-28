@@ -910,44 +910,44 @@
 <hr />
 <h2 id="1-configuracio-de-la-pantalla-i-missatges-de-text-basics">1. Configuració de la pantalla i missatges de text bàsics</h2>
 <h3 id="exemple">Exemple</h3>
-<pre><code class="language-cpp">// ESPP32_C3_oled_basic.ino
+<div class="highlight"><pre><span></span><code><span class="c1">// ESPP32_C3_oled_basic.ino</span>
 
-#include &lt;Wire.h&gt;
-#include &lt;Adafruit_GFX.h&gt;
-#include &lt;Adafruit_SSD1306.h&gt;
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Wire.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_GFX.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_SSD1306.h&gt;</span>
 
-// --- CONFIGURACIÓ HARDWARE ---
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define PIN_SDA 8 // Pins I2C per a l' ESP32-C3 SuperMini
-#define PIN_SCL 9
+<span class="c1">// --- CONFIGURACIÓ HARDWARE ---</span>
+<span class="cp">#define SCREEN_WIDTH 128</span>
+<span class="cp">#define SCREEN_HEIGHT 64</span>
+<span class="cp">#define PIN_SDA 8 </span><span class="c1">// Pins I2C per a l&#39; ESP32-C3 SuperMini</span>
+<span class="cp">#define PIN_SCL 9</span>
 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &amp;Wire, -1);
+<span class="n">Adafruit_SSD1306</span><span class="w"> </span><span class="nf">display</span><span class="p">(</span><span class="n">SCREEN_WIDTH</span><span class="p">,</span><span class="w"> </span><span class="n">SCREEN_HEIGHT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Wire</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">);</span>
 
-void setup() {
-  Serial.begin(115200);
-  Wire.begin(PIN_SDA, PIN_SCL); 
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">PIN_SDA</span><span class="p">,</span><span class="w"> </span><span class="n">PIN_SCL</span><span class="p">);</span><span class="w"> </span>
 
-  // Iniciar pantalla
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F(&quot;Fallo al iniciar OLED&quot;));
-    for(;;);
-  }
+<span class="w">  </span><span class="c1">// Iniciar pantalla</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">display</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">SSD1306_SWITCHCAPVCC</span><span class="p">,</span><span class="w"> </span><span class="mh">0x3C</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">F</span><span class="p">(</span><span class="s">&quot;Fallo al iniciar OLED&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(;;);</span>
+<span class="w">  </span><span class="p">}</span>
 
-  display.setRotation(2);      // Rotació de 180 graus. Necessari segons com muntem la pantalla
-  display.clearDisplay();      // Esborrem el que hi hagi a la memòria
-  display.setTextSize(2);      // Triem mida de lletra (1 a 8)
-  display.setTextColor(WHITE); // Color del text
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setRotation</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w">      </span><span class="c1">// Rotació de 180 graus. Necessari segons com muntem la pantalla</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span><span class="w">      </span><span class="c1">// Esborrem el que hi hagi a la memòria</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w">      </span><span class="c1">// Triem mida de lletra (1 a 8)</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">WHITE</span><span class="p">);</span><span class="w"> </span><span class="c1">// Color del text</span>
 
-  display.setCursor(10, 25);   // On comença a escriure (X, Y)
-  display.print(&quot;HOLA MON!&quot;);  // El text que volem mostrar
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span><span class="w">   </span><span class="c1">// On comença a escriure (X, Y)</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;HOLA MON!&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// El text que volem mostrar</span>
 
-  display.display();
-}
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
+<span class="p">}</span>
 
-void loop() {
-} 
-</code></pre>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span><span class="w"> </span>
+</code></pre></div>
 <h3 id="explicacio-de-les-funcions-utilitzades">Explicació de les funcions utilitzades</h3>
 <h4 id="adafruit_ssd1306-displayscreen_width-screen_height-wire-1"><code>Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &amp;Wire, -1);</code></h4>
 <p>Aquesta línia de codi és la més important per poder utilitzar la pantalla OLED. S'anomena <strong>constructor</strong> i serveix per crear l'objecte que controlarem durant tot el programa.</p>
@@ -1033,19 +1033,19 @@ void loop() {
 </ul>
 <h5 id="on-es-posa">On es posa?</h5>
 <p>Com que normalment volem que la pantalla estigui girada des del primer segon i per sempre, aquesta instrucció no es posa al <code>loop()</code>, sinó al <strong><code>setup()</code></strong>, just després del <code>display.begin()</code>.</p>
-<pre><code class="language-cpp">void setup() {
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(&quot;Error OLED&quot;);
-    for(;;);
-  }
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">display</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">SSD1306_SWITCHCAPVCC</span><span class="p">,</span><span class="w"> </span><span class="mh">0x3C</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Error OLED&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(;;);</span>
+<span class="w">  </span><span class="p">}</span>
 
-  // Girem la pantalla 180 graus perquè hem muntat els pins cap a baix
-  display.setRotation(2); 
+<span class="w">  </span><span class="c1">// Girem la pantalla 180 graus perquè hem muntat els pins cap a baix</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setRotation</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span>
 
-  display.clearDisplay();
-  display.display();
-}
-</code></pre>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
 <h5 id="la-regla-dor-de-les-coordenades">La regla d'or de les coordenades</h5>
 <p>És vital explicar això als alumnes: <strong>quan girem la pantalla, l'Eix X i l'Eix Y giren amb ella</strong>.
 L'origen <code>(0, 0)</code> sempre serà la cantonada superior esquerra del text tal com el llegeixes, independentment de cap a on mirin els pins físics de la placa. No cal recalcular res del disseny si fem servir el gir de 180º (<code>setRotation(2)</code>).</p>
@@ -1056,10 +1056,10 @@ Demana'ls que girin la pantalla 90 graus amb <code>display.setRotation(1);</code
 El que veuran és que la línia es talla a la meitat i no arriba al final!</p>
 <p><strong>Guia de resolució:</strong>
 Aquest repte visual els farà entendre que les matemàtiques de l'espai han canviat. Al girar-la 90 graus, l'amplada màxima ja no és 128, ara és <strong>64</strong>. I l'alçada ja no és 64, ara és <strong>128</strong>! </p>
-<p>Perquè la línia creui la nova pantalla vertical d'esquerra a dreta, hauran de modificar el codi a:</p>
-<pre><code class="language-cpp">display.setRotation(1); // Mode vertical (64x128)
-display.drawLine(0, 10, 63, 10, WHITE); // La X només arriba fins a 63!
-</code></pre>
+<p>Perquè la línia creui la nova pantalla vertical d'esquerra a dreta, hauran de modificar el codi a:
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setRotation</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// Mode vertical (64x128)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">drawLine</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span><span class="w"> </span><span class="c1">// La X només arriba fins a 63!</span>
+</code></pre></div></p>
 <hr />
 <h4 id="displaycleardisplay-lesborrador-magic"><code>display.clearDisplay();</code> — L'Esborrador Màgic</h4>
 <p>Neteja el "llenç invisible" de la memòria del microcontrolador. És obligatori cridar-la al principi de cada cicle de dibuix per evitar que les imatges noves se superposin a les antigues.</p>
@@ -1100,24 +1100,24 @@ La "Mida 1" (la que ve per defecte) és un bloc de <strong>6x8 píxels</strong> 
 I així successivament.</li>
 </ul>
 <h5 id="sintaxi-i-funcionament">Sintaxi i Funcionament</h5>
-<pre><code class="language-cpp">display.setTextSize(2); // A partir d'ara, tot el text serà el doble de gran
-display.print(&quot;HOLA&quot;);
-</code></pre>
-<p><strong>Important:</strong> El canvi de mida es manté fins que tornis a cridar la funció amb un altre valor. Si fas un títol gran i oblides tornar a posar <code>setTextSize(1)</code>, la resta de les dades i menús s'imprimiran en lletres gegants i sortiran de la pantalla.</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="c1">// A partir d&#39;ara, tot el text serà el doble de gran</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;HOLA&quot;</span><span class="p">);</span>
+</code></pre></div>
+<strong>Important:</strong> El canvi de mida es manté fins que tornis a cridar la funció amb un altre valor. Si fas un títol gran i oblides tornar a posar <code>setTextSize(1)</code>, la resta de les dades i menús s'imprimiran en lletres gegants i sortiran de la pantalla.</p>
 <h5 id="limpacte-en-les-coordenades-setcursor">L'Impacte en les Coordenades (<code>setCursor</code>)</h5>
 <p>Aquest és el concepte de disseny més important per als alumnes: <strong>en canviar la mida del text, canvien les matemàtiques de l'espai</strong>.
 Si escrius una línia a la posició <code>y = 0</code> amb <code>setTextSize(1)</code>, la següent línia pot anar perfectament a <code>y = 10</code> (8 px que ocupa la lletra + 2 de marge). 
 Però si fas servir <code>setTextSize(2)</code>, la teva lletra ara ocupa 16 píxels d'alçada! La següent línia haurà d'anar com a mínim a <code>y = 18</code> o els textos se solaparan.</p>
 <h5 id="exemples-didactics">💡 Exemples Didàctics</h5>
-<pre><code class="language-cpp">// Crear una jerarquia visual (Títol i dada)
-display.setTextSize(1);
-display.setCursor(0, 0);
-display.print(&quot;Estat del sistema:&quot;); // Text explicatiu petit
+<div class="highlight"><pre><span></span><code><span class="c1">// Crear una jerarquia visual (Títol i dada)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Estat del sistema:&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Text explicatiu petit</span>
 
-display.setTextSize(2);
-display.setCursor(0, 15); // Baixem 15 píxels (els 8 del títol + marge)
-display.print(&quot;OK&quot;);      // Valor destacat en gran
-</code></pre>
+<span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">);</span><span class="w"> </span><span class="c1">// Baixem 15 píxels (els 8 del títol + marge)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;OK&quot;</span><span class="p">);</span><span class="w">      </span><span class="c1">// Valor destacat en gran</span>
+</code></pre></div>
 <h5 id="repte-practic-en-aula-el-titol-i-la-dada">🏋️ Repte Pràctic en Aula: "El Títol i la Dada"</h5>
 <p><strong>Objectiu:</strong> Crear una interfície que mostri la paraula "TEMPERATURA" a la part superior en mida normal (1), i just a sota, perfectament centrat, el valor "25 C" en mida gran (3).</p>
 <p><strong>El parany didàctic:</strong>
@@ -1127,15 +1127,15 @@ Els alumnes solen oblidar com de gran es torna el text en mida 3 (passa a ocupar
 2.  <strong>Nova coordenada Y per a la dada:</strong> El títol de dalt ocupa 8 px d'alçada. Deixem un marge i situem el cursor a <strong><code>y = 20</code></strong>.
 3.  <strong>Càlcul d'amplada per centrar "25 C":</strong> Aquesta dada té 4 caràcters. Com estem en mida 3, cada caràcter mesura 18 px d'ample. -&gt; 4 * 18 px = <strong>72 px d'amplada total</strong>.
 4.  <strong>Càlcul X per centrar la dada:</strong> (128 - 72) / 2 = <strong>28</strong>.</p>
-<p><strong>Solució esperada:</strong></p>
-<pre><code class="language-cpp">display.setTextSize(1);
-display.setCursor(30, 0);
-display.print(&quot;TEMPERATURA&quot;);
+<p><strong>Solució esperada:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;TEMPERATURA&quot;</span><span class="p">);</span>
 
-display.setTextSize(3);
-display.setCursor(28, 20); // X centrada matemàticament per a text gran
-display.print(&quot;25 C&quot;);
-</code></pre>
+<span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span><span class="w"> </span><span class="c1">// X centrada matemàticament per a text gran</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;25 C&quot;</span><span class="p">);</span>
+</code></pre></div></p>
 <hr />
 <h4 id="displaysettextcolor-triant-el-color-i-el-fons"><code>display.setTextColor();</code> — Triant el color i el fons</h4>
 <p>Defineix amb quina "tinta" escrivim. 
@@ -1143,27 +1143,25 @@ display.print(&quot;25 C&quot;);
 * <code>BLACK, WHITE</code>: Mode invertit (text negre sobre bloc blanc). Ideal per a menús seleccionats.</p>
 <p>En una pantalla OLED monocromàtica, no tenim colors, però tenim una cosa molt més útil: la capacitat de definir el <strong>color del text</strong> i el <strong>color del fons</strong>.</p>
 <h5 id="sintaxi-basica-fons-transparent">Sintaxi Bàsica (Fons Transparent)</h5>
-<pre><code class="language-cpp">display.setTextColor(WHITE);
-</code></pre>
-<p>És la forma més comuna. El fons de la lletra és <strong>transparent</strong>. El que hi hagi dibuixat a sota es veurà entre els forats de les lletres.</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">WHITE</span><span class="p">);</span>
+</code></pre></div>
+És la forma més comuna. El fons de la lletra és <strong>transparent</strong>. El que hi hagi dibuixat a sota es veurà entre els forats de les lletres.</p>
 <h5 id="sintaxi-avancada-fons-opac-mode-invertit">Sintaxi Avançada (Fons Opac / Mode Invertit)</h5>
-<p>Aquest és el "secret" per fer menús professionals i evitar errors visuals amb dades dinàmiques:</p>
-<pre><code class="language-cpp">display.setTextColor(BLACK, WHITE); // Lletra negra, fons blanc (ressaltat)
-display.setTextColor(WHITE, BLACK); // Lletra blanca, fons negre (esborrat local)
-</code></pre>
-<ul>
-<li><strong>Primer paràmetre:</strong> Color de la lletra.</li>
-<li><strong>Segon paràmetre:</strong> Color del fons de la lletra (una "caixa" opaca darrere el text).</li>
-</ul>
+<p>Aquest és el "secret" per fer menús professionals i evitar errors visuals amb dades dinàmiques:
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">BLACK</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span><span class="w"> </span><span class="c1">// Lletra negra, fons blanc (ressaltat)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">WHITE</span><span class="p">,</span><span class="w"> </span><span class="n">BLACK</span><span class="p">);</span><span class="w"> </span><span class="c1">// Lletra blanca, fons negre (esborrat local)</span>
+</code></pre></div>
+* <strong>Primer paràmetre:</strong> Color de la lletra.
+* <strong>Segon paràmetre:</strong> Color del fons de la lletra (una "caixa" opaca darrere el text).</p>
 <h5 id="exemple-comparatiu-de-dissenys">Exemple Comparatiu de Dissenys</h5>
-<pre><code class="language-cpp">// Cas A: Text estàndard
-display.setTextColor(WHITE);
-display.println(&quot;Mode Normal&quot;);
+<div class="highlight"><pre><span></span><code><span class="c1">// Cas A: Text estàndard</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">WHITE</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Mode Normal&quot;</span><span class="p">);</span>
 
-// Cas B: Text ressaltat (Seleccionat o Alerta)
-display.setTextColor(BLACK, WHITE); 
-display.println(&quot; SELECCIONAT &quot;);
-</code></pre>
+<span class="c1">// Cas B: Text ressaltat (Seleccionat o Alerta)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">BLACK</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span><span class="w"> </span>
+<span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot; SELECCIONAT &quot;</span><span class="p">);</span>
+</code></pre></div>
 <p><strong>Valor didàctic:</strong>
 * <strong>Llegibilitat:</strong> El contrast és clau. El mode invertit és excel·lent per a missatges d' "ERROR" o "PERILL".
 * <strong>Estalvi de codi:</strong> Usar <code>setTextColor(BLACK, WHITE)</code> estalvia haver de dibuixar rectangles amb <code>fillRect()</code> per crear botons.</p>
@@ -1178,35 +1176,33 @@ display.println(&quot; SELECCIONAT &quot;);
 <p>La pantalla OLED és un mapa de coordenades i podem indicar on decidim "posar el llapis".</p>
 <h5 id="el-sistema-de-coordenades-eixos-x-i-y">El Sistema de Coordenades (Eixos X i Y)</h5>
 <p>Alerta! En programació visual, l'Eix Y no funciona com a les classes de matemàtiques. L'origen no és al centre ni l'Eix Y creix cap amunt.</p>
-<pre><code class="language-text">(0,0) ------------&gt; Eix X (fins a 127)
+<p><div class="highlight"><pre><span></span><code>(0,0) ------------&gt; Eix X (fins a 127)
   |
   |
   v Eix Y (fins a 63)
-</code></pre>
-<ul>
-<li><strong>L'origen (0, 0):</strong> És la cantonada superior esquerra.</li>
-<li><strong>Eix X:</strong> Augmenta cap a la dreta.</li>
-<li><strong>Eix Y:</strong> Augmenta cap avall.</li>
-</ul>
+</code></pre></div>
+* <strong>L'origen (0, 0):</strong> És la cantonada superior esquerra.
+* <strong>Eix X:</strong> Augmenta cap a la dreta.
+* <strong>Eix Y:</strong> Augmenta cap avall.</p>
 <h5 id="sintaxi-i-funcionament_1">Sintaxi i Funcionament</h5>
-<pre><code class="language-cpp">display.setCursor(columna, fila);
-</code></pre>
-<p><strong>Important:</strong> El cursor defineix el "sostre" i el "marge esquerre" de la lletra. El text es dibuixarà des d'aquella coordenada cap a la dreta i <strong>cap avall</strong>. No intenteu alinear la base del text amb l'Eix Y o el text sortirà per sota de la pantalla.</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">columna</span><span class="p">,</span><span class="w"> </span><span class="n">fila</span><span class="p">);</span>
+</code></pre></div>
+<strong>Important:</strong> El cursor defineix el "sostre" i el "marge esquerre" de la lletra. El text es dibuixarà des d'aquella coordenada cap a la dreta i <strong>cap avall</strong>. No intenteu alinear la base del text amb l'Eix Y o el text sortirà per sota de la pantalla.</p>
 <h5 id="el-factor-mida-del-text">El factor "Mida del Text"</h5>
 <p>La mida (<code>setTextSize</code>) determina l'espai que ocuparà cada caràcter:
 * <strong>Mida 1:</strong> Ocupa un bloc de <strong>6x8 píxels</strong> (6 d'amplada per 8 d'alçada, incloent l'espai entre lletres).
 * Aquesta constant (6x8) és la clau per poder calcular posicions exactes abans de dibuixar.</p>
 <h5 id="exemples-didactics_1">💡 Exemples Didàctics</h5>
-<pre><code class="language-cpp">// A. Escriure a les cantonades (Tenint en compte l'alçada del text!)
-display.setCursor(0, 0);   display.print(&quot;Dalt&quot;);
-display.setCursor(0, 56);  display.print(&quot;Baix&quot;); // 64 (fons) - 8 (alçada lletra) = 56
+<div class="highlight"><pre><span></span><code><span class="c1">// A. Escriure a les cantonades (Tenint en compte l&#39;alçada del text!)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">   </span><span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Dalt&quot;</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">56</span><span class="p">);</span><span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Baix&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 64 (fons) - 8 (alçada lletra) = 56</span>
 
-// B. Formatar dades separades
-display.setCursor(0, 10);
-display.print(&quot;TEMP:&quot;); 
-display.setCursor(60, 10); // Desplacem el cursor a la dreta per posar el valor
-display.print(25.4);
-</code></pre>
+<span class="c1">// B. Formatar dades separades</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;TEMP:&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w"> </span><span class="c1">// Desplacem el cursor a la dreta per posar el valor</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="mf">25.4</span><span class="p">);</span>
+</code></pre></div>
 <h5 id="repte-practic-en-aula-el-centre-exacte">🏋️ Repte Pràctic en Aula: "El Centre Exacte"</h5>
 <p><strong>Objectiu:</strong> Fer que la paraula "HOLA" aparegui el més centrada possible a la pantalla OLED, tant verticalment com horitzontalment.</p>
 <p><strong>El parany didàctic:</strong>
@@ -1216,10 +1212,10 @@ Molts alumnes escriuran instintivament <code>display.setCursor(64, 32);</code> (
 2. Identifiqueu l'alçada per defecte: <strong>8 píxels d'alçada</strong>.
 3. <strong>Càlcul X:</strong> (Amplada Pantalla - Amplada Text) / 2  --&gt;  (128 - 24) / 2 = <strong>52</strong>
 4. <strong>Càlcul Y:</strong> (Alçada Pantalla - Alçada Text) / 2  --&gt;  (64 - 8) / 2 = <strong>28</strong></p>
-<p><strong>Solució esperada:</strong></p>
-<pre><code class="language-cpp">display.setCursor(52, 28);
-display.print(&quot;HOLA&quot;);
-</code></pre>
+<p><strong>Solució esperada:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">52</span><span class="p">,</span><span class="w"> </span><span class="mi">28</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;HOLA&quot;</span><span class="p">);</span>
+</code></pre></div></p>
 <hr />
 <hr />
 <h4 id="displayprintln-vs-displayprint-el-salt-de-linia"><code>display.println();</code> vs <code>display.print();</code> — El Salt de Línia</h4>
@@ -1234,37 +1230,37 @@ display.print(&quot;HOLA&quot;);
 2. <strong>L'Eix Y augmenta:</strong> El cursor baixa automàticament l'equivalent a l'alçada del text actual (per exemple, baixa 8 píxels si estem a <code>setTextSize(1)</code>).</p>
 <h5 id="exemples-didactics_2">💡 Exemples Didàctics</h5>
 <p>Aquesta instrucció és molt útil per crear llistes ràpides sense haver d'escriure un <code>setCursor</code> per a cada línia:</p>
-<pre><code class="language-cpp">// Crear un llistat alineat a l'esquerra ràpidament
-display.setCursor(0, 0);
+<div class="highlight"><pre><span></span><code><span class="c1">// Crear un llistat alineat a l&#39;esquerra ràpidament</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 
-display.println(&quot;Llista de sensors:&quot;); // Escriu i baixa de línia
-display.println(&quot;- Temperatura&quot;);      // S'escriu a sota
-display.println(&quot;- Humitat&quot;);          // S'escriu a sota
-</code></pre>
+<span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Llista de sensors:&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Escriu i baixa de línia</span>
+<span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;- Temperatura&quot;</span><span class="p">);</span><span class="w">      </span><span class="c1">// S&#39;escriu a sota</span>
+<span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;- Humitat&quot;</span><span class="p">);</span><span class="w">          </span><span class="c1">// S&#39;escriu a sota</span>
+</code></pre></div>
 <h5 id="repte-practic-en-aula-el-menu-desalineat">Repte Pràctic en Aula: "El Menú Desalineat"</h5>
 <p><strong>Objectiu:</strong> Crear un menú de tres opcions. Perquè quedi bonic, tot el menú ha de tenir un marge esquerre, és a dir, ha de començar a la posició X = 15.</p>
 <p><strong>El parany didàctic:</strong>
-Veient l'exemple anterior de les llistes ràpides, els alumnes pensaran que només han de moure el primer <code>setCursor</code> i que <code>println</code> farà la resta de la màgia:</p>
-<pre><code class="language-cpp">// L'error típic de l'alumne:
-display.setCursor(15, 0);
-display.println(&quot;1. Jugar&quot;);
-display.println(&quot;2. Opcions&quot;);
-display.println(&quot;3. Sortir&quot;);
-</code></pre>
-<p>Quan executin això, veuran que "1. Jugar" té el marge correcte (comença a X=15), però "2. Opcions" i "3. Sortir" <strong>s'han enganxat completament al marge esquerre!</strong></p>
+Veient l'exemple anterior de les llistes ràpides, els alumnes pensaran que només han de moure el primer <code>setCursor</code> i que <code>println</code> farà la resta de la màgia:
+<div class="highlight"><pre><span></span><code><span class="c1">// L&#39;error típic de l&#39;alumne:</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;1. Jugar&quot;</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;2. Opcions&quot;</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;3. Sortir&quot;</span><span class="p">);</span>
+</code></pre></div>
+Quan executin això, veuran que "1. Jugar" té el marge correcte (comença a X=15), però "2. Opcions" i "3. Sortir" <strong>s'han enganxat completament al marge esquerre!</strong></p>
 <p><strong>Guia de resolució:</strong>
 Aquest repte serveix perquè l'alumne descobreixi per si mateix la mecànica interna del <code>println()</code>. Cal explicar-los que l'"Enter" de la pantalla OLED <em>sempre</em> retorna el carro al quilòmetre zero (<code>X = 0</code>). 
 Si volen una llista indentada, no poden dependre exclusivament del <code>println()</code>; hauran de recol·locar manualment la X i la Y de cada línia amb <code>setCursor()</code>, o bé fer servir espais en blanc <code>"   2. Opcions"</code> (una "trampa" molt habitual i pràctica en programació d'interfícies bàsiques).</p>
-<p><strong>Solució esperada (Mètode del control total):</strong></p>
-<pre><code class="language-cpp">display.setCursor(15, 0);
-display.print(&quot;1. Jugar&quot;);
+<p><strong>Solució esperada (Mètode del control total):</strong>
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;1. Jugar&quot;</span><span class="p">);</span>
 
-display.setCursor(15, 10);
-display.print(&quot;2. Opcions&quot;);
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;2. Opcions&quot;</span><span class="p">);</span>
 
-display.setCursor(15, 20);
-display.print(&quot;3. Sortir&quot;);
-</code></pre>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;3. Sortir&quot;</span><span class="p">);</span>
+</code></pre></div></p>
 <hr />
 <h4 id="displaydisplay-el-gallet-dimpressio"><code>display.display();</code> — El Gallet d'Impressió</h4>
 <p>Ho vam mencionar a la secció de l'esborrador màgic, però mereix el seu propi espai. El gran secret de la llibreria Adafruit és que cap instrucció de dibuix (ni textos, ni línies) va directament a la pantalla física. Totes van al buffer invisible.</p>
@@ -1280,26 +1276,24 @@ display.print(&quot;3. Sortir&quot;);
 <h4 id="displaydrawrect-i-displayfillrect-creant-interficies"><code>display.drawRect();</code> i <code>display.fillRect();</code> — Creant Interfícies</h4>
 <p>Escriure números està bé, però la programació visual consisteix en crear gràfics. Dibuixar rectangles permet crear marcs per agrupar informació o botons visuals per als menús.</p>
 <h5 id="sintaxi-de-geometria">Sintaxi de Geometria</h5>
-<p>Les coordenades d'un rectangle necessiten 4 números clau:</p>
-<pre><code class="language-cpp">// drawRect dibuixa només el contorn (una caixa buida)
-display.drawRect(x, y, amplada, alçada, WHITE);
+<p>Les coordenades d'un rectangle necessiten 4 números clau:
+<div class="highlight"><pre><span></span><code><span class="c1">// drawRect dibuixa només el contorn (una caixa buida)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">drawRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">amplada</span><span class="p">,</span><span class="w"> </span><span class="n">alçada</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span>
 
-// fillRect dibuixa un rectangle sòlid (ple)
-display.fillRect(x, y, amplada, alçada, WHITE);
-</code></pre>
-<ul>
-<li><strong><code>x, y</code></strong>: Són la cantonada superior esquerra del rectangle.</li>
-<li><strong><code>amplada, alçada</code></strong>: En píxels.</li>
-</ul>
+<span class="c1">// fillRect dibuixa un rectangle sòlid (ple)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">fillRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">amplada</span><span class="p">,</span><span class="w"> </span><span class="n">alçada</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span>
+</code></pre></div>
+* <strong><code>x, y</code></strong>: Són la cantonada superior esquerra del rectangle.
+* <strong><code>amplada, alçada</code></strong>: En píxels.</p>
 <h5 id="exemples-didactics_3">Exemples Didàctics</h5>
-<pre><code class="language-cpp">// A. Crear un marc al voltant de tota la pantalla
-display.drawRect(0, 0, 128, 64, WHITE);
+<div class="highlight"><pre><span></span><code><span class="c1">// A. Crear un marc al voltant de tota la pantalla</span>
+<span class="n">display</span><span class="p">.</span><span class="n">drawRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span>
 
-// B. Crear un &quot;botó&quot; seleccionat amb text a sobre
-display.fillRect(10, 10, 60, 20, WHITE); 
-display.setTextColor(BLACK); // Text negre per llegir-se sobre el fons blanc
-display.setCursor(15, 15);display.print(&quot; BOTON 1 &quot;);
-</code></pre>
+<span class="c1">// B. Crear un &quot;botó&quot; seleccionat amb text a sobre</span>
+<span class="n">display</span><span class="p">.</span><span class="n">fillRect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span><span class="w"> </span>
+<span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">BLACK</span><span class="p">);</span><span class="w"> </span><span class="c1">// Text negre per llegir-se sobre el fons blanc</span>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">);</span><span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot; BOTON 1 &quot;</span><span class="p">);</span>
+</code></pre></div>
 <h5 id="repte-practic-en-aula-la-barra-de-progres-nivell-avancat">Repte Pràctic en Aula: "La Barra de Progrés" (Nivell Avançat)</h5>
 <p><strong>Objectiu:</strong> Convertir un valor numèric d'un sensor (ex: un potenciòmetre) en una barra visual que s'omple.
 <strong>Guia de resolució (Pas a pas):</strong>
@@ -1316,9 +1310,9 @@ display.setCursor(15, 15);display.print(&quot; BOTON 1 &quot;);
 <p>L'OLED no pot obrir fitxers <code>.jpg</code> o <code>.png</code>. L'ESP32 només entén dades pures (matrius de bits).
 Per usar aquesta funció, l'alumne ha d'anar a una web gratuïta (com <em>image2cpp</em>), pujar la seva imatge, i la web generarà un codi estrany (un <em>Array</em> de caràcters HEX com <code>0xFF, 0x00...</code>) que cal enganxar al principi del codi.</p>
 <h5 id="2-sintaxi">2. Sintaxi</h5>
-<pre><code class="language-cpp">// Suposem que tenim un array anomenat 'icona_cor' de 16x16 píxels
-display.drawBitmap(x, y, icona_cor, amplada_imatge, alçada_imatge, WHITE);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// Suposem que tenim un array anomenat &#39;icona_cor&#39; de 16x16 píxels</span>
+<span class="n">display</span><span class="p">.</span><span class="n">drawBitmap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">icona_cor</span><span class="p">,</span><span class="w"> </span><span class="n">amplada_imatge</span><span class="p">,</span><span class="w"> </span><span class="n">alçada_imatge</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span>
+</code></pre></div>
 <h5 id="repte-practic-en-aula-el-cor-bategant">🏋️ Repte Pràctic en Aula: "El Cor Bategant"</h5>
 <p><strong>Objectiu:</strong> Alternar entre dues icones per crear una animació.
 <strong>Guia de resolució:</strong> Proporciona als alumnes dos codis array: un d'un cor gran (<code>cor_gran</code>) i un d'un cor petit (<code>cor_petit</code>). A dins del <code>loop()</code>:
@@ -1341,19 +1335,19 @@ display.drawBitmap(x, y, icona_cor, amplada_imatge, alçada_imatge, WHITE);
 <p>Tenim instruccions per moure la pantalla cap a la dreta, cap a l'esquerra i, fins i tot, en diagonal.
 L'únic que cal saber és que la pantalla es divideix en <strong>8 "pàgines" horitzontals</strong> (de la 0 a la 7). Cada pàgina té 8 píxels d'alçada. (La paraula pàgina fa referència a pàgines de memòria, no a "pantalles". Cada pàgina de memòria conté la informació de 8 línies de pantalla).</p>
 <p>Per moure tota la pantalla (de dalt a baix), li direm que mogui des de la pàgina 0 (<code>0x00</code>) fins a la 7 (<code>0x07</code>).</p>
-<pre><code class="language-cpp">// Desplaçament cap a la dreta
-display.startscrollright(0x00, 0x07);
+<div class="highlight"><pre><span></span><code><span class="c1">// Desplaçament cap a la dreta</span>
+<span class="n">display</span><span class="p">.</span><span class="n">startscrollright</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span>
 
-// Desplaçament cap a l'esquerra
-display.startscrollleft(0x00, 0x07);
+<span class="c1">// Desplaçament cap a l&#39;esquerra</span>
+<span class="n">display</span><span class="p">.</span><span class="n">startscrollleft</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span>
 
-// Desplaçament en diagonal
-display.startscrolldiagright(0x00, 0x07);
-</code></pre>
+<span class="c1">// Desplaçament en diagonal</span>
+<span class="n">display</span><span class="p">.</span><span class="n">startscrolldiagright</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span>
+</code></pre></div>
 <h4 id="aturar-lanimacio">Aturar l'animació</h4>
-<p>Com que l'OLED fa això de forma autònoma, seguirà movent el text fins a l'infinit. Per aturar-ho, necessitem una instrucció de fre:</p>
-<pre><code class="language-cpp">display.stopscroll();
-</code></pre>
+<p>Com que l'OLED fa això de forma autònoma, seguirà movent el text fins a l'infinit. Per aturar-ho, necessitem una instrucció de fre:
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">stopscroll</span><span class="p">();</span>
+</code></pre></div></p>
 <h4 id="important-la-regla-dor-del-scroll-per-actualitzar-el-text">IMPORTANT:  La Regla d'Or del Scroll per actualitzar el text</h4>
 <p>Aquesta és la instrucció més estranya de tota la llibreria: <strong>no es pot dibuixar res de nou a la pantalla mentre el scroll està actiu</strong>. Si vols actualitzar una dada del sensor, l'ordre correcte ha de ser:
 1. <code>display.stopscroll();</code> (Aturem l'animació)
@@ -1363,40 +1357,40 @@ display.startscrolldiagright(0x00, 0x07);
 <h4 id="repte-practic-en-aula-el-retol-tremolos">🏋️ Repte Pràctic en Aula: "El Rètol Tremolós"</h4>
 <p><strong>Objectiu:</strong> Crear un text que digui "ATENCIO: PERILL!" i fer que llisqui contínuament cap a l'esquerra.</p>
 <p><strong>El parany didàctic:</strong>
-Els alumnes, acostumats a que tot allò que es mou vagi dins del <code>loop()</code>, escriuran el codi de la següent manera:</p>
-<pre><code class="language-cpp">// ERROR TÍPIC DE L'ALUMNE
-void loop() {
-  display.clearDisplay();
-  display.setCursor(0, 30);
-  display.print(&quot;ATENCIO: PERILL!&quot;);
-  display.display();
+Els alumnes, acostumats a que tot allò que es mou vagi dins del <code>loop()</code>, escriuran el codi de la següent manera:
+<div class="highlight"><pre><span></span><code><span class="c1">// ERROR TÍPIC DE L&#39;ALUMNE</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;ATENCIO: PERILL!&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
 
-  display.startscrollleft(0x00, 0x07); // Ordenen fer scroll constantment!
-}
-</code></pre>
-<p><strong>Què passarà?</strong> En lloc de lliscar suaument, la pantalla es quedarà quieta, tremolant molt de pressa o parpellejant. Això passa perquè a cada mil·lisegon li estan dient a la pantalla "comença a moure't", reiniciant l'animació contínuament abans que hagi pogut avançar ni un sol píxel.</p>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">startscrollleft</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span><span class="w"> </span><span class="c1">// Ordenen fer scroll constantment!</span>
+<span class="p">}</span>
+</code></pre></div>
+<strong>Què passarà?</strong> En lloc de lliscar suaument, la pantalla es quedarà quieta, tremolant molt de pressa o parpellejant. Això passa perquè a cada mil·lisegon li estan dient a la pantalla "comença a moure't", reiniciant l'animació contínuament abans que hagi pogut avançar ni un sol píxel.</p>
 <p><strong>Guia de resolució:</strong>
 Explica'ls que <code>startscroll</code> és com prémer el botó de "Play" d'una cadena de música. Només cal prémer-lo <strong>una vegada</strong>.</p>
 <p><strong>Solució esperada:</strong>
 El disseny i l'ordre d'animació han d'anar al <code>setup()</code> (si és un text estàtic), o protegit amb condicionals perquè només s'executi una vegada.</p>
-<pre><code class="language-cpp">void setup() {
-  // ... (iniciem display) ...
-  display.clearDisplay();
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ... (iniciem display) ...</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
 
-  display.setTextSize(2);
-  display.setCursor(0, 20);
-  display.print(&quot;PERILL!&quot;);
-  display.display();
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;PERILL!&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
 
-  // Premem el botó &quot;Play&quot; només UN COP al setup
-  display.startscrollleft(0x00, 0x07); 
-}
+<span class="w">  </span><span class="c1">// Premem el botó &quot;Play&quot; només UN COP al setup</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">startscrollleft</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span>
 
-void loop() {
-  // El loop es queda buit. El xip de la pantalla 
-  // fa l'animació per nosaltres i l'ESP32 pot descansar.
-}
-</code></pre>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// El loop es queda buit. El xip de la pantalla </span>
+<span class="w">  </span><span class="c1">// fa l&#39;animació per nosaltres i l&#39;ESP32 pot descansar.</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="displayinvertdisplay-lalarma-visual-rapida"><code>display.invertDisplay();</code> — L'Alarma Visual Ràpida</h2>
 <p>Una manera espectacular i molt senzilla de cridar l'atenció de l'usuari si un sensor detecta un problema (excés de temperatura, proximitat d'obstacle, etc.).</p>
 <h3 id="1-funcionament">1. Funcionament</h3>
@@ -1408,16 +1402,16 @@ void loop() {
 <p><strong>Anotació vital:</strong> A diferència de les funcions de dibuix, aquesta instrucció té efecte <strong>immediat</strong> sobre la pantalla física, no cal fer un <code>display.display()</code> just després.</p>
 <h3 id="repte-practic-en-aula-mode-panic">🏋️ Repte Pràctic en Aula: "Mode Pànic"</h3>
 <p><strong>Objectiu:</strong> Si el botó d'emergència està premut, la pantalla ha de parpellejar com una alarma sense esborrar la interfície.
-<strong>Solució esperada:</strong></p>
-<pre><code class="language-cpp">if (digitalRead(BOTO_PIN) == HIGH) {
-  display.invertDisplay(true);
-  delay(100);
-  display.invertDisplay(false);
-  delay(100);
-} else {
-  display.invertDisplay(false); // Assegurem que en mode normal es veu bé
-}
-</code></pre>
+<strong>Solució esperada:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">BOTO_PIN</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">HIGH</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">invertDisplay</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">invertDisplay</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">invertDisplay</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span><span class="w"> </span><span class="c1">// Assegurem que en mode normal es veu bé</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <hr />
 <h2 id="lletres-amb-accent-i-caracters-especials-c-n-o">🌍 Lletres amb accent i caràcters especials (ç, ñ, º)</h2>
 <p>Segurament ja has intentat escriure la paraula "Menú" i has vist que a la pantalla apareix una cosa semblant a <code>MenÃº</code>. Què ha passat? </p>
@@ -1446,20 +1440,20 @@ Per imprimir un símbol exacte d'aquesta taula secreta, usem <strong><code>write
 2. Imprimir el símbol especial amb <code>write()</code>.
 3. Imprimir la resta de la paraula.</p>
 <h3 id="exemples-didactics_4">💡 Exemples Didàctics</h3>
-<pre><code class="language-cpp">// Volem escriure &quot;Menú&quot;
-display.print(&quot;Men&quot;);   // 1. Text normal
-display.write(163);     // 2. Codi de la 'ú'
-// Com que és el final de la paraula, no cal el pas 3
+<div class="highlight"><pre><span></span><code><span class="c1">// Volem escriure &quot;Menú&quot;</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Men&quot;</span><span class="p">);</span><span class="w">   </span><span class="c1">// 1. Text normal</span>
+<span class="n">display</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">163</span><span class="p">);</span><span class="w">     </span><span class="c1">// 2. Codi de la &#39;ú&#39;</span>
+<span class="c1">// Com que és el final de la paraula, no cal el pas 3</span>
 
-// Volem escriure &quot;Opció&quot;
-display.print(&quot;Opci&quot;);
-display.write(162);     // Codi de la 'ó'
+<span class="c1">// Volem escriure &quot;Opció&quot;</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Opci&quot;</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">162</span><span class="p">);</span><span class="w">     </span><span class="c1">// Codi de la &#39;ó&#39;</span>
 
-// Volem escriure &quot;25 ºC&quot; (Temperatura)
-display.print(&quot;25 &quot;);
-display.write(167);     // Símbol de graus (º)
-display.print(&quot;C&quot;);
-</code></pre>
+<span class="c1">// Volem escriure &quot;25 ºC&quot; (Temperatura)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;25 &quot;</span><span class="p">);</span>
+<span class="n">display</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">167</span><span class="p">);</span><span class="w">     </span><span class="c1">// Símbol de graus (º)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;C&quot;</span><span class="p">);</span>
+</code></pre></div>
 <h3 id="repte-practic-en-aula-el-menu-correcte">🏋️ Repte Pràctic en Aula: "El Menú Correcte"</h3>
 <p><strong>Objectiu:</strong> Crear un text centrat que digui "Configuració", escrit perfectament amb l'accent i la ce trencada, sense errors visuals.</p>
 <p><strong>El parany didàctic:</strong>
@@ -1467,13 +1461,13 @@ Molts alumnes intentaran posar <code>display.println("Configura")</code> seguit 
 També hauran de buscar els codis de la 'ç' i la 'ó' i assegurar-se de posar-los en l'ordre correcte.</p>
 <p><strong>Guia de resolució:</strong>
 Recorda'ls que han de fer servir només <code>print()</code> per assegurar-se que el cursor no baixa de línia fins que hagin acabat de construir la paraula completa.</p>
-<p><strong>Solució esperada:</strong></p>
-<pre><code class="language-cpp">display.setCursor(20, 20); // Centrem el text més o menys
-display.print(&quot;Configura&quot;); // Tros 1
-display.write(135);         // 'ç' (codi 135)
-display.print(&quot;i&quot;);         // Tros 2
-display.write(162);         // 'ó' (codi 162)
-</code></pre>
+<p><strong>Solució esperada:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span><span class="w"> </span><span class="c1">// Centrem el text més o menys</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Configura&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Tros 1</span>
+<span class="n">display</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">135</span><span class="p">);</span><span class="w">         </span><span class="c1">// &#39;ç&#39; (codi 135)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;i&quot;</span><span class="p">);</span><span class="w">         </span><span class="c1">// Tros 2</span>
+<span class="n">display</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">162</span><span class="p">);</span><span class="w">         </span><span class="c1">// &#39;ó&#39; (codi 162)</span>
+</code></pre></div></p>
 <hr />
 <h2 id="el-truc-magic-automatitzar-els-accents-nivell-pro">🪄 El Truc Màgic: Automatitzar els accents (Nivell Pro)</h2>
 <p>Escriure codis numèrics lletra per lletra cada vegada que volem posar un accent pot ser molt pesat. Per sort, els programadors som mandrosos per naturalesa i ens agrada automatitzar les coses. </p>
@@ -1481,31 +1475,31 @@ display.write(162);         // 'ó' (codi 162)
 <p>Això ho podem aconseguir creant la nostra pròpia instrucció. Li direm <strong><code>printCat</code></strong> (de <em>print Català</em>).</p>
 <h3 id="1-la-capsa-negra-la-funcio">1. La "Capsa Negra" (La Funció)</h3>
 <p>Al final de tot del teu codi (fora del <code>loop</code> i del <code>setup</code>), copia i enganxa aquest bloc. Aquesta funció agafarà qualsevol text que li passis, buscarà les lletres rebels i les canviarà pel seu codi numèric abans d'enviar-les a la pantalla.</p>
-<pre><code class="language-cpp">// Funció personalitzada per escriure en català/castellà sense patir
-void printCat(String text) {
-  text.replace(&quot;à&quot;, String((char)133));
-  text.replace(&quot;è&quot;, String((char)138));
-  text.replace(&quot;é&quot;, String((char)130));
-  text.replace(&quot;í&quot;, String((char)161));
-  text.replace(&quot;ò&quot;, String((char)149));
-  text.replace(&quot;ó&quot;, String((char)162));
-  text.replace(&quot;ú&quot;, String((char)163));
-  text.replace(&quot;ç&quot;, String((char)135));
-  text.replace(&quot;ñ&quot;, String((char)164));
-  text.replace(&quot;º&quot;, String((char)167));
+<div class="highlight"><pre><span></span><code><span class="c1">// Funció personalitzada per escriure en català/castellà sense patir</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">printCat</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">text</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;à&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">133</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;è&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">138</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;é&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">130</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;í&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">161</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;ò&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">149</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;ó&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">162</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;ú&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">163</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;ç&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">135</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;ñ&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">164</span><span class="p">));</span>
+<span class="w">  </span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;º&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">((</span><span class="kt">char</span><span class="p">)</span><span class="mi">167</span><span class="p">));</span>
 
-  display.print(text); // Un cop corregit, l'imprimim de cop
-}
-</code></pre>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">text</span><span class="p">);</span><span class="w"> </span><span class="c1">// Un cop corregit, l&#39;imprimim de cop</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="2-com-sutilitza">2. Com s'utilitza?</h3>
 <p>Ara, a dins del teu <code>loop()</code>, pots oblidar-te per sempre del <code>display.print()</code> clàssic quan escriguis text normal, i usar la teva nova super-instrucció:</p>
-<pre><code class="language-cpp">display.setCursor(10, 10);
-// En lloc de display.print, usem la nostra funció:
-printCat(&quot;Menú de Configuració&quot;); 
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="c1">// En lloc de display.print, usem la nostra funció:</span>
+<span class="n">printCat</span><span class="p">(</span><span class="s">&quot;Menú de Configuració&quot;</span><span class="p">);</span><span class="w"> </span>
 
-display.setCursor(10, 30);
-printCat(&quot;Temperatura: 25 ºC&quot;);
-</code></pre>
+<span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="n">printCat</span><span class="p">(</span><span class="s">&quot;Temperatura: 25 ºC&quot;</span><span class="p">);</span>
+</code></pre></div>
 <h3 id="repte-practic-en-aula-ampliant-el-diccionari">🏋️ Repte Pràctic en Aula: "Ampliant el Diccionari"</h3>
 <p><strong>Objectiu:</strong> Entendre com funciona la funció i millorar-la per afegir nous caràcters.</p>
 <p><strong>Instruccions:</strong> 1. Demana als alumnes que intentin imprimir el text: <code>"L'aigua està a 100 °C"</code>.
@@ -1526,19 +1520,19 @@ printCat(&quot;Temperatura: 25 ºC&quot;);
 </ul>
 <h3 id="2-on-es-posa">2. On es posa?</h3>
 <p>Com que normalment volem que la pantalla estigui girada des del primer segon i per sempre, aquesta instrucció no es posa al <code>loop()</code>, sinó al <strong><code>setup()</code></strong>, just després del <code>display.begin()</code>.</p>
-<pre><code class="language-cpp">void setup() {
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(&quot;Error OLED&quot;);
-    for(;;);
-  }
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">display</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">SSD1306_SWITCHCAPVCC</span><span class="p">,</span><span class="w"> </span><span class="mh">0x3C</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Error OLED&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(;;);</span>
+<span class="w">  </span><span class="p">}</span>
 
-  // Girem la pantalla 180 graus perquè hem muntat els pins cap a baix
-  display.setRotation(2); 
+<span class="w">  </span><span class="c1">// Girem la pantalla 180 graus perquè hem muntat els pins cap a baix</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setRotation</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span>
 
-  display.clearDisplay();
-  display.display();
-}
-</code></pre>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
+<span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="3-la-regla-dor-de-les-coordenades">3. La regla d'or de les coordenades</h3>
 <p>És vital explicar això als alumnes: <strong>quan girem la pantalla, l'Eix X i l'Eix Y giren amb ella</strong>.
 L'origen <code>(0, 0)</code> sempre serà la cantonada superior esquerra del text tal com el llegeixes, independentment de cap a on mirin els pins físics de la placa. No cal recalcular res del disseny si fem servir el gir de 180º (<code>setRotation(2)</code>).</p>
@@ -1549,10 +1543,10 @@ Demana'ls que girin la pantalla 90 graus amb <code>display.setRotation(1);</code
 El que veuran és que la línia es talla a la meitat i no arriba al final!</p>
 <p><strong>Guia de resolució:</strong>
 Aquest repte visual els farà entendre que les matemàtiques de l'espai han canviat. Al girar-la 90 graus, l'amplada màxima ja no és 128, ara és <strong>64</strong>. I l'alçada ja no és 64, ara és <strong>128</strong>! </p>
-<p>Perquè la línia creui la nova pantalla vertical d'esquerra a dreta, hauran de modificar el codi a:</p>
-<pre><code class="language-cpp">display.setRotation(1); // Mode vertical (64x128)
-display.drawLine(0, 10, 63, 10, WHITE); // La X només arriba fins a 63!
-</code></pre>
+<p>Perquè la línia creui la nova pantalla vertical d'esquerra a dreta, hauran de modificar el codi a:
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">setRotation</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// Mode vertical (64x128)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">drawLine</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">63</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">WHITE</span><span class="p">);</span><span class="w"> </span><span class="c1">// La X només arriba fins a 63!</span>
+</code></pre></div></p>
 <hr />
 <ul>
 <li><strong>Pàgina 0:</strong> Píxels del 0 al 7 (part superior).</li>
@@ -1561,25 +1555,25 @@ display.drawLine(0, 10, 63, 10, WHITE); // La X només arriba fins a 63!
 <p>Si volem moure tota la pantalla, haurem de dir-li que vagi de la <code>0x00</code> a la <code>0x07</code>.</p>
 <h3 id="2-comandes-de-scroll-horitzontal">2. Comandes de Scroll Horitzontal</h3>
 <p>Podem moure el text cap a la dreta o cap a l'esquerra amb una sola línia de codi:</p>
-<pre><code class="language-cpp">// Desplaçament cap a la dreta
-// Paràmetres: (pàgina_inici, pàgina_final)
-display.startscrollright(0x00, 0x07);
+<div class="highlight"><pre><span></span><code><span class="c1">// Desplaçament cap a la dreta</span>
+<span class="c1">// Paràmetres: (pàgina_inici, pàgina_final)</span>
+<span class="n">display</span><span class="p">.</span><span class="n">startscrollright</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span>
 
-// Desplaçament cap a l'esquerra
-display.startscrollleft(0x00, 0x07);
-</code></pre>
+<span class="c1">// Desplaçament cap a l&#39;esquerra</span>
+<span class="n">display</span><span class="p">.</span><span class="n">startscrollleft</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span>
+</code></pre></div>
 <h3 id="3-desplacament-diagonal">3. Desplaçament Diagonal</h3>
 <p>També és possible fer que el text pugi o baixi en diagonal. Això és molt útil per a efectes de crèdits o estètica "retro".</p>
-<pre><code class="language-cpp">// Desplaçament diagonal cap a la dreta i amunt
-display.startscrolldiagright(0x00, 0x07);
+<div class="highlight"><pre><span></span><code><span class="c1">// Desplaçament diagonal cap a la dreta i amunt</span>
+<span class="n">display</span><span class="p">.</span><span class="n">startscrolldiagright</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span>
 
-// Desplaçament diagonal cap a l'esquerra i amunt
-display.startscrolldiagleft(0x00, 0x07);
-</code></pre>
+<span class="c1">// Desplaçament diagonal cap a l&#39;esquerra i amunt</span>
+<span class="n">display</span><span class="p">.</span><span class="n">startscrolldiagleft</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x07</span><span class="p">);</span>
+</code></pre></div>
 <h3 id="4-aturar-lanimacio">4. Aturar l'animació</h3>
 <p>És obligatori aturar el moviment si volem escriure coses noves a la pantalla o si volem que el text es quedi quiet:</p>
-<pre><code class="language-cpp">display.stopscroll();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">.</span><span class="n">stopscroll</span><span class="p">();</span>
+</code></pre></div>
 <h3 id="regles-dor-per-a-lus-del-scroll">⚠️ Regles d'or per a l'ús del Scroll</h3>
 <ul>
 <li><strong>El botó "Play":</strong> Les instruccions <code>startscroll</code> són com un interruptor. Només cal cridar-les una vegada (normalment al <code>setup()</code> o dins d'un <code>if</code>). Si les poses al <code>loop()</code> sense control, l'animació es reiniciarà constantment i veuràs un parpelleig estrany.</li>

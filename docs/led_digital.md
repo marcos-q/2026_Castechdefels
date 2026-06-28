@@ -2,15 +2,21 @@
 En aquesta secció aprendrem a controlar un LED de manera digital (encès o apagat) per donar vida a la nostra mascota robòtica creant un efecte de batec de cor.
 
 ## Exemples 
-Per seguir aquests exemples donem per fet que coneixem les instruccions associades a `digitalWrite()` i a `delay()`.
+Per seguir aquests exemples donem per fet que coneixem les instruccions associades a `digitalWrite()`, `delay()`, i a `Serial.prinln()`.
+
 
 
 - ### El batec bàsic (Pum-pum)
 
     El primer objectiu és simular el batec d'un cor utilitzant la instrucció fonamental d'espera: el `delay()`. Aquesta funció atura l'execució del microcontrolador durant els mil·lisegons que li indiquem.
 
-    [Codi de l'exemple](./Exemples/ESP_C3_LED_cor/ESP_C3_LED_cor.ino)
+??? example "EXEMPLE: Fes clic aquí per desplegar i llegir el codi sencer"
 
+    Aquest és el codi. Pots copiar-lo in engangar-lo al teu editor fent clic a la icona de copiar, adalt a la dreta d'aquesta caixa.
+
+    ```Arduino title="ESP_C3_LED_cor.ino"
+    --8<-- "Exemples/ESP_C3_LED_cor/ESP_C3_LED_cor.ino"
+    ```
 
 
 
