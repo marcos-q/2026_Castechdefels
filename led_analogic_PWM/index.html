@@ -25,7 +25,7 @@
     
     
       
-        <title>LED Analògic (PWM) - CasTECHdefels 2026. Projectes connectats... amb el soldador a la mà.</title>
+        <title>LED, sordita analògica (PWM) - CasTECHdefels 2026. Projectes connectats... amb el soldador a la mà.</title>
       
     
     
@@ -75,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#led-sortida-analogica-pwm" class="md-skip">
+          Salta el contingut
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -105,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              LED Analògic (PWM)
+              LED, sordita analògica (PWM)
             
           </span>
         </div>
@@ -432,7 +437,7 @@
   <span class="md-ellipsis">
     
   
-    LED Digital (El Batec)
+    LED, sortida digital
   
 
     
@@ -459,6 +464,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LED, sordita analògica (PWM)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -467,7 +492,7 @@
   <span class="md-ellipsis">
     
   
-    LED Analògic (PWM)
+    LED, sordita analògica (PWM)
   
 
     
@@ -477,34 +502,64 @@
 
       </a>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../respiracio_delay.md" class="md-nav__link">
         
+
+<nav class="md-nav md-nav--secondary" aria-label="Taula de continguts">
   
   
-  <span class="md-ellipsis">
+  
     
   
-    Efecte Respiració
   
-
-    
-  </span>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Taula de continguts
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exemples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exemples
+      
+    </span>
+  </a>
   
+    <nav class="md-nav" aria-label="Exemples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemple-basic-4-nivells-de-brillantor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exemple bàsic: 4 nivells de brillantor
+      
+    </span>
+  </a>
   
-
-      </a>
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efecte-respiracio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Efecte respiració
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -907,22 +962,116 @@
 
 
 
-  <h1>LED Analògic (PWM)</h1>
+<h1 id="led-sortida-analogica-pwm">LED, sortida analògica (PWM)</h1>
+<p>Fins ara hem vist com encendre (1) i apagar (0) un LED. Però, què passa si volem que el LED brilli a la meitat de la seva capacitat? Els microcontroladors són dispositius digitals i només permeten sortides ON/OFF,  0 volts o el màxim voltatge (3,3V/5V). No poden activar una sortida digital a "la meitat" del voltatge.</p>
+<p>Per resoldre aquesta qûestió, utilitzem el <strong>PWM</strong> (<em>Pulse Width Modulation</em> o Modulació per Amplada de Pols). La instrucció per fer-ho és <code>analogWrite(pin, valor)</code> on el valor pot anar de <code>0</code> (0% encès) a <code>255</code> (100% encès).</p>
+<h2 id="exemples">Exemples</h2>
+<ul>
+<li>
+<h3 id="exemple-basic-4-nivells-de-brillantor">Exemple bàsic: 4 nivells de brillantor</h3>
+<p>Exemple bàsic per encendre un led amb diferents nivells de lluentor progressivament.</p>
+<details class="example">
+<summary>EXEMPLE: Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<div class="highlight"><span class="filename">led_4_nivells.ino</span><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
 
-<p># 2. LED i Sortida Analògica</p>
-<p>Fins ara hem vist com encendre (1) i apagar (0) un LED. Però, què passa si volem que el LED brilli a la meitat de la seva capacitat? Els microcontroladors són dispositius digitals i només saben treure 0 volts o el màxim voltatge (3.3V/5V), no poden enviar "la meitat" del voltatge.</p>
-<p>Per solucionar això utilitzem el **PWM (Pulse Width Modulation o Modulació per Amplada de Pols)**.</p>
-<p>## Què és el PWM?</p>
-<p>El PWM consisteix a encendre i apagar el LED tan increïblement ràpid (milers de vegades per segon) que el nostre ull no pot veure el parpelleig, sinó que ho percep com una reducció de la brillantor global. </p>
-<p>Utilitzarem la instrucció <code>analogWrite(pin, valor)</code> on el valor pot anar de <code>0</code> (0% encès) a <code>255</code> (100% encès).</p>
-<p>* <code>analogWrite(pin, 0)</code>: Apagat completament.</p>
-<p>* <code>analogWrite(pin, 127)</code>: Brillantor mitjana (50% del temps encès).</p>
-<p>* <code>analogWrite(pin, 255)</code>: Brillantor màxima.</p>
-<p>[📥 Descarrega l'exemple de prova: led_4_nivells.ino](../Exemples/led_4_nivells/led_4_nivells.ino)</p>
-<p>## L'efecte de respiració (Fading)</p>
-<p>Veure el LED canviant de nivell de forma brusca està bé per entendre el PWM, però la natura és fluida. Per aconseguir que la mascota "respiri" lentament encenent i apagant el LED de forma suau, utilitzarem bucles <code>for</code>. </p>
-<p>Aquests bucles incrementaran o reduiran el valor de la brillantor d'un en un, afegint un petit <code>delay()</code> entre cada pas per controlar la velocitat de la respiració.</p>
-<p>[📥 Descarrega la solució: respiracio_delay.ino](../Exemples/respiracio_delay/respiracio_delay.ino)</p>
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configuració de les sortides dels LEDs</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Ens assegurem que el roig i el verd estiguin apagats</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">digitalWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">LOW</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Iniciant test de brillantor (PWM)...&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 1. Nivell 0: Totalment apagat</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Brillantor: 0 (Apagat)&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span><span class="w"> </span><span class="c1">// Esperem 2 segons</span>
+
+<span class="w">  </span><span class="c1">// 2. Nivell Baix: Brillantor molt suau (aprox. 10%)</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Brillantor: 25 (Fluix)&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 3. Nivell Mitjà: Meitat de potència (50%)</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Brillantor: 127 (Mitjà)&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">127</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 4. Nivell Màxim: Tota la potència (100%)</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Brillantor: 255 (Màxim)&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;--- Tornem a començar ---&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</li>
+<li>
+<h3 id="efecte-respiracio">Efecte respiració</h3>
+<p>En aquest exemple, encendrem el led de la mascota, augmentant i disminuint la seva lluentor repetidament, per simular l'efecte de la reswpiració.</p>
+<details class="example">
+<summary>EXEMPLE: Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<div class="highlight"><span class="filename">respiracio_delay.ino</span><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="c1">// --- configuració dels pemps</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pausaInspiracio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"> </span><span class="c1">//retard en el bucle d&#39;inspiració</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pausaExpiracio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="c1">//retard en el bucle d&#39;expiració. COMPTE amb expiración i espiración si feu servir variables en castellà ;-)</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pausaPlena</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">150</span><span class="p">;</span><span class="w">    </span><span class="c1">//temps que mantenim la respiració amb els pulmons plens</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pausaBuida</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">600</span><span class="p">;</span><span class="w">    </span><span class="c1">//temps que mantenim la respiració amb els pulmons buits</span>
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Configuració de les sortides dels LEDs</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Apaguem els LEDs roig i verd (lògica normal: 0 = apagat)</span>
+<span class="w">  </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// --- 1. INSPIRACIÓ (De fosc a brillant) ---</span>
+<span class="w">  </span><span class="c1">// Anem augmentant el valor de 0 a 255</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">brillantor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">brillantor</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="n">brillantor</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="n">brillantor</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">delay</span><span class="p">(</span><span class="n">pausaInspiracio</span><span class="p">);</span><span class="w"> </span><span class="c1">// Controla la velocitat de la inspiració </span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// --- 2. PAUSA PLENA (Mantenint l&#39;aire) ---</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">pausaPlena</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// --- 3. EXPIRACIÓ (De brillant a fosc) ---</span>
+<span class="w">  </span><span class="c1">// Anem reduint el valor de 255 a 0</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">brillantor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="n">brillantor</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">brillantor</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="n">brillantor</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">delay</span><span class="p">(</span><span class="n">pausaExpiracio</span><span class="p">);</span><span class="w"> </span><span class="c1">// L&#39;expiració és una mica més lenta per ser més natural (Compte amb expirar si feu servir castellà)</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// --- 4. PAUSA BUIDA (En repòs) ---</span>
+<span class="w">  </span><span class="nf">delay</span><span class="p">(</span><span class="n">pausaBuida</span><span class="p">);</span><span class="w"> </span><span class="c1">// Pausa abans de tornar a començar el cicle de respiració</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</li>
+</ul>
+<blockquote>
+<p><strong>Observació important:</strong>  En aquest exemple continuem fent servir la instrucció <code>delay()</code> per marcar la temporització. Són notables els seus inconvenients. Ens queda pendent mostrar una tècnica per resoldre'ls.</p>
+</blockquote>
 
 
 
