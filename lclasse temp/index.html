@@ -914,75 +914,75 @@
 <hr />
 <h2 id="el-codi-font">💻 El Codi Font</h2>
 <p>Copieu i enganxeu el següent codi a l'IDE d'Arduino:</p>
-<pre><code class="language-cpp">// --- PINS D'ENTRADA I SORTIDA ---
-const int pinLedRoig = 21;
-const int pinLedVerd = 20;
-const int pinLedBlau = 10;
+<div class="highlight"><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
 
-const int pinBotoEsquerre = 6;  // L'utilitzem per alentir el pols
-const int pinBotoDret = 7;      // L'utilitzem per accelerar el pols
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pinBotoEsquerre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">  </span><span class="c1">// L&#39;utilitzem per alentir el pols</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pinBotoDret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w">      </span><span class="c1">// L&#39;utilitzem per accelerar el pols</span>
 
-// --- VARIABLES DE TEMPS (MIL·LISEGONS) ---
-int tempsBatec = 150;  // Durada fixa del moviment mecànic
-int tempsPausa = 500;  // Temps de relaxació variable entre batecs doblegats
+<span class="c1">// --- VARIABLES DE TEMPS (MIL·LISEGONS) ---</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">tempsBatec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">150</span><span class="p">;</span><span class="w">  </span><span class="c1">// Durada fixa del moviment mecànic</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w">  </span><span class="c1">// Temps de relaxació variable entre batecs doblegats</span>
 
-void setup() {
-  Serial.begin(115200);
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
 
-  // Configuració de les sortides dels LEDs
-  pinMode(pinLedRoig, OUTPUT);
-  pinMode(pinLedVerd, OUTPUT);
-  pinMode(pinLedBlau, OUTPUT);
+<span class="w">  </span><span class="c1">// Configuració de les sortides dels LEDs</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
 
-  // Configuració dels botons amb resistència pull-up interna
-  pinMode(pinBotoEsquerre, INPUT_PULLUP);
-  pinMode(pinBotoDret, INPUT_PULLUP);
+<span class="w">  </span><span class="c1">// Configuració dels botons amb resistència pull-up interna</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pinBotoEsquerre</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT_PULLUP</span><span class="p">);</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">pinBotoDret</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT_PULLUP</span><span class="p">);</span>
 
-  // Apaguem tots els LEDs a l'inici
-  analogWrite(pinLedRoig, 0);
-  analogWrite(pinLedVerd, 0);
-  analogWrite(pinLedBlau, 0);
-}
+<span class="w">  </span><span class="c1">// Apaguem tots els LEDs a l&#39;inici</span>
+<span class="w">  </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
 
-void loop() {
-  // --- 1. LECTURA DELS BOTONS ---
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// --- 1. LECTURA DELS BOTONS ---</span>
 
-  // Botó dret -&gt; Accelera el cor (redueix la pausa)
-  if (digitalRead(pinBotoDret) == LOW) {
-    if (tempsPausa &gt; tempsBatec) { // Límit mínim per simular taquicàrdia
-      tempsPausa -= 50; 
-      Serial.print(&quot;Accelera! Temps de pausa: &quot;); 
-      Serial.println(tempsPausa);
-    }
-  }
+<span class="w">  </span><span class="c1">// Botó dret -&gt; Accelera el cor (redueix la pausa)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">pinBotoDret</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LOW</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tempsBatec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Límit mínim per simular taquicàrdia</span>
+<span class="w">      </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Accelera! Temps de pausa: &quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
 
-  // Botó esquerre -&gt; Alenteix el cor (augmenta la pausa)
-  if (digitalRead(pinBotoEsquerre) == LOW) {
-    if (tempsPausa &lt; 1500) { // Límit màxim per simular relaxació profunda
-      tempsPausa += 50;
-      Serial.print(&quot;Alenteix... Temps de pausa: &quot;); 
-      Serial.println(tempsPausa);
-    }
-  }
+<span class="w">  </span><span class="c1">// Botó esquerre -&gt; Alenteix el cor (augmenta la pausa)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">pinBotoEsquerre</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LOW</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1500</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Límit màxim per simular relaxació profunda</span>
+<span class="w">      </span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Alenteix... Temps de pausa: &quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
 
-  // --- 2. EXECUCIÓ DEL BATEC (SÍSTOLE FIXA, DIÀSTOLE VARIABLE) ---
+<span class="w">  </span><span class="c1">// --- 2. EXECUCIÓ DEL BATEC (SÍSTOLE FIXA, DIÀSTOLE VARIABLE) ---</span>
 
-  // El primer &quot;bum&quot; del batec
-  digitalWrite(pinLedRoig, HIGH);
-  delay(tempsBatec);
+<span class="w">  </span><span class="c1">// El primer &quot;bum&quot; del batec</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
 
-  digitalWrite(pinLedRoig, LOW);
-  delay(tempsBatec);
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
 
-  // El segon &quot;bum&quot; del batec
-  digitalWrite(pinLedRoig, HIGH);
-  delay(tempsBatec);
+<span class="w">  </span><span class="c1">// El segon &quot;bum&quot; del batec</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">tempsBatec</span><span class="p">);</span>
 
-  // El temps de repòs és el que varia amb els botons
-  digitalWrite(pinLedRoig, LOW);
-  delay(tempsPausa); 
-}
-</code></pre>
+<span class="w">  </span><span class="c1">// El temps de repòs és el que varia amb els botons</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="n">tempsPausa</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span>
+</code></pre></div>
 <hr />
 <h2 id="conceptes-clau-per-explicar-a-laula">🔍 Conceptes clau per explicar a l'aula</h2>
 <h3 id="1-per-que-usem-input_pullup">1. Per què usem <code>INPUT_PULLUP</code>?</h3>
@@ -991,10 +991,10 @@ void loop() {
 * <strong>Botó premut:</strong> El corrent va a terra (GND) i el pin llegeix un estat baix (<code>LOW</code>).
 * <strong>Avantatge pedagògic:</strong> No necessitem connectar resistències físiques a la protoboard. Menys cables, menys errors del vostre alumnat!</p>
 <h3 id="2-control-de-limits-de-seguretat">2. Control de límits de seguretat</h3>
-<p>Fixeu-vos en aquesta línia de control:</p>
-<pre><code class="language-cpp">if (tempsPausa &gt; tempsBatec)
-</code></pre>
-<p>Això evita que, per molts cops que premem el botó d'accelerar, el temps de pausa baixi de 150 ms. Sense aquest límit, el cor virtual entraria en "aturada cardíaca" i el codi deixaria de simular un batec real.</p>
+<p>Fixeu-vos en aquesta línia de control:
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tempsPausa</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tempsBatec</span><span class="p">)</span>
+</code></pre></div>
+Això evita que, per molts cops que premem el botó d'accelerar, el temps de pausa baixi de 150 ms. Sense aquest límit, el cor virtual entraria en "aturada cardíaca" i el codi deixaria de simular un batec real.</p>
 <hr />
 <h2 id="reptes-i-variacions-propostes-per-als-alumnes">🚀 Reptes i variacions propostes (Per als alumnes)</h2>
 <p>Si els vostres alumnes avancen ràpid, podeu proposar-los els següents reptes de programació:</p>
