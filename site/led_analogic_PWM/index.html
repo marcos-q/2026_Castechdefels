@@ -591,10 +591,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ampliacio" class="md-nav__link">
+  <a href="#el-sintetitzador-democions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ampliació
+        El Sintetitzador d'emocions
       
     </span>
   </a>
@@ -1257,10 +1257,111 @@ Si fas que un LED rebi el valor de i (anirà pujant) i l'altre rebi el valor de 
 </details>
 <ul>
 <li>
-<h3 id="ampliacio">Ampliació</h3>
+<h3 id="el-sintetitzador-democions">El Sintetitzador d'emocions</h3>
 </li>
 </ul>
-<p>Sabies que barrejant les intensitats de només tres llums (vermell, verd i blau) pots arribar a crear més de 16 milions de tons diferents? Aquesta és la mateixa tècnica que fan servir les pantalles dels mòbils o de TV per mostrar imatges reals.</p>
+<p>Fins ara, la nostra mascota virtual canviava de color tota sola de manera automàtica. Però, què passa si necessitem establir el seu estat d'ànim de manera manual? Imagina que ets un psicòleg robòtic i necessites sintonitzar exactament el color de la "Pau" o l'"Alegria extrema".</p>
+<p>El teu <strong>repte</strong> és crear un <em>Sintetitzador d'Emocions</em>. Tens una petita dificultat: necessites controlar 3 colors diferents (Vermell, Verd i Blau), però només tens 2 botons!Per resoldre-ho, dissenyarem un sistema intel·ligent anomenat "Selecció i Ajust":
+    - Botó Esquerre (El Selector): Cada cop que el prems, canvia el canal de color que estem ajustant. (Vermell <span class="arithmatex">\(\to\)</span> Verd <span class="arithmatex">\(\to\)</span> Blau <span class="arithmatex">\(\to\)</span> Vermell...).
+    - Botó Dret (L'Increment): Cada cop que el prems, afegeix +10 punts de brillantor al color que tinguis seleccionat en aquell moment. 
+    Si passes del màxim (255), el color torna a començar des de zero!</p>
+<p>És molt important que facis servir el Monitor Sèrie perquè l'usuari sàpiga en quin canal es troba i quina és la "recepta" (R, G, B) de l'emoció que acaba de crear</p>
+<details class="tip">
+<summary>PISTA: Com gestionar els límits</summary>
+<p>Com que farem salts de 10 en 10, hauràs de vigilar quan el valor superi el 255. Pots fer servir una condició simple (un <code>if</code>) per tornar el valor a zero quan es passi de la ratlla.</p>
+<p>A més, recorda posar un petit delay(200) just després de llegir cada botó. Si no ho fas, el microcontrolador llegirà milers de clics en la fracció de segon que tardes a aixecar el dit!</p>
+</details>
+<details class="example">
+<summary>SOLUCIÓ: Fes clic aquí per veure la solució al repte</summary>
+<p>Aquí tens la solució. Comprova com s'utilitzen les variables per "recordar" l'estat dels tres colors.</p>
+<div class="highlight"><span class="filename">sintetitzador_emocions.ino</span><pre><span></span><code><span class="c1">// --- PINS D&#39;ENTRADA I SORTIDA ---</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedRoig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedVerd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinLedBlau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinBotoSelector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">  </span><span class="c1">// Botó Esquerre</span>
+<span class="kr">const</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">pinBotoIncrement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"> </span><span class="c1">// Botó Dret</span>
+
+<span class="c1">// --- VARIABLES D&#39;ESTAT ---</span>
+<span class="kr">int</span><span class="w"> </span><span class="n">nivellR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kr">int</span><span class="w"> </span><span class="n">nivellG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kr">int</span><span class="w"> </span><span class="n">nivellB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="kr">int</span><span class="w"> </span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// 0 = Vermell, 1 = Verd, 2 = Blau</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="nf">Serial</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+<span class="nf">pinMode</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="kr">OUTPUT</span><span class="p">);</span>
+
+<span class="nf">pinMode</span><span class="p">(</span><span class="n">pinBotoSelector</span><span class="p">,</span><span class="w"> </span><span class="kr">INPUT_PULLUP</span><span class="p">);</span>
+<span class="nf">pinMode</span><span class="p">(</span><span class="n">pinBotoIncrement</span><span class="p">,</span><span class="w"> </span><span class="kr">INPUT_PULLUP</span><span class="p">);</span>
+
+<span class="c1">// Iniciem apagats</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Sintetitzador d&#39;Emocions iniciat.&quot;</span><span class="p">);</span>
+<span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Canal actual: VERMELL&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="c1">// --- 1. LECTURA DEL BOTÓ SELECTOR ---</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">digitalRead</span><span class="p">(</span><span class="n">pinBotoSelector</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kr">LOW</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">canalSeleccionat</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="c1">// Passem al següent color</span>
+
+<span class="w">    </span><span class="c1">// Si ens passem del Blau (2), tornem al Vermell (0)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Avisem per pantalla</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Canal seleccionat: &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;VERMELL&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;VERD&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;BLAU&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nf">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span><span class="w"> </span><span class="c1">// Pausa per evitar el rebot mecànic del botó</span>
+<span class="p">}</span>
+
+<span class="c1">// --- 2. LECTURA DEL BOTÓ D&#39;INCREMENT ---</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">digitalRead</span><span class="p">(</span><span class="n">pinBotoIncrement</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kr">LOW</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// Sumem 10 al color que estigui seleccionat actualment</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">nivellR</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nivellR</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="n">nivellR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">nivellG</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nivellG</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="n">nivellG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">canalSeleccionat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">nivellB</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nivellB</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="n">nivellB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Imprimim la nova recepta d&#39;estat d&#39;ànim</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Nova emoció -&gt; R: &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">nivellR</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot; | G: &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">nivellG</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot; | B: &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">nivellB</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nf">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span><span class="w"> </span><span class="c1">// Pausa per evitar sumar massa ràpid</span>
+<span class="p">}</span>
+
+<span class="c1">// --- 3. ACTUALITZAR EL COLOR DEL LED ---</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedRoig</span><span class="p">,</span><span class="w"> </span><span class="n">nivellR</span><span class="p">);</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedVerd</span><span class="p">,</span><span class="w"> </span><span class="n">nivellG</span><span class="p">);</span>
+<span class="nf">analogWrite</span><span class="p">(</span><span class="n">pinLedBlau</span><span class="p">,</span><span class="w"> </span><span class="n">nivellB</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
 
 
 
