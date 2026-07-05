@@ -84,54 +84,7 @@ El repte consisteix a escriure un programa que vagi canviant el color del led de
     Aquí tens el codi complet per programar aquest comportament emocional i fluid en el LED RGB:
 
     ```arduino title="espectre_emocional.ino"
-    // --- PINS D'ENTRADA I SORTIDA ---
-    const int pinLedRoig = 21;
-    const int pinLedVerd = 20;
-    const int pinLedBlau = 10;
-
-    // --- CONFIGURACIÓ DE TEMPS (MIL·LISEGONS) ---
-    const int pausaTransicio = 15; // Controla la velocitat del canvi de color (més baix = més ràpid)
-
-    void setup() {
-    Serial.begin(115200);
-    
-    pinMode(pinLedRoig, OUTPUT);
-    pinMode(pinLedVerd, OUTPUT);
-    pinMode(pinLedBlau, OUTPUT);
-    
-    // Comencem amb el Vermell encès al 100% com a pt de inici
-    analogWrite(pinLedRoig, 255);
-    analogWrite(pinLedVerd, 0);
-    analogWrite(pinLedBlau, 0);
-    
-    Serial.println("Mascota encesa. Estat: Espectre emocional actiu.");
-    }
-
-    void loop() {
-    // --- 1. TRANSICIÓ: DE VERMELL A VERD ---
-    Serial.println("[Humor] Passant de Vermell a Verd...");
-    for (int i = 0; i <= 255; i++) {
-        analogWrite(pinLedRoig, 255 - i);
-        analogWrite(pinLedVerd, i);
-        delay(pausaTransicio);
-    }
-
-    // --- 2. TRANSICIÓ: DE VERD A BLAU ---
-    Serial.println("[Humor] Passant de Verd a Blau...");
-    for (int i = 0; i <= 255; i++) {
-        analogWrite(pinLedVerd, 255 - i);
-        analogWrite(pinLedBlau, i);
-        delay(pausaTransicio);
-    }
-
-    // --- 3. TRANSICIÓ: DE BLAU A VERMELL ---
-    Serial.println("[Humor] Passant de Blau a Vermell...");
-    for (int i = 0; i <= 255; i++) {
-        analogWrite(pinLedBlau, 255 - i);
-        analogWrite(pinLedRoig, i);
-        delay(pausaTransicio);
-    }
-    }
+    --8<-- "Exemples/espectre_emocional/espectre_emocional.ino"
     ```    
 
 - ### El Sintetitzador d'emocions
@@ -153,93 +106,10 @@ El teu **repte** és crear un *Sintetitzador d'Emocions*. Tens una petita dificu
 ??? example "SOLUCIÓ: Fes clic aquí per veure la solució al repte"
     Aquí tens la solució. Comprova com s'utilitzen les variables per "recordar" l'estat dels tres colors.
 
+
     ```arduino title="sintetitzador_emocions.ino"
-    // --- PINS D'ENTRADA I SORTIDA ---
-    const int pinLedRoig = 21;
-    const int pinLedVerd = 20;
-    const int pinLedBlau = 10;
-
-    const int pinBotoSelector = 6;  // Botó Esquerre
-    const int pinBotoIncrement = 7; // Botó Dret
-
-    // --- VARIABLES D'ESTAT ---
-    int nivellR = 0;
-    int nivellG = 0;
-    int nivellB = 0;
-
-    int canalSeleccionat = 0; // 0 = Vermell, 1 = Verd, 2 = Blau
-
-    void setup() {
-    Serial.begin(115200);
+    --8<-- "Exemples/sintetitzador_emocions/sintetitzador_emocions.ino"
     
-    pinMode(pinLedRoig, OUTPUT);
-    pinMode(pinLedVerd, OUTPUT);
-    pinMode(pinLedBlau, OUTPUT);
-    
-    pinMode(pinBotoSelector, INPUT_PULLUP);
-    pinMode(pinBotoIncrement, INPUT_PULLUP);
-    
-    // Iniciem apagats
-    analogWrite(pinLedRoig, 0);
-    analogWrite(pinLedVerd, 0);
-    analogWrite(pinLedBlau, 0);
-    
-    Serial.println("Sintetitzador d'Emocions iniciat.");
-    Serial.println("Canal actual: VERMELL");
-    }
-
-    void loop() {
-    // --- 1. LECTURA DEL BOTÓ SELECTOR ---
-    if (digitalRead(pinBotoSelector) == LOW) {
-        canalSeleccionat++; // Passem al següent color
-        
-        // Si ens passem del Blau (2), tornem al Vermell (0)
-        if (canalSeleccionat > 2) {
-        canalSeleccionat = 0; 
-        }
-        
-        // Avisem per pantalla
-        Serial.print("Canal seleccionat: ");
-        if (canalSeleccionat == 0) Serial.println("VERMELL");
-        if (canalSeleccionat == 1) Serial.println("VERD");
-        if (canalSeleccionat == 2) Serial.println("BLAU");
-        
-        delay(200); // Pausa per evitar el rebot mecànic del botó
-    }
-    
-    // --- 2. LECTURA DEL BOTÓ D'INCREMENT ---
-    if (digitalRead(pinBotoIncrement) == LOW) {
-        
-        // Sumem 10 al color que estigui seleccionat actualment
-        if (canalSeleccionat == 0) {
-        nivellR += 10;
-        if (nivellR > 255) nivellR = 0;
-        } 
-        else if (canalSeleccionat == 1) {
-        nivellG += 10;
-        if (nivellG > 255) nivellG = 0;
-        } 
-        else if (canalSeleccionat == 2) {
-        nivellB += 10;
-        if (nivellB > 255) nivellB = 0;
-        }
-        
-        // Imprimim la nova recepta d'estat d'ànim
-        Serial.print("Nova emoció -> R: ");
-        Serial.print(nivellR);
-        Serial.print(" | G: ");
-        Serial.print(nivellG);
-        Serial.print(" | B: ");
-        Serial.println(nivellB);
-        
-        delay(200); // Pausa per evitar sumar massa ràpid
-    }
-    
-    // --- 3. ACTUALITZAR EL COLOR DEL LED ---
-    analogWrite(pinLedRoig, nivellR);
-    analogWrite(pinLedVerd, nivellG);
-    analogWrite(pinLedBlau, nivellB);
-    }
     ```
 
 

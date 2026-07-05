@@ -5,8 +5,8 @@
 // --- CONFIGURACIÓN HARDWARE ---
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
-#define PIN_SDA 8 // Pines para ESP32-C3 SuperMini
-#define PIN_SCL 9
+#define PIN_SDA 3 // Pines para ESP32-C3 SuperMini
+#define PIN_SCL 4
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
@@ -20,7 +20,7 @@ void setup() {
     for(;;);
   }
 
-  display.setRotation(2); // Ajusta según cómo tengas montada la pantalla
+  display.setRotation(0); // Ajusta según cómo tengas montada la pantalla
 }
 
 void loop() {

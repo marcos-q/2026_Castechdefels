@@ -1,4 +1,4 @@
-site_name: CasTECHdefels 2026. Projectes connectats... amb el soldador a la mà.
+site_name: CasTECHdefels 2026. Projectes connectats al núvol... amb el soldador a la mà.
 site_description: Guia de pràctiques i exemples de programació amb dificultat creixent.
 site_author: Marcos Quílez
 
@@ -34,8 +34,11 @@ nav:
   - Benvinguda: index.md
   
   - Bloc 1:
+    - Introducció i presa de contacte: contacte.md
+    - Taller de soldadura: soldadura.md
     - LED, sortida digital: led_digital.md
     - LED, sortida analògica (PWM): led_analogic_PWM.md
+    - Bola extra, repte avançat: extra1.md
     # En el futuro, si añades un zumbador, solo creas "brunzidor.md" y lo pones aquí:
     # - Brunzidors i Sons: brunzidor.md
 

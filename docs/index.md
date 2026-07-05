@@ -1,8 +1,8 @@
 # Benvinguts a "Projectes connectats al núvol... amb el soldador a la mà."
 
-Aquesta és la guia de seguiment del curs on aprendrem a programar microcontroladors de manera pràctica, construint i donant vida pas a pas a la nostra pròpia mascota robòtica.
+Aquesta és la guia de seguiment del curs on aprendrem a programar microcontroladors de manera pràctica, construint i donant vida pas a pas a la nostra pròpia mascota interactiva.
 
----
+<!-- ---
 
 ## L'enfocament del curs: Aprenentatge evolutiu
 
@@ -12,20 +12,20 @@ Aquest curs està dissenyat amb una **metodologia de dificultat creixent**. No c
 * **Trobarem els límits:** Veurem com, en intentar que la mascota faci accions més complexes o reaccioni al seu entorn, les eines bàsiques es queden curtes i ens generen problemes.
 * **Aprendrem la solució:** Introduirem tècniques noves i més avançades només quan realment les necessitem per resoldre un repte real.
 
-D'aquesta manera, cada línia de codi nova que aprengueu tindrà un sentit i un propòsit clar.
+D'aquesta manera, cada línia de codi nova que aprengueu tindrà un sentit i un propòsit clar. -->
 
 ---
 
 ## Com utilitzar aquesta guia
 
-Al menú lateral trobareu totes les lliçons ordenades per blocs temàtics. En cada lliçó s'explica la teoria necessària i es proposen codis i petits reptes de programació.
+Al menú lateral trobareu totes les lliçons ordenades per blocs. A cada bloc hi trobareu els exemples, activitats i reptes de cada dia, juntament amb algunes explicacions que complementen el que expliquem al laboratori.
 
 ### Com obtenir els codis d'exemple?
 
 Teniu dues opcions per aconseguir els codis font (els fitxers `.ino`) del curs a punt per ser programats a la vostra placa:
 
 1. **Descàrrega directa:** Dins de cada lliçó trobareu els blocs de codi. Podeu utilitzar el botó de copiar que apareix a dalt a la dreta de cada requadre per emportar-vos el codi al vostre IDE.
-2. **Clonar el repositori complet:** Si voleu descarregar tots els exemples del curs de cop i tenir-los ben ordenats en carpetes al vostre ordinador, podeu utilitzar Git. Obriu el vostre terminal i executeu aquesta comanda:
-
+2. **Clonar el repositori complet:** Si voleu descarregar tots els exemples del curs de cop i tenir-los ben ordenats en carpetes al vostre ordinador, podeu descarregar-vos el repostiori sencer de git-hub a l'adreça que us indicaran a classe.
+<!-- 
 ```bash
-git clone [https://github.com/EL_TEU_USUARI/curs-arduino-mascota.git](https://github.com/marcos-q/_2026_Castechdefels.git)
+git clone [https://github.com/EL_TEU_USUARI/curs-arduino-mascota.git](https://github.com/marcos-q/_2026_Castechdefels.git) -->
