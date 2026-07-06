@@ -2,7 +2,7 @@
 En aquesta secció aprendrem a controlar un LED de manera digital (encès o apagat) per donar vida a la nostra mascota robòtica creant un efecte de batec de cor.
 
 ## Exemples 
-Per seguir aquests exemples donem per fet que coneixem les instruccions associades a `digitalWrite()`, `delay()`, i a `Serial.prinln()`.
+Per seguir aquests exemples donem per fet que coneixem les instruccions associades a `digitalWrite()`, `delay()`, `digitalRead()` i a `Serial.prinln()`.
 
 
 

@@ -1,6 +1,6 @@
-# Soldadura
+# Soldadura i muntatge de la mascota
 
-**Taller al laboratori**
+**Soldadura de la placa de circuit imprès (PCB)**
 
 Feu atenció a les indicacions que us donaran abans de començar a soldar.
 
@@ -11,7 +11,7 @@ A continuació teniu la serigrafia de la placa de la mascota amb els valors de c
 
 [Serigrafia](serigrafia i valors.svg)
 
-Un cop acabis munta la pantalla, el sensor de temperatura i humitat i el rellotge. Ara hauràs de comprovar que tot ha sortit bé!
+Un cop acabis de muntar la pantalla, el sensor de temperatura i humitat i el rellotge. Ara hauràs de comprovar que tot ha sortit bé!
 
 Carrega el següent programa d'autodiagnosi i segueix les indicacions del professor.
 
@@ -19,3 +19,9 @@ Carrega el següent programa d'autodiagnosi i segueix les indicacions del profes
     ```arduino title="auto_diagnosi.ino"
     --8<-- "Exemples\auto_diagnosi\auto_diagnosi.ino"
     ```
+
+Un cop superat el programa d'autodiagnosi, i hagis comprovat que tot funcina correctament, demana instruccions per muntar la placa al cos de la mascota.
+
+**Muntatge de la mascota**
+
+Acaba de colocar tots el components al cos de la mascota seguint les indicacions rebudes.

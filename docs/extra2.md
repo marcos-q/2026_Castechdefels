@@ -16,18 +16,17 @@ L'Atzar (random): Perquè el joc sigui divertit, el temps d'espera ha de ser imp
     La diferència entre els dos valors és el teu temps exacte de reacció!
     **Compte:** Com que aquests números poden ser molt grans, la variable per guardar el temps no pot ser un `int` normal; ha de ser de tipus `unsigned long`.
 
-??? example "👁️ Fes clic aquí per veure la solució al repte"
+??? example "SOLUCIO: Fes clic aquí per veure la solució al repte"
     Aquí tens el codi complet per al joc de reflexos. Fixa't com fem servir un bucle `while` buit per obligar la placa a quedar-se "esperant" que premis el botó.
 
     ```arduino title="entrenament_reflexos.ino"
     --8<-- "Exemples/entrenament_reflexos/entrenament_reflexos.ino"
     ```
- - ### Altres activitats
- 
-#### Toggle
-Programa la mascota perquè respongui a les polsacions del botó dret.
-Comença amb el led apagat, una polsació i el led s'encén, una polsació i el led s'apaga.
-Es a dir: El led ha de canviar d'estat cada cop que es prem el botó.
+- ### El semàfor de la salut
+
+Feu servir els leds verd i blau que hem configurat. Si el cor va molt ràpid (taquicàrdia), enceneu el LED Blau (avís). Si va a un ritme normal, enceneu el LED Verd.
 
 #### Creativitat al poder
-Inventa una activitat que es pugui fer amb la mascota utilitzant únicament el led i els dos polsadors.
+- Inventa una activitat que es pugui fer amb el prototipus de la mascota utilitzant únicament el led i els dos polsadors.
+- Proposa i programa alguna aplicació que utilitzi la pantalla oled per proporcionar alguna informació. Pots agafar alguns dels programes del Bloc 1 i fer que la informació que enviaves pel port sèrie ara aparegui a la pantalla oled.
+- Inventa una activitat que es pugui fer amb el prototipus de la mascota utilitzant únicament el led, els dos polsadors i la pantalla.
