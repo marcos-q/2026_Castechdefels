@@ -21,6 +21,8 @@ D'aquesta manera, cada línia de codi nova que aprengueu tindrà un sentit i un 
 
 Al menú lateral trobareu totes les lliçons ordenades per blocs. A cada bloc hi trobareu els exemples, activitats i reptes de cada dia, juntament amb algunes explicacions que complementen el que expliquem al laboratori.
 
+Aquesta guia no conté tot el que treballarem a classe, però sí la documentació rellevant.
+
 ### Com obtenir els codis d'exemple?
 
 Teniu dues opcions per aconseguir els codis font (els fitxers `.ino`) del curs a punt per ser programats a la vostra placa:
