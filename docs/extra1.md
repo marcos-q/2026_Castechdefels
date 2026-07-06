@@ -22,10 +22,12 @@ L'Atzar (random): Perquè el joc sigui divertit, el temps d'espera ha de ser imp
     ```arduino title="entrenament_reflexos.ino"
     --8<-- "Exemples/entrenament_reflexos/entrenament_reflexos.ino"
     ```
- - ### Toggle
+ - ### Altres activitats
+ 
+#### Toggle
 Programa la mascota perquè respongui a les polsacions del botó dret.
 Comença amb el led apagat, una polsació i el led s'encén, una polsació i el led s'apaga.
 Es a dir: El led ha de canviar d'estat cada cop que es prem el botó.
 
-- ### Creativitat al poder
+#### Creativitat al poder
 Inventa una activitat que es pugui fer amb la mascota utilitzant únicament el led i els dos polsadors.
