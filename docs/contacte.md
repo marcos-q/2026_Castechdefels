@@ -1,6 +1,7 @@
 # Introducció i presa de contacte
 
 Aquí hi trobareu el codi dels exemples que hem fer servir curant les primeres explicacions i alguna informació addicional.
+
 - ## Instal·lació
 
 [Guia d'instal·lació](Guia installacio.pdf)

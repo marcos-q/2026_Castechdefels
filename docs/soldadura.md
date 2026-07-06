@@ -3,6 +3,7 @@
 **Taller al laboratori**
 
 Feu atenció a les indicacions que us donaran abans de començar a soldar.
+
 A continuació teniu la serigrafia de la placa de la mascota amb els valors de cada resistència.
 
 >**Observació**: Fixeu-vos en la forma d'expressar els valors de les resistències. Des del punt de vista de l´ús de les unitats del sistema internacional, no seria correcte. Però aquest és un estàndard *de facto* a l'àmbit dels esquemes electrònics.

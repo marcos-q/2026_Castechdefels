@@ -1,4 +1,5 @@
-# Benvinguts a "Projectes connectats al núvol... amb el soldador a la mà."
+# Benvinguts a
+# "Projectes connectats al núvol... amb el soldador a la mà."
 
 Aquesta és la guia de seguiment del curs on aprendrem a programar microcontroladors de manera pràctica, construint i donant vida pas a pas a la nostra pròpia mascota interactiva.
 
