@@ -79,6 +79,6 @@ Obre el teu IDE d'Arduino, copia aquest codi i puja'l a la teva placa:
     ```
 
 
-
 ### Repte 
 Com podries afegir una pupil·la a l'ull dret (el que està buit)? Intenta utilitzar la funció fillCircle per dibuixar un cercle molt petit, per exemple de radi 2 o 3, just a dins de l'ull dret!
+
