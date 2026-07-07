@@ -4,7 +4,7 @@
 En aquest repte, convertirem la mascota  en un entrenador de reflexos. El joc posarà a prova la teva velocitat de reacció contra la intel·ligència de la placa.
 
 Les **regles del joc**:
-La mascota es queda en "espera" (llum blava tènue) durant un temps aleatori. Mai sabràs quan començarà la prova! De sobte, el LED s'encendrà de color VERMELL intens. Aquesta és la teva senyal!Has de prémer el botó esquerre tan ràpid com puguis. El Monitor Sèrie et dirà quants mil·lisegons has trigat a reaccionar. Si ets més ràpid que un ninja (menys de 500 ms), la mascota celebrarà la teva victòria amb un flaix VERD. Si ets massa lent, es tornarà TARONJA.
+La mascota es queda en "espera" (llum blava tènue) durant un temps aleatori. Mai sabràs quan començarà la prova! De sobte, el led s'encendrà de color VERMELL intens. Aquesta és la teva senyal!Has de prémer el botó esquerre tan ràpid com puguis. El Monitor Sèrie et dirà quants mil·lisegons has trigat a reaccionar. Si ets més ràpid que un ninja (menys de 500 ms), la mascota celebrarà la teva victòria amb un flaix VERD. Si ets massa lent, es tornarà TARONJA.
 
 **Conceptes nous per a aquest repte:**
 Per fer aquest joc, necessitem dues eines que encara no coneixíem:
@@ -24,7 +24,7 @@ L'Atzar (random): Perquè el joc sigui divertit, el temps d'espera ha de ser imp
     ```
 - ### El semàfor de la salut
 
-Feu servir els leds verd i blau que hem configurat. Si el cor va molt ràpid (taquicàrdia), enceneu el LED Blau (avís). Si va a un ritme normal, enceneu el LED Verd.
+Feu servir els led RGB amb els colors verd i blau. Si el cor va molt ràpid (taquicàrdia), enceneu el led Blau (avís). Si va a un ritme normal, enceneu el led Verd. Com a base podeu fer servir l'exemple "Freqüència cardíaca variable" i afegir el comportament del led.
 
 #### Creativitat al poder
 - Inventa una activitat que es pugui fer amb el prototipus de la mascota utilitzant únicament el led i els dos polsadors.
