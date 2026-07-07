@@ -2,77 +2,71 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+// Dimensions de la pantalla
+const int SCREEN_WIDTH = 128;
+const int SCREEN_HEIGHT = 64;
 
-// Pins I2C i Botons
+// Inicialitzem l'objecte de la pantalla
+Adafruit_SSD1306 pantalla(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+// Pins I2C del nostre ESP32-C3 SuperMini
 const int PIN_SDA = 3;
 const int PIN_SCL = 4;
-const int PIN_BTN_A = 6;  // Botó Esquerre (Baixar energia)
-const int PIN_BTN_B = 7;  // Botó Dret (Pujar energia)
-
-// Aquesta és la variable clau! Comencem amb l'energia a la meitat.
-int energia = 50; 
 
 void setup() {
   Serial.begin(115200);
   
-  pinMode(PIN_BTN_A, INPUT_PULLUP);
-  pinMode(PIN_BTN_B, INPUT_PULLUP);
-
+  // Iniciem el bus I2C amb els nostres pins
   Wire.begin(PIN_SDA, PIN_SCL); 
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("Error d'OLED"));
-    while(true);
+
+  // Iniciem la pantalla OLED a la direcció 0x3C
+  if(!pantalla.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("Error: No es troba la pantalla OLED"));
+    while(true); // Ens aturem aquí si falla
   }
+
+  // Esborrem qualsevol cosa que hi hagués a la pantalla
+  pantalla.clearDisplay();
+  
+  // Cridem a la nostra funció de dibuix
+  dibuixarCaraMascota();
+  
+  // Enviem el dibuix a la pantalla perquè es mostri!
+  pantalla.display(); 
 }
 
 void loop() {
-  // 1. LLEGIM ELS BOTONS
-  // Si premem el botó A, restem 5 punts d'energia
-  if (digitalRead(PIN_BTN_A) == LOW) {
-    energia = energia - 5;
-  }
+  // En aquest exemple el dibuix és estàtic, 
+  // així que no necessitem posar res al loop de moment.
+}
+
+// --- FUNCIÓ PER DIBUIXAR LA CARA ---
+void dibuixarCaraMascota() {
   
-  // Si premem el botó B, sumem 5 punts d'energia
-  if (digitalRead(PIN_BTN_B) == LOW) {
-    energia = energia + 5;
-  }
+  // 1. RECTANGLES: El contorn de la cara
+  // drawRoundRect(X, Y, Amplada, Alçada, Radi_Cantons, Color)
+  // Fem un rectangle amb els cantons arrodonits perquè sembli més amigable
+  pantalla.drawRoundRect(10, 5, 108, 54, 8, SSD1306_WHITE);
 
-  // 2. POSEM LÍMITS (No podem tenir energia negativa ni més de 100)
-  if (energia < 0) {
-    energia = 0;
-  }
-  if (energia > 100) {
-    energia = 100;
-  }
-
-  // 3. DIBUIXEM A LA PANTALLA
-  display.clearDisplay(); // Netegem la pantalla anterior
-
-  // Escrivim el títol i el número exacte
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(12, 10);
-  display.print("Nivell d'Energia:");
-  display.setCursor(12, 22);
-  display.print(energia);
-  display.print(" %");
-
-  // Dibuixem el MARC EXTERIOR (Buit)
-  // Posició X=12, Y=38. Amplada=104, Alçada=14
-  // Ho fem una mica més gran perquè hi càpiga el farcit a dins
-  display.drawRect(12, 38, 104, 14, SSD1306_WHITE);
-
-  // DIBUIXEM LA BARRA INTERIOR (Plena)
-  // Fixa't bé: l'amplada ve donada per la variable "energia"!
-  // Posició X=14, Y=40. Alçada=10
-  display.fillRect(14, 40, energia, 10, SSD1306_WHITE);
-
-  // Enviem tot a l'OLED
-  display.display();
+  // 2. CERCLES: Els ulls (un de buit i un de ple)
+  // fillCircle(Centre_X, Centre_Y, Radi, Color) -> Cercle ple
+  pantalla.fillCircle(40, 26, 10, SSD1306_WHITE); 
   
-  // Una petita pausa perquè els números no sumin massa ràpid
-  delay(100); 
+  // drawCircle(Centre_X, Centre_Y, Radi, Color) -> Cercle només el contorn
+  pantalla.drawCircle(88, 26, 10, SSD1306_WHITE); 
+  // Afegim una petita pupil·la a l'ull dret
+  pantalla.fillCircle(88, 26, 3, SSD1306_WHITE);
+
+  // 3. LÍNIES: La boca i uns bigotets
+  // drawLine(Inici_X, Inici_Y, Final_X, Final_Y, Color)
+  
+  // Una boca recta (línia horitzontal)
+  pantalla.drawLine(44, 45, 84, 45, SSD1306_WHITE);
+  
+  // Uns petits "bigotets" a les galtes (línies diagonals)
+  pantalla.drawLine(15, 30, 25, 35, SSD1306_WHITE); // Bigoti esquerre 1
+  pantalla.drawLine(15, 38, 25, 35, SSD1306_WHITE); // Bigoti esquerre 2
+  
+  pantalla.drawLine(113, 30, 103, 35, SSD1306_WHITE); // Bigoti dret 1
+  pantalla.drawLine(113, 38, 103, 35, SSD1306_WHITE); // Bigoti dret 2
 }

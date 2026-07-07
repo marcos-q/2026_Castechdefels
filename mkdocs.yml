@@ -41,9 +41,9 @@ nav:
     - Taller de soldadura: soldadura.md
     - LED, sortida digital: led_digital.md
     - LED, sortida analògica (PWM): led_analogic_PWM.md
-    - Introducció a les pantalles OLED: pantalles_oled.md
-    - Gràfics a la pantalla OLED: grafics_oled.md
-    - Bola extra, repte avançat: extra2.md
+    #- Introducció a les pantalles OLED: pantalles_oled.md
+    #- Gràfics a la pantalla OLED: grafics_oled.md
+    #- Bola extra, repte avançat: extra2.md
 
 markdown_extensions:
   - admonition
