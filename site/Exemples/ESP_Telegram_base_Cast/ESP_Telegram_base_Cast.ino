@@ -10,8 +10,8 @@
 // Inicialització bot de Telegram
 // Cal que aneu al buscador de xats de Telegram, busqueu el vostre bot i li envieu "/start" per iniciar la ocnnexió Telegram - ESP32
 
-#define BOTtoken "8105450952:AAHlgilkgRunKVKrK4BKcTAlD7nTb2WmpfA"  // Codi que hem obtingut en la conversa amb BotFather
-#define CHAT_ID "182953264"   // ID del nostre usuari de Telegram (codi obtngut amb IDBot)
+#define BOTtoken "8105450952:AAHlgilkgRunKVKrK4BKcTAlD7n"  // Codi que hem obtingut en la conversa amb BotFather
+#define CHAT_ID "18295"   // ID del nostre usuari de Telegram (codi obtngut amb IDBot)
 
 
 
