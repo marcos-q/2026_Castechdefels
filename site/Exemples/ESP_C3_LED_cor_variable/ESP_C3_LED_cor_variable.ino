@@ -34,7 +34,7 @@ void loop() {
   // Botó dret -> Accelera el cor (redueix la pausa)
   if (digitalRead(pinBotoDret) == LOW) {
     if (tempsPausa > tempsBatec) { // Límit mínim per simular taquicàrdia
-      tempsPausa -= 50; 
+      tempsPausa -= 100; 
       Serial.print("Accelera! Temps de pausa: "); 
       Serial.println(tempsPausa);
     }
@@ -43,7 +43,7 @@ void loop() {
   // Botó esquerre -> Alenteix el cor (augmenta la pausa)
   if (digitalRead(pinBotoEsquerre) == LOW) {
     if (tempsPausa < 1500) { // Límit màxim per simular relaxació profunda
-      tempsPausa += 50;
+      tempsPausa += 100;
       Serial.print("Alenteix... Temps de pausa: "); 
       Serial.println(tempsPausa);
     }

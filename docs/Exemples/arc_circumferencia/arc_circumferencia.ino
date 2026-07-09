@@ -39,7 +39,7 @@ void dibuixarArc(int centreX, int centreY, int radi, float angleInici, float ang
   // Un bucle que avança grau a grau per pintar la corba
   for (float angle = angleInici; angle <= angleFinal; angle += 1.0) {
     
-    // Els ordinadors calculen el sinus i cosinus en Radians, no en Graus!
+    // La funció utilitza radians com a unitats, no graus
     // Per tant, multipliquem per PI i dividim per 180 per fer la conversió.
     float radians = angle * PI / 180.0;
     

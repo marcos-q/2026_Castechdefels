@@ -49,6 +49,13 @@ nav:
     - Canvi d'expressions: canvis_expressio.md
     - Bola extra, altres reptes: extra2.md
 
+  - Bloc 4:
+    - Escalfant motors: inici_bloc_4.md
+    - La personalitat de la mascota: mascota_maquina_estats_1.md
+    - Afegim sons: sons.md
+    - Celebrant l'aniversari: aniversari.md
+    - La mascota ens escriu al mòbil: mascota_telegram.md    
+
 markdown_extensions:
   - admonition
   - pymdownx.details
