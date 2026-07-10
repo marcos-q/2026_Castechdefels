@@ -1249,7 +1249,271 @@
 
 <h1 id="google-sheets-el-diari-de-la-nostra-mascota">Google Sheets: El diari de la nostra mascota</h1>
 <p><a href="../Tutorial%20Google%20Sheets.pdf">Tutorial</a></p>
-<p><a href="../Script%20_UPC_registre.txt">Script UPC</a></p>
+<p>Script UPC</p>
+<details class="example">
+<summary>Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<div class="highlight"><pre><span></span><code>function doGet(e) { 
+Logger.log(JSON.stringify(e));
+var resultat  = &#39;Ok&#39;;
+if (e.parameter == &#39;undefined&#39;) {
+    resultat  = &#39;No hi ha paràmetres a la trama&#39;;
+}
+else {
+
+    var arxiu_id = &#39;XXXXXXXXXXX&#39;; // substituir les XXXXXX per l&#39;identificador del vostre full de càlcul    
+    var nom_full = &quot;YYYYYY&quot;; // substituir les YYYYYY pel nom del full
+
+    var arxiu_obert = SpreadsheetApp.openById(arxiu_id);
+    var full_dades = arxiu_obert.getSheetByName(nom_full);
+
+    var tasca_val = &#39;&#39;;
+    var n_registre = full_dades.getLastRow() - 2;
+    var nova_fila = full_dades.getLastRow() + 1;
+
+    var dades_entrada = [];
+    var ultim_dia_hora;
+    var ultim_n_registre;
+    var ultima_temperatura;
+    var ultima_humitat_relativa;
+
+
+    var data_avui = Utilities.formatDate(new Date(), &quot;Europe/Madrid&quot;, &#39;dd/MM/yyyy&#39;);
+    var hora_ara = Utilities.formatDate(new Date(), &quot;Europe/Madrid&quot;, &#39;HH:mm&#39;);
+    dades_entrada[0] = data_avui + &#39; &#39; + hora_ara;
+    ultim_dia_hora = data_avui + &#39; &#39; + hora_ara;
+
+    dades_entrada[1] = n_registre;   
+    ultim_n_registre = n_registre;  
+
+    for (var param in e.parameter) {
+    Logger.log(&#39;In for loop, param=&#39; + param);
+    var value = stripQuotes(e.parameter[param]);
+    Logger.log(param + &#39;:&#39; + e.parameter[param]);
+    switch (param) {
+        case &#39;tasca&#39;:
+        tasca_val = value;
+        break;
+
+        case &#39;temp&#39;:
+        dades_entrada[2] = value;  // Obtenir el valor de la temperatura.
+        ultima_temperatura = value;  
+        resultat  += &#39;, Temperatura guardada i actualitzada&#39;;
+        break;
+
+        case &#39;hr&#39;:
+        dades_entrada[3] = value;  // Obtenir el valor de la humitat relativa
+        ultima_humitat_relativa = value; 
+        resultat  += &#39;, Humitat relativa guardada i actualitzada&#39;;
+        break;
+
+        default:
+        resultat  += &quot;, paràmetres no acceptats&quot;;
+    }
+    }
+
+    // Escriptura de dades rebudes al Google Sheets.
+    if (tasca_val == &#39;escriptura&#39;) {
+    Logger.log(JSON.stringify(dades_entrada));
+    var newRangeDataLog = full_dades.getRange(nova_fila, 1, 1, dades_entrada.length);
+    newRangeDataLog.setValues([dades_entrada]);
+
+    // Actualització de les últimes dades.
+    var RangeDataLatest = full_dades.getRange(&#39;A2:D2&#39;);
+    RangeDataLatest.setValues([[ultim_dia_hora, ultim_n_registre, ultima_temperatura, ultima_humitat_relativa]]);
+
+    return ContentService.createTextOutput(resultat);
+    }
+
+    // Enviament dels últims valors de Google Sheets a ESP32.
+    if (tasca_val == &#39;lectura&#39;) {
+    var ultimes_dades = full_dades.getRange(&#39;A2:D2&#39;).getDisplayValues();
+    return ContentService.createTextOutput(ultimes_dades);
+    }
+}
+}
+function stripQuotes( value ) {
+return value.replace(/^[&quot;&#39;]|[&#39;&quot;]$/g, &quot;&quot;);
+}
+</code></pre></div>
+</details>
+<p>Exemple per carrecar a la ESP32C3</p>
+<details class="example">
+<summary>EXEMPLE: Fes clic aquí per desplegar i llegir el codi sencer</summary>
+<p>Aquest és el codi. Pots copiar-lo in engangar-lo al teu editor fent clic a la icona de copiar, adalt a la dreta d'aquesta caixa.</p>
+<div class="highlight"><span class="filename">ESP32_registre_GSheets.ino</span><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFi.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;WIFI_config.h&quot;</span><span class="c1"> // Configureu les dades de la vostra xarxa en aquest arxiu&lt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;WIFI_funcions.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;HTTPClient.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;DHT.h&gt;</span><span class="c1">           // Llibreria sensor</span>
+
+
+<span class="nf">WiFiClient</span><span class="w">  </span><span class="n">client</span><span class="p">;</span>
+
+<span class="c1">// Variables de control de temps</span>
+<span class="kr">unsigned</span><span class="w"> </span><span class="kr">long</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kr">unsigned</span><span class="w"> </span><span class="kr">long</span><span class="w"> </span><span class="n">timerDelay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000</span><span class="p">;</span>
+
+<span class="c1">// Creació objecte sensor per poder fer servir funcions llibreria DHT</span>
+<span class="cp">#define DHTTYPE  DHT22   </span><span class="c1">// Definició del model de sensor DHT22</span>
+<span class="cp">#define DHTPIN    4     </span><span class="c1">// Es defineix el pin D4 del ESP32 per connectar el sensor DHT22</span>
+<span class="n">DHT</span><span class="w"> </span><span class="nf">dht</span><span class="p">(</span><span class="n">DHTPIN</span><span class="p">,</span><span class="w"> </span><span class="n">DHTTYPE</span><span class="p">);</span><span class="w"> </span><span class="c1">// Defineix port on connectarem el sensor, el model que farem servir i el nombre de sensors que té el mòdul</span>
+
+<span class="c1">// Substituir les XXXXXXXXX per l&#39;adreça que heu obtingut del tipus https://script.google.com/macros/s/BCD_sheb7645_cbwpVlmgsyn_iSXbB5dRgy1YOsyn_2aS5Dy4ir/exec</span>
+<span class="kr">String</span><span class="w"> </span><span class="n">Web_App_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;XXXXXXXXX&quot;</span><span class="p">;</span><span class="w">                             </span>
+
+<span class="c1">// Declaració de variables generals</span>
+<span class="kr">float</span><span class="w"> </span><span class="n">temperatura</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.00</span><span class="p">;</span><span class="w"> </span>
+<span class="kr">float</span><span class="w"> </span><span class="n">humitat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.00</span><span class="p">;</span><span class="w"> </span>
+
+<span class="kr">String</span><span class="w"> </span><span class="n">ultima_data_hora</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot; ******* &quot;</span><span class="p">;</span>
+<span class="kr">int</span><span class="w"> </span><span class="n">ultim_registre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kr">float</span><span class="w"> </span><span class="n">ultima_temperatura</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.00</span><span class="p">;</span>
+<span class="kr">float</span><span class="w"> </span><span class="n">ultima_humitat_relativa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.00</span><span class="p">;</span>
+
+
+<span class="kr">String</span><span class="w"> </span><span class="nf">obtenir_valors</span><span class="p">(</span><span class="kr">String</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="kr">char</span><span class="w"> </span><span class="n">separator</span><span class="p">,</span><span class="w"> </span><span class="kr">int</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">int</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kr">int</span><span class="w"> </span><span class="n">strIndex</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="w"> </span><span class="p">};</span>
+<span class="w">  </span><span class="kr">int</span><span class="w"> </span><span class="n">maxIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kr">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">maxIndex</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">index</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">separator</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">maxIndex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">found</span><span class="o">++</span><span class="p">;</span>
+<span class="w">      </span><span class="n">strIndex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strIndex</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">      </span><span class="n">strIndex</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">maxIndex</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="n">strIndex</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">strIndex</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span><span class="w">  </span>
+<span class="w">  </span><span class="n">dht</span><span class="p">.</span><span class="nf">begin</span><span class="p">();</span><span class="w">           </span><span class="c1">// Inicialitzem sensor</span>
+
+<span class="w">  </span><span class="n">WIFI_connecta</span><span class="p">();</span>
+
+<span class="w">  </span><span class="nf">delay</span><span class="w"> </span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">  </span>
+<span class="p">}</span>
+
+<span class="kr">void</span><span class="w"> </span><span class="nb">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Condicional que espara el temps especificat entre mostra i mostra</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="nf">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastTime</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">timerDelay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// Reconnecta WiFi, en cas que connexió perduda o desactivada</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nf">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">){</span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Connectant...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">while</span><span class="p">(</span><span class="nf">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">){</span>
+<span class="w">        </span><span class="nf">WiFi</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">delay</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span><span class="w">     </span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Connectat.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Obtenim una nova lectura de temperatura</span>
+<span class="w">    </span><span class="n">temperatura</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dht</span><span class="p">.</span><span class="nf">readTemperature</span><span class="p">();</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Temperatura : &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">temperatura</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot; ºC&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Obtenim una nova lectura d&#39;humitat</span>
+<span class="w">    </span><span class="n">humitat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dht</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;  | Humitat relativa : &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">humitat</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="w"> </span><span class="p">(</span><span class="s">&quot; %&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Creació de la trama.</span>
+<span class="w">    </span><span class="kr">String</span><span class="w"> </span><span class="n">trama1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Web_App_URL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;?tasca=escriptura&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">trama1</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;&amp;temp=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="kr">String</span><span class="p">(</span><span class="n">temperatura</span><span class="p">);</span>
+<span class="w">    </span><span class="n">trama1</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;&amp;hr=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="kr">String</span><span class="p">(</span><span class="n">humitat</span><span class="p">);</span>
+
+
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;-------------&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;S&#39;enviarà la petició:  &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">trama1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Execució del protocol per l&#39;enviament de dades a Google Sheets </span>
+<span class="w">    </span><span class="n">HTTPClient</span><span class="w"> </span><span class="n">http</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">http</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="n">trama1</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">http</span><span class="p">.</span><span class="n">setFollowRedirects</span><span class="p">(</span><span class="n">HTTPC_STRICT_FOLLOW_REDIRECTS</span><span class="p">);</span>
+<span class="w">    </span><span class="kr">int</span><span class="w"> </span><span class="n">httpCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="n">GET</span><span class="p">();</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;HTTP Status Code : &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">httpCode</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Getting response from google sheets.</span>
+<span class="w">    </span><span class="kr">String</span><span class="w"> </span><span class="n">payload</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">httpCode</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="n">getString</span><span class="p">();</span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Càrrega : &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">payload</span><span class="p">);</span><span class="w">    </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+
+<span class="w">    </span><span class="n">http</span><span class="p">.</span><span class="nf">end</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">httpCode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Canal actualitzat correctament.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Problema d&#39;actualització. Codi error HTTP:  &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="kr">String</span><span class="p">(</span><span class="n">httpCode</span><span class="p">));</span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nf">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">){</span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Connectant...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">while</span><span class="p">(</span><span class="nf">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">){</span>
+<span class="w">        </span><span class="nf">WiFi</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">delay</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span><span class="w">     </span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Connectat.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kr">String</span><span class="w"> </span><span class="n">trama2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Web_App_URL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;?tasca=lectura&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;-------------&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;S&#39;enviarà la petició:  &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">trama2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Execució del protocol per la recepció de dades de Google Sheets</span>
+<span class="w">    </span><span class="n">HTTPClient</span><span class="w"> </span><span class="n">http2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">http2</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="n">trama2</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">http2</span><span class="p">.</span><span class="n">setFollowRedirects</span><span class="p">(</span><span class="n">HTTPC_STRICT_FOLLOW_REDIRECTS</span><span class="p">);</span>
+<span class="w">    </span><span class="kr">int</span><span class="w"> </span><span class="n">httpCode2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">http2</span><span class="p">.</span><span class="n">GET</span><span class="p">();</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;HTTP Status Code : &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">httpCode2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kr">String</span><span class="w"> </span><span class="n">payload2</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">httpCode2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">payload2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">http2</span><span class="p">.</span><span class="n">getString</span><span class="p">();</span>
+<span class="w">        </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;Càrrega : &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">payload2</span><span class="p">);</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">http2</span><span class="p">.</span><span class="nf">end</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Si el codi indica que s&#39;ha fet correctament...</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">httpCode2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Separació de dades</span>
+<span class="w">      </span><span class="n">ultima_data_hora</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obtenir_valors</span><span class="p">(</span><span class="n">payload2</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;,&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">      </span><span class="n">ultim_registre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obtenir_valors</span><span class="p">(</span><span class="n">payload2</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;,&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span>
+<span class="w">      </span><span class="n">ultima_temperatura</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obtenir_valors</span><span class="p">(</span><span class="n">payload2</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;,&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">).</span><span class="n">toFloat</span><span class="p">();</span>
+<span class="w">      </span><span class="n">ultima_humitat_relativa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obtenir_valors</span><span class="p">(</span><span class="n">payload2</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;,&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">).</span><span class="n">toFloat</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="s">&quot;-------------&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;Recuperat el : &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">ultima_data_hora</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;  | Registre nº : &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">ultim_registre</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;  | Temperatura : &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">ultima_temperatura</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot; ºC&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;  | Humitat relativa : &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="n">ultima_humitat_relativa</span><span class="p">);</span>
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="w"> </span><span class="p">(</span><span class="s">&quot; %&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nf">Serial</span><span class="p">.</span><span class="nf">println</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+
+
+<span class="w">    </span><span class="n">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">millis</span><span class="p">();</span><span class="w">  </span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
 
 
 
