@@ -60,6 +60,7 @@ nav:
     - Represa del Bloc 4: represa_bloc_4.md
     - ThingSpeak: tingspeak.md
     - GoogleSheets: googlesheets.md 
+    - Col·lecció de recursos: mes_recursos.md
 
 markdown_extensions:
   - admonition
