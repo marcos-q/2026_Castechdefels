@@ -54,7 +54,12 @@ nav:
     - La personalitat de la mascota: mascota_maquina_estats_1.md
     - Afegim sons: sons.md
     - Celebrant l'aniversari: aniversari.md
-    - La mascota ens escriu al mòbil: mascota_telegram.md    
+    - La mascota ens escriu al mòbil: mascota_telegram.md  
+
+  - Bloc 5:
+    - Represa del Bloc 4: represa_bloc_4.md
+    - ThingSpeak: tingspeak.md
+    - GoogleSheets: googlesheets.md 
 
 markdown_extensions:
   - admonition

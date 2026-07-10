@@ -4,7 +4,9 @@ void WIFI_connecta(bool useStaticIP = false)
    Serial.print("Connectant a: ");
    Serial.println(ssid);
    WiFi.mode(WIFI_STA);
-   WiFi.begin(ssid, password);
+   //WiFi.begin(ssid, password);
+   //SSID oculta
+   WiFi.begin(ssid, password, 0, NULL, true); 
    if(useStaticIP) WiFi.config(ip, gateway, subnet);
    while (WiFi.status() != WL_CONNECTED) 
    { 

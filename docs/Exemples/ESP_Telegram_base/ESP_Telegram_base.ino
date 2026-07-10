@@ -1,5 +1,4 @@
 #include <WiFi.h>
-
 #include "WIFI_config.h" //Configureu les dades de la vostra xarxa
 #include "WIFI_funcions.hpp"
 
@@ -10,8 +9,8 @@
 // Inicialització bot de Telegram
 // Cal que aneu al buscador de xats de Telegram, busqueu el vostre bot i li envieu "/start" per iniciar la ocnnexió Telegram - ESP32
 
-#define BOTtoken "8105450952:AAHlgilkgRunKVKrK4BKcTAlD7n"  // Codi que hem obtingut en la conversa amb BotFather
-#define CHAT_ID "18295"   // ID del nostre usuari de Telegram (codi obtngut amb IDBot)
+#define BOTtoken "xxxxx"  // Codi que hem obtingut en la conversa amb BotFather
+#define CHAT_ID "xxxxxx"   // ID del nostre usuari de Telegram (codi obtngut amb IDBot)
 
 
 
@@ -82,7 +81,7 @@ void handleNewMessages(int numNewMessages) {
 
 void setup() {
   Serial.begin(115200);                           // Inicialització port sèrie
-  delay(100)    ;
+      
   pinMode(ledPin, OUTPUT);                        // Configuració pin del LED
   digitalWrite(ledPin, ledState);                 // Definició estat del LED
   

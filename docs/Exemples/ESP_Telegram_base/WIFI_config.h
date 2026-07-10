@@ -1,5 +1,5 @@
-const char* ssid     = "castechdefels2025";
-const char* password = "Castech2024$";
+const char* ssid     = "Castechdefels2026";
+const char* password = "xxxxxxx";
 
 const char* hostname = "ESP32_1";
 
